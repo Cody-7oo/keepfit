@@ -1,0 +1,108 @@
+🔥 大厂后端项目完整升级清单（你这个项目必改项）
+我以 阿里 / 京东 / 美团 后端规范为标准，直接告诉你：你的项目现在缺什么、必须改什么、怎么改。不废话、全部是真实企业必要求的规范。
+一、项目结构规范（大厂强制）
+你现在结构不标准，大厂必须如下：
+plaintext
+com.example.demo
+├── config/          # 配置类（Redis、MyBatis、线程池、拦截器）
+├── controller/      # 控制层（分 user / merchant / admin）
+├── entity/          # 实体类（分 po、vo、dto）
+├── enums/           # 所有枚举（状态、类型、错误码）
+├── exception/       # 全局异常处理
+├── mapper/          # DAO 层
+├── service/         # 业务层
+│   ├── impl/        # 实现类
+├── common/          # 工具包
+│   ├── result/      # 统一返回
+│   ├── constant/    # 常量
+│   ├── util/        # 工具类
+├── security/        # 登录、权限
+你现在缺少：
+vo / dto （接口出入参必须分离）
+global exception （全局异常）
+constant （常量类）
+security（登录鉴权）
+二、API 接口规范（大厂最严）
+必须满足：
+Controller 必须分端
+/user/** 用户端
+/merchant/** 商家端
+/admin/** 平台端
+接口必须统一返回格式
+你现在的 R 类是对的，但要国际化、错误码枚举。
+所有参数必须用 DTO 接收
+不能直接用 @RequestParam 堆参数。
+三、异常规范（大厂必须）
+你现在没有！
+必须包含：
+自定义异常
+plaintext
+BusinessException
+全局异常捕获
+plaintext
+@RestControllerAdvice
+错误码枚举
+plaintext
+4000=参数错误
+5000=服务器异常
+1001=订单不存在
+四、日志规范（SLF4J + 统一格式）
+大厂要求：
+所有接口 入参 + 出参 + 耗时 必须打印
+异常必须打印堆栈
+不能用 System.out.println
+五、缓存规范（Redis）
+你现在没有，必须加：
+商品列表缓存
+商品详情缓存
+防止缓存穿透 / 击穿 / 雪崩
+缓存更新策略
+六、权限 + 登录规范（Sa-Token / Spring Security）
+大厂绝对不可能：
+不登录就能下单
+不登录就能看订单
+商家和用户不区分权限
+你现在完全没有登录，这是不合格的。
+七、事务规范
+下单、取消订单、支付、发券 必须加事务
+你现在部分加了，但不标准
+八、代码规范（阿里规约）
+强制：
+方法注释
+字段注释
+不允许魔法值
+枚举代替数字
+DTO/VO/DO 分离
+Controller 不写业务
+九、接口安全
+防重复提交
+XSS 防护
+参数校验
+幂等性
+十、数据库规范
+所有表必备：id, create_time, update_time
+逻辑删除 is_deleted
+索引规范
+不使用 select *
+十一、可观测性（大厂上线必须）
+接口耗时监控
+异常监控
+Redis 监控
+业务埋点
+十二、部署规范（大厂标准）
+Dockerfile
+多环境配置（dev/test/prod）
+无硬编码
+🎯 我帮你总结：你现在必须补的 8 个最核心功能
+我按优先级从高到低给你排：
+1. 全局异常 + 错误码枚举
+2. DTO / VO 分离
+3. 登录 + 权限拦截（Sa-Token）
+4. Redis 缓存商品
+5. 日志 AOP
+6. 防重复提交
+7. Swagger/Knife4j 接口文档
+8. Docker 部署
+
+@RateLimit(seconds = 60, maxCount = 5)
+做完这 8 个，你的项目就是标准大厂后端项目，可以直接进简历、可以上线、可以面试。

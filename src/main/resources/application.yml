@@ -1,0 +1,66 @@
+spring:
+  profiles:
+    active: dev
+  mvc:
+    pathmatch:
+      matching-strategy: ANT_PATH_MATCHER
+    # 🔥 关键：放行 Knife4j 静态资源
+    static-path-pattern: /**
+  web:
+    resources:
+      add-mappings: true
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+  lifecycle:
+    timeout-per-shutdown-phase: 30s
+
+# 🔥 开启 knife4j
+knife4j:
+  enable: true
+  production: false
+
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.slf4j.Slf4jImpl
+    cache-enabled: true
+  global-config:
+    db-config:
+      id-type: assign_id
+      logic-delete-field: is_deleted
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+
+sa-token:
+  token-name: satoken
+  timeout: 2592000
+  active-timeout: 86400
+  is-concurrent: true
+  is-read-cookie: false
+  is-read-header: true
+  storage-type: redis
+  token-style: uuid
+  account-types: user, merchant
+  error:
+    not-login: { "code": 401, "msg": "请先登录" }
+    no-permission: { "code": 403, "msg": "无权限访问" }
+    token-expired: { "code": 401, "msg": "登录已过期，请重新登录" }
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      show-details: always
+  health:
+    redis:
+      enabled: true
+    db:
+      enabled: true
+
+order:
+  timeout: 30

@@ -1,0 +1,33 @@
+server:
+  port: 8080
+
+spring:
+  datasource:
+    url: jdbc:mysql://${MYSQL_HOST:localhost}:3306/keepfit?useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
+    username: ${MYSQL_USER:root}
+    password: ${MYSQL_PWD:root}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  # Redis ✅ 已开启连接池
+  redis:
+    host: ${REDIS_HOST:localhost}
+    port: ${REDIS_PORT:6379}
+    database: 0
+    timeout: 5000ms
+    lettuce:
+      pool:
+        max-active: 32
+        max-idle: 16
+        min-idle: 4
+        max-wait: 1000ms
+
+logging:
+  config: classpath:logback-spring.xml
+  charset:
+    console: UTF-8
+    file: UTF-8
+  level:
+    root: info
+    com.example.demo: info
+  file:
+    name: logs/keepfit.log

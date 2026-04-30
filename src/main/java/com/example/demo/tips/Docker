@@ -1,0 +1,26 @@
+开发环境
+bash
+运行
+docker run -d \
+  -p 8080:8080 \
+  -e SPRING_PROFILES_ACTIVE=dev \
+  your-app-image
+测试环境
+bash
+运行
+docker run -d \
+  -p 8080:8080 \
+  -e SPRING_PROFILES_ACTIVE=test \
+  -e MYSQL_PASSWORD=xxx \
+  -e REDIS_PASSWORD=xxx \
+  your-app-image
+生产环境
+bash
+运行
+docker run -d \
+  -p 8080:8080 \
+  -e SPRING_PROFILES_ACTIVE=prod \
+  -e MYSQL_PASSWORD=xxx \
+  -e REDIS_PASSWORD=xxx \
+  --restart=always \
+  your-app-image
