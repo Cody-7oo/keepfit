@@ -23,7 +23,7 @@ import java.util.Map;
 import java.util.TreeMap;
 import java.util.concurrent.TimeUnit;
 
-//@Component
+@Component
 @Slf4j
 public class SecurityInterceptor implements HandlerInterceptor {
 

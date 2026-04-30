@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletRequestWrapper;
 import java.io.IOException;
 import java.util.regex.Pattern;
 
-//@Component
+@Component
 public class SqlInjectionFilter implements Filter {
 
     private static final Pattern SQL_PATTERN = Pattern

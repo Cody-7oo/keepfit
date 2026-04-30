@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.concurrent.TimeUnit;
 
-//@Component
+@Component
 public class IdempotentInterceptor implements HandlerInterceptor {
 
     @Resource
