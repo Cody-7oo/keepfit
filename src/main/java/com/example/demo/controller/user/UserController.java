@@ -2,6 +2,7 @@ package com.example.demo.controller.user;
 
 import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.dev33.satoken.stp.StpUtil;
+import com.example.demo.annotation.*;
 import com.example.demo.exception.BusinessException;
 import com.example.demo.common.dto.UserInfoUpdateDTO;
 import com.example.demo.common.dto.UserLoginDTO;
@@ -28,7 +29,12 @@ public class UserController {
         return StpUtil.getLoginIdAsLong();
     }
 
+    @RepeatSubmit
     @PostMapping("/register")
+    @RateLimit(limit = 3, second = 10)
+    @DataScope(scopeType = "user")
+    @ApiSignature
+    @AntiReplay
     public R<Void> register(@RequestBody @Valid UserRegisterDTO dto) {
         log.info("[用户注册] 入参：{}", dto);
         long start = System.currentTimeMillis();
@@ -45,7 +51,12 @@ public class UserController {
         }
     }
 
+    @RepeatSubmit
     @PostMapping("/login")
+    @RateLimit(limit = 3, second = 10)
+    @DataScope(scopeType = "user")
+    @ApiSignature
+    @AntiReplay
     public R<UserVO> login(@RequestBody @Valid UserLoginDTO dto) {
         log.info("[用户登录] 手机号：{}", dto.getPhone());
         long start = System.currentTimeMillis();
@@ -59,8 +70,13 @@ public class UserController {
         return R.ok(vo);
     }
 
+    @RepeatSubmit
     @SaCheckLogin(type = "user")
     @PostMapping("/update")
+    @RateLimit(limit = 3, second = 10)
+    @DataScope(scopeType = "user")
+    @ApiSignature
+    @AntiReplay
     public R<Void> update(@RequestBody @Valid UserInfoUpdateDTO dto) {
         Long userId = getLoginUserId();
         dto.setId(userId);
@@ -82,6 +98,10 @@ public class UserController {
 
     @SaCheckLogin(type = "user")
     @GetMapping("/getInfo")
+    @RateLimit(limit = 3, second = 10)
+    @DataScope(scopeType = "user")
+    @ApiSignature
+    @AntiReplay
     public R<UserVO> getInfo() {
         Long userId = getLoginUserId();
         log.info("[获取用户信息] 用户ID：{}", userId);
@@ -98,6 +118,10 @@ public class UserController {
 
     @SaCheckLogin(type = "user")
     @GetMapping("/logout")
+    @RateLimit(limit = 3, second = 10)
+    @DataScope(scopeType = "user")
+    @ApiSignature
+    @AntiReplay
     public R<Void> logout() {
         long userId = getLoginUserId();
         StpUtil.logout();

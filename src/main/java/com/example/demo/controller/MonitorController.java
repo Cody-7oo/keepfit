@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.annotation.RateLimit;
 import com.example.demo.common.result.R;
 import com.example.demo.common.util.RedisMonitorUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -28,6 +29,7 @@ public class MonitorController {
      * Redis 健康监控接口
      */
     @GetMapping("/redis/health")
+    @RateLimit(limit = 3, second = 10)
     public R<Map<String, Object>> redisHealth() {
         Map<String, Object> result = new HashMap<>(4);
         boolean connectOk = redisMonitorUtil.isConnectOk();

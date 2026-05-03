@@ -3,6 +3,7 @@ package com.example.demo.controller.Merchant;
 import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.dev33.satoken.annotation.SaCheckPermission;
 import cn.dev33.satoken.stp.StpUtil;
+import com.example.demo.annotation.*;
 import com.example.demo.common.result.R;
 import com.example.demo.common.vo.OrderVO;
 import com.example.demo.entity.Order;
@@ -23,7 +24,13 @@ public class MerchantOrderController {
     @Resource
     private OrderService orderService;
 
+    @Idempotent
+    @RepeatSubmit
     @PostMapping("/changeStatus")
+    @RateLimit(limit = 3, second = 10)
+    @DataScope(scopeType = "merchant")
+    @ApiSignature
+    @AntiReplay
     public R<Void> changeStatus(
             @RequestParam Long orderId,
             @RequestParam Integer status
@@ -49,6 +56,10 @@ public class MerchantOrderController {
     }
 
     @GetMapping("/list")
+    @RateLimit(limit = 3, second = 10)
+    @DataScope(scopeType = "merchant")
+    @ApiSignature
+    @AntiReplay
     public R<List<OrderVO>> list() {
         Long merchantId = StpUtil.getLoginIdAsLong();
         log.info("[商家-查询订单] 商家ID:{}", merchantId);

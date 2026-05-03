@@ -3,6 +3,7 @@ package com.example.demo.controller.user;
 import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.dev33.satoken.annotation.SaCheckPermission;
 import cn.dev33.satoken.stp.StpUtil;
+import com.example.demo.annotation.*;
 import com.example.demo.exception.BusinessException;
 import com.example.demo.common.dto.CartAddDTO;
 import com.example.demo.common.dto.CartUpdateDTO;
@@ -31,7 +32,12 @@ public class CartController {
         return StpUtil.getLoginIdAsLong();
     }
 
+    @RepeatSubmit
     @PostMapping("/add")
+    @RateLimit(limit = 3, second = 10)
+    @DataScope(scopeType = "user")
+    @ApiSignature
+    @AntiReplay
     public R<Void> add(@RequestBody @Valid CartAddDTO dto) {
         Long userId = getLoginUserId();
         dto.setUserId(userId);
@@ -51,7 +57,12 @@ public class CartController {
         }
     }
 
+    @RepeatSubmit
     @PostMapping("/update")
+    @RateLimit(limit = 3, second = 10)
+    @DataScope(scopeType = "user")
+    @ApiSignature
+    @AntiReplay
     public R<Void> update(@RequestBody @Valid CartUpdateDTO dto) {
         Long userId = getLoginUserId();
         log.info("[用户-修改购物车] 用户ID：{}", userId);
@@ -76,7 +87,12 @@ public class CartController {
         }
     }
 
+    @RepeatSubmit
     @PostMapping("/delete")
+    @RateLimit(limit = 3, second = 10)
+    @DataScope(scopeType = "user")
+    @ApiSignature
+    @AntiReplay
     public R<Void> delete(@RequestParam Long id) {
         Long userId = getLoginUserId();
         log.info("[用户-删除购物车] 用户ID：{}，购物车ID：{}", userId, id);
@@ -101,6 +117,10 @@ public class CartController {
     }
 
     @GetMapping("/myCart")
+    @RateLimit(limit = 3, second = 10)
+    @DataScope(scopeType = "user")
+    @ApiSignature
+    @AntiReplay
     public R<Map<String, Object>> myCart() {
         Long userId = getLoginUserId();
         log.info("[用户-我的购物车] 用户ID：{}", userId);
