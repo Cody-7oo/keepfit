@@ -48,6 +48,11 @@ sa-token:
   storage-type: redis
   token-style: uuid
   account-types: user, merchant
+  exclude-path:
+    - /doc.html
+    - /webjars/**
+    - /v3/api-docs/**
+    - /swagger-resources/**
   error:
     not-login: { "code": 401, "msg": "请先登录" }
     no-permission: { "code": 403, "msg": "无权限访问" }

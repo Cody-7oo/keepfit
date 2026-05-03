@@ -3,6 +3,7 @@ package com.example.demo.controller.user;
 import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.dev33.satoken.annotation.SaCheckPermission;
 import cn.dev33.satoken.stp.StpUtil;
+import com.example.demo.annotation.*;
 import com.example.demo.exception.BusinessException;
 import com.example.demo.common.dto.OrderCreateDTO;
 import com.example.demo.common.enums.ResultCodeEnum;
@@ -30,7 +31,14 @@ public class UserOrderController {
         return StpUtil.getLoginIdAsLong();
     }
 
+    @Idempotent
+    @RepeatSubmit
+    @SaCheckLogin()
     @PostMapping("/create")
+    @RateLimit(limit = 3, second = 10)
+    @DataScope(scopeType = "user")
+    @ApiSignature
+    @AntiReplay
     public R<OrderVO> createOrder(@RequestBody @Valid OrderCreateDTO dto) {
         Long userId = getLoginUserId();
         dto.setUserId(userId);
@@ -51,7 +59,13 @@ public class UserOrderController {
         }
     }
 
+    @Idempotent
+    @RepeatSubmit
     @PostMapping("/cancel")
+    @RateLimit(limit = 5, second = 10)
+    @DataScope(scopeType = "user")
+    @ApiSignature
+    @AntiReplay
     public R<Void> cancelOrder(@RequestParam Long orderId) {
         Long userId = getLoginUserId();
         log.info("[用户-取消订单] 用户ID：{}，订单ID：{}", userId, orderId);
@@ -77,6 +91,10 @@ public class UserOrderController {
     }
 
     @GetMapping("/myList")
+    @RateLimit(limit = 10, second = 10)
+    @DataScope(scopeType = "user")
+    @ApiSignature
+    @AntiReplay
     public R<?> getMyOrder() {
         Long userId = getLoginUserId();
         log.info("[用户-查询我的订单] 用户ID：{}", userId);

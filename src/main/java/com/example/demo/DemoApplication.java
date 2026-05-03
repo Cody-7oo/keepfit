@@ -33,7 +33,7 @@ public class DemoApplication implements WebMvcConfigurer {
         app.run(args);
 
         System.out.println("✅ 项目启动成功 | Sa-Token 登录权限已启用 | 优雅停机已开启");
-        System.out.println("📖 文档地址：http://localhost:8080/doc.html");
+        System.out.println("📖 文档地址：http://localhost:8080/swagger-ui/index.html");
     }
 
     @Bean

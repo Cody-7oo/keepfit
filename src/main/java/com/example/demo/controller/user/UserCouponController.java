@@ -2,6 +2,7 @@ package com.example.demo.controller.user;
 
 import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.dev33.satoken.stp.StpUtil;
+import com.example.demo.annotation.*;
 import com.example.demo.exception.BusinessException;
 import com.example.demo.common.dto.CouponQueryDTO;
 import com.example.demo.common.dto.CouponUseDTO;
@@ -31,6 +32,10 @@ public class UserCouponController {
     }
 
     @GetMapping("/my")
+    @RateLimit(limit = 3, second = 10)
+    @DataScope(scopeType = "user")
+    @ApiSignature
+    @AntiReplay
     public R<List<CouponVO>> myCoupons(@Valid CouponQueryDTO dto) {
         Long userId = getLoginUserId();
         dto.setUserId(userId);
@@ -47,7 +52,13 @@ public class UserCouponController {
         }
     }
 
+    @Idempotent
+    @RepeatSubmit
     @PostMapping("/use")
+    @RateLimit(limit = 3, second = 10)
+    @DataScope(scopeType = "user")
+    @ApiSignature
+    @AntiReplay
     public R<Void> useCoupon(@RequestBody @Valid CouponUseDTO dto) {
         Long userId = getLoginUserId();
         dto.setUserId(userId);
@@ -75,6 +86,10 @@ public class UserCouponController {
     }
 
     @GetMapping("/hasCoffee")
+    @RateLimit(limit = 3, second = 10)
+    @DataScope(scopeType = "user")
+    @ApiSignature
+    @AntiReplay
     public R<Boolean> hasCoffee(@Valid CouponQueryDTO dto) {
         Long userId = getLoginUserId();
         dto.setUserId(userId);

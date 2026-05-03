@@ -1971,3 +1971,788 @@ Caused by: java.sql.SQLException: Access denied for user 'root'@'localhost' (usi
 	at org.springframework.jdbc.datasource.DataSourceTransactionManager.doBegin(DataSourceTransactionManager.java:269)
 	... 22 common frames omitted
 2026-05-03 17:41:01.023 INFO  [scheduling-1] com.example.demo.task.OrderTimeoutTask:65 - [订单超时任务] 分布式锁已释放
+2026-05-03 18:48:02.683 INFO  [background-preinit] org.hibernate.validator.internal.util.Version:21 - HV000001: Hibernate Validator 6.2.5.Final
+2026-05-03 18:48:02.686 INFO  [main] com.example.demo.DemoApplication:55 - Starting DemoApplication using Java 17.0.19 on wo with PID 20200 (C:\Users\11459\IdeaProjects\keepfit\target\classes started by 11459 in C:\Users\11459\IdeaProjects\keepfit)
+2026-05-03 18:48:02.686 DEBUG [main] com.example.demo.DemoApplication:56 - Running with Spring Boot v2.7.18, Spring v5.3.31
+2026-05-03 18:48:02.686 INFO  [main] com.example.demo.DemoApplication:638 - The following 1 profile is active: "dev"
+2026-05-03 18:48:03.333 INFO  [main] o.s.d.r.config.RepositoryConfigurationDelegate:262 - Multiple Spring Data modules found, entering strict repository configuration mode
+2026-05-03 18:48:03.335 INFO  [main] o.s.d.r.config.RepositoryConfigurationDelegate:132 - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2026-05-03 18:48:03.356 INFO  [main] o.s.d.r.config.RepositoryConfigurationDelegate:201 - Finished Spring Data repository scanning in 12 ms. Found 0 Redis repository interfaces.
+2026-05-03 18:48:04.056 INFO  [main] o.s.boot.web.embedded.tomcat.TomcatWebServer:108 - Tomcat initialized with port(s): 8080 (http)
+2026-05-03 18:48:04.057 INFO  [main] org.apache.catalina.core.AprLifecycleListener:173 - Loaded Apache Tomcat Native library [1.3.1] using APR version [1.7.4].
+2026-05-03 18:48:04.057 INFO  [main] org.apache.catalina.core.AprLifecycleListener:173 - APR capabilities: IPv6 [true], sendfile [true], accept filters [false], random [true], UDS [true].
+2026-05-03 18:48:04.057 INFO  [main] org.apache.catalina.core.AprLifecycleListener:173 - APR/OpenSSL configuration: useAprConnector [false], useOpenSSL [true]
+2026-05-03 18:48:04.060 INFO  [main] org.apache.catalina.core.AprLifecycleListener:173 - OpenSSL successfully initialized [OpenSSL 3.0.14 4 Jun 2024]
+2026-05-03 18:48:04.065 INFO  [main] org.apache.coyote.http11.Http11NioProtocol:173 - Initializing ProtocolHandler ["http-nio-8080"]
+2026-05-03 18:48:04.066 INFO  [main] org.apache.catalina.core.StandardService:173 - Starting service [Tomcat]
+2026-05-03 18:48:04.066 INFO  [main] org.apache.catalina.core.StandardEngine:173 - Starting Servlet engine: [Apache Tomcat/9.0.83]
+2026-05-03 18:48:04.125 INFO  [main] o.a.c.core.ContainerBase.[Tomcat].[localhost].[/]:173 - Initializing Spring embedded WebApplicationContext
+2026-05-03 18:48:04.125 INFO  [main] o.s.b.w.s.c.ServletWebServerApplicationContext:292 - Root WebApplicationContext: initialization completed in 1406 ms
+2026-05-03 18:48:04.241 INFO  [main] o.s.boot.web.servlet.RegistrationBean:110 - Filter sqlInjectionFilter was not registered (possibly already registered?)
+2026-05-03 18:48:04.355 INFO  [main] org.redisson.Version:41 - Redisson 3.23.3
+2026-05-03 18:48:09.080 WARN  [main] o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext:599 - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'rateLimitAop': Injection of resource dependencies failed; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'redisTemplate' defined in class path resource [com/example/demo/config/RedisConfig.class]: Unsatisfied dependency expressed through method 'redisTemplate' parameter 0; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'redissonConnectionFactory' defined in class path resource [org/redisson/spring/starter/RedissonAutoConfiguration.class]: Unsatisfied dependency expressed through method 'redissonConnectionFactory' parameter 0; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'redisson' defined in class path resource [org/redisson/spring/starter/RedissonAutoConfiguration.class]: Bean instantiation via factory method failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [org.redisson.api.RedissonClient]: Factory method 'redisson' threw exception; nested exception is org.redisson.client.RedisConnectionException: Unable to connect to Redis server: localhost/127.0.0.1:6379
+2026-05-03 18:48:09.083 INFO  [main] org.apache.catalina.core.StandardService:173 - Stopping service [Tomcat]
+2026-05-03 18:48:09.093 INFO  [main] o.s.b.a.l.ConditionEvaluationReportLoggingListener:136 - 
+
+Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
+2026-05-03 18:48:09.105 ERROR [main] org.springframework.boot.SpringApplication:818 - Application run failed
+org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'rateLimitAop': Injection of resource dependencies failed; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'redisTemplate' defined in class path resource [com/example/demo/config/RedisConfig.class]: Unsatisfied dependency expressed through method 'redisTemplate' parameter 0; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'redissonConnectionFactory' defined in class path resource [org/redisson/spring/starter/RedissonAutoConfiguration.class]: Unsatisfied dependency expressed through method 'redissonConnectionFactory' parameter 0; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'redisson' defined in class path resource [org/redisson/spring/starter/RedissonAutoConfiguration.class]: Bean instantiation via factory method failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [org.redisson.api.RedissonClient]: Factory method 'redisson' threw exception; nested exception is org.redisson.client.RedisConnectionException: Unable to connect to Redis server: localhost/127.0.0.1:6379
+	at org.springframework.context.annotation.CommonAnnotationBeanPostProcessor.postProcessProperties(CommonAnnotationBeanPostProcessor.java:332)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1431)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:619)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:542)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:335)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:333)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:208)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:955)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:929)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:591)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:147)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:732)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:409)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:308)
+	at com.example.demo.DemoApplication.main(DemoApplication.java:33)
+Caused by: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'redisTemplate' defined in class path resource [com/example/demo/config/RedisConfig.class]: Unsatisfied dependency expressed through method 'redisTemplate' parameter 0; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'redissonConnectionFactory' defined in class path resource [org/redisson/spring/starter/RedissonAutoConfiguration.class]: Unsatisfied dependency expressed through method 'redissonConnectionFactory' parameter 0; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'redisson' defined in class path resource [org/redisson/spring/starter/RedissonAutoConfiguration.class]: Bean instantiation via factory method failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [org.redisson.api.RedissonClient]: Factory method 'redisson' threw exception; nested exception is org.redisson.client.RedisConnectionException: Unable to connect to Redis server: localhost/127.0.0.1:6379
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:801)
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiateUsingFactoryMethod(ConstructorResolver.java:536)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.instantiateUsingFactoryMethod(AbstractAutowireCapableBeanFactory.java:1352)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1195)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:582)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:542)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:335)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:333)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:213)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.resolveBeanByName(AbstractAutowireCapableBeanFactory.java:479)
+	at org.springframework.context.annotation.CommonAnnotationBeanPostProcessor.autowireResource(CommonAnnotationBeanPostProcessor.java:550)
+	at org.springframework.context.annotation.CommonAnnotationBeanPostProcessor.getResource(CommonAnnotationBeanPostProcessor.java:520)
+	at org.springframework.context.annotation.CommonAnnotationBeanPostProcessor$ResourceElement.getResourceToInject(CommonAnnotationBeanPostProcessor.java:673)
+	at org.springframework.beans.factory.annotation.InjectionMetadata$InjectedElement.inject(InjectionMetadata.java:228)
+	at org.springframework.beans.factory.annotation.InjectionMetadata.inject(InjectionMetadata.java:119)
+	at org.springframework.context.annotation.CommonAnnotationBeanPostProcessor.postProcessProperties(CommonAnnotationBeanPostProcessor.java:329)
+	... 15 common frames omitted
+Caused by: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'redissonConnectionFactory' defined in class path resource [org/redisson/spring/starter/RedissonAutoConfiguration.class]: Unsatisfied dependency expressed through method 'redissonConnectionFactory' parameter 0; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'redisson' defined in class path resource [org/redisson/spring/starter/RedissonAutoConfiguration.class]: Bean instantiation via factory method failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [org.redisson.api.RedissonClient]: Factory method 'redisson' threw exception; nested exception is org.redisson.client.RedisConnectionException: Unable to connect to Redis server: localhost/127.0.0.1:6379
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:801)
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiateUsingFactoryMethod(ConstructorResolver.java:536)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.instantiateUsingFactoryMethod(AbstractAutowireCapableBeanFactory.java:1352)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1195)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:582)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:542)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:335)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:333)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:208)
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:276)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1391)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1311)
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:911)
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:788)
+	... 31 common frames omitted
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'redisson' defined in class path resource [org/redisson/spring/starter/RedissonAutoConfiguration.class]: Bean instantiation via factory method failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [org.redisson.api.RedissonClient]: Factory method 'redisson' threw exception; nested exception is org.redisson.client.RedisConnectionException: Unable to connect to Redis server: localhost/127.0.0.1:6379
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiate(ConstructorResolver.java:653)
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiateUsingFactoryMethod(ConstructorResolver.java:481)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.instantiateUsingFactoryMethod(AbstractAutowireCapableBeanFactory.java:1352)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1195)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:582)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:542)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:335)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:333)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:208)
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:276)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1391)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1311)
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:911)
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:788)
+	... 45 common frames omitted
+Caused by: org.springframework.beans.BeanInstantiationException: Failed to instantiate [org.redisson.api.RedissonClient]: Factory method 'redisson' threw exception; nested exception is org.redisson.client.RedisConnectionException: Unable to connect to Redis server: localhost/127.0.0.1:6379
+	at org.springframework.beans.factory.support.SimpleInstantiationStrategy.instantiate(SimpleInstantiationStrategy.java:185)
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiate(ConstructorResolver.java:648)
+	... 59 common frames omitted
+Caused by: org.redisson.client.RedisConnectionException: Unable to connect to Redis server: localhost/127.0.0.1:6379
+	at org.redisson.connection.pool.ConnectionPool.lambda$createConnection$0(ConnectionPool.java:132)
+	at java.base/java.util.concurrent.CompletableFuture.uniWhenComplete(CompletableFuture.java:863)
+	at java.base/java.util.concurrent.CompletableFuture$UniWhenComplete.tryFire(CompletableFuture.java:841)
+	at java.base/java.util.concurrent.CompletableFuture.postComplete(CompletableFuture.java:510)
+	at java.base/java.util.concurrent.CompletableFuture.completeExceptionally(CompletableFuture.java:2162)
+	at org.redisson.connection.pool.ConnectionPool.promiseFailure(ConnectionPool.java:294)
+	at org.redisson.connection.pool.ConnectionPool.lambda$createConnection$6(ConnectionPool.java:253)
+	at java.base/java.util.concurrent.CompletableFuture.uniWhenComplete(CompletableFuture.java:863)
+	at java.base/java.util.concurrent.CompletableFuture$UniWhenComplete.tryFire(CompletableFuture.java:841)
+	at java.base/java.util.concurrent.CompletableFuture.postComplete(CompletableFuture.java:510)
+	at java.base/java.util.concurrent.CompletableFuture.completeExceptionally(CompletableFuture.java:2162)
+	at org.redisson.client.RedisClient$1$2.run(RedisClient.java:257)
+	at io.netty.util.concurrent.AbstractEventExecutor.runTask(AbstractEventExecutor.java:173)
+	at io.netty.util.concurrent.AbstractEventExecutor.safeExecute(AbstractEventExecutor.java:166)
+	at io.netty.util.concurrent.SingleThreadEventExecutor.runAllTasks(SingleThreadEventExecutor.java:470)
+	at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:569)
+	at io.netty.util.concurrent.SingleThreadEventExecutor$4.run(SingleThreadEventExecutor.java:997)
+	at io.netty.util.internal.ThreadExecutorMap$2.run(ThreadExecutorMap.java:74)
+	at io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+Caused by: java.util.concurrent.CompletionException: io.netty.channel.AbstractChannel$AnnotatedConnectException: Connection refused: getsockopt: localhost/127.0.0.1:6379
+	at java.base/java.util.concurrent.CompletableFuture.encodeRelay(CompletableFuture.java:368)
+	at java.base/java.util.concurrent.CompletableFuture.completeRelay(CompletableFuture.java:377)
+	at java.base/java.util.concurrent.CompletableFuture$UniRelay.tryFire(CompletableFuture.java:1097)
+	... 11 common frames omitted
+Caused by: io.netty.channel.AbstractChannel$AnnotatedConnectException: Connection refused: getsockopt: localhost/127.0.0.1:6379
+Caused by: java.net.ConnectException: Connection refused: getsockopt
+	at java.base/sun.nio.ch.Net.pollConnect(Native Method)
+	at java.base/sun.nio.ch.Net.pollConnectNow(Net.java:684)
+	at java.base/sun.nio.ch.SocketChannelImpl.finishConnect(SocketChannelImpl.java:946)
+	at io.netty.channel.socket.nio.NioSocketChannel.doFinishConnect(NioSocketChannel.java:337)
+	at io.netty.channel.nio.AbstractNioChannel$AbstractNioUnsafe.finishConnect(AbstractNioChannel.java:334)
+	at io.netty.channel.nio.NioEventLoop.processSelectedKey(NioEventLoop.java:776)
+	at io.netty.channel.nio.NioEventLoop.processSelectedKeysOptimized(NioEventLoop.java:724)
+	at io.netty.channel.nio.NioEventLoop.processSelectedKeys(NioEventLoop.java:650)
+	at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:562)
+	at io.netty.util.concurrent.SingleThreadEventExecutor$4.run(SingleThreadEventExecutor.java:997)
+	at io.netty.util.internal.ThreadExecutorMap$2.run(ThreadExecutorMap.java:74)
+	at io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+2026-05-03 18:49:13.896 INFO  [background-preinit] org.hibernate.validator.internal.util.Version:21 - HV000001: Hibernate Validator 6.2.5.Final
+2026-05-03 18:49:13.898 INFO  [main] com.example.demo.DemoApplication:55 - Starting DemoApplication using Java 17.0.19 on wo with PID 9744 (C:\Users\11459\IdeaProjects\keepfit\target\classes started by 11459 in C:\Users\11459\IdeaProjects\keepfit)
+2026-05-03 18:49:13.898 DEBUG [main] com.example.demo.DemoApplication:56 - Running with Spring Boot v2.7.18, Spring v5.3.31
+2026-05-03 18:49:13.898 INFO  [main] com.example.demo.DemoApplication:638 - The following 1 profile is active: "dev"
+2026-05-03 18:49:14.388 INFO  [main] o.s.d.r.config.RepositoryConfigurationDelegate:262 - Multiple Spring Data modules found, entering strict repository configuration mode
+2026-05-03 18:49:14.390 INFO  [main] o.s.d.r.config.RepositoryConfigurationDelegate:132 - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2026-05-03 18:49:14.405 INFO  [main] o.s.d.r.config.RepositoryConfigurationDelegate:201 - Finished Spring Data repository scanning in 8 ms. Found 0 Redis repository interfaces.
+2026-05-03 18:49:14.873 INFO  [main] o.s.boot.web.embedded.tomcat.TomcatWebServer:108 - Tomcat initialized with port(s): 8080 (http)
+2026-05-03 18:49:14.873 INFO  [main] org.apache.catalina.core.AprLifecycleListener:173 - Loaded Apache Tomcat Native library [1.3.1] using APR version [1.7.4].
+2026-05-03 18:49:14.874 INFO  [main] org.apache.catalina.core.AprLifecycleListener:173 - APR capabilities: IPv6 [true], sendfile [true], accept filters [false], random [true], UDS [true].
+2026-05-03 18:49:14.874 INFO  [main] org.apache.catalina.core.AprLifecycleListener:173 - APR/OpenSSL configuration: useAprConnector [false], useOpenSSL [true]
+2026-05-03 18:49:14.876 INFO  [main] org.apache.catalina.core.AprLifecycleListener:173 - OpenSSL successfully initialized [OpenSSL 3.0.14 4 Jun 2024]
+2026-05-03 18:49:14.880 INFO  [main] org.apache.coyote.http11.Http11NioProtocol:173 - Initializing ProtocolHandler ["http-nio-8080"]
+2026-05-03 18:49:14.881 INFO  [main] org.apache.catalina.core.StandardService:173 - Starting service [Tomcat]
+2026-05-03 18:49:14.881 INFO  [main] org.apache.catalina.core.StandardEngine:173 - Starting Servlet engine: [Apache Tomcat/9.0.83]
+2026-05-03 18:49:14.940 INFO  [main] o.a.c.core.ContainerBase.[Tomcat].[localhost].[/]:173 - Initializing Spring embedded WebApplicationContext
+2026-05-03 18:49:14.941 INFO  [main] o.s.b.w.s.c.ServletWebServerApplicationContext:292 - Root WebApplicationContext: initialization completed in 1015 ms
+2026-05-03 18:49:15.051 INFO  [main] o.s.boot.web.servlet.RegistrationBean:110 - Filter sqlInjectionFilter was not registered (possibly already registered?)
+2026-05-03 18:49:15.137 INFO  [main] org.redisson.Version:41 - Redisson 3.23.3
+2026-05-03 18:49:15.317 INFO  [redisson-netty-2-6] o.r.connection.pool.MasterPubSubConnectionPool:140 - 1 connections initialized for localhost/127.0.0.1:6379
+2026-05-03 18:49:15.364 INFO  [redisson-netty-2-20] org.redisson.connection.pool.MasterConnectionPool:140 - 24 connections initialized for localhost/127.0.0.1:6379
+2026-05-03 18:49:16.656 INFO  [main] o.s.b.actuate.endpoint.web.EndpointLinksResolver:58 - Exposing 2 endpoint(s) beneath base path '/actuator'
+2026-05-03 18:49:16.678 INFO  [main] org.apache.coyote.http11.Http11NioProtocol:173 - Starting ProtocolHandler ["http-nio-8080"]
+2026-05-03 18:49:16.685 INFO  [main] o.s.boot.web.embedded.tomcat.TomcatWebServer:220 - Tomcat started on port(s): 8080 (http) with context path ''
+2026-05-03 18:49:16.696 INFO  [main] com.example.demo.DemoApplication:61 - Started DemoApplication in 3.038 seconds (JVM running for 3.351)
+2026-05-03 18:49:16.984 INFO  [RMI TCP Connection(1)-192.168.198.86] o.a.c.core.ContainerBase.[Tomcat].[localhost].[/]:173 - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-05-03 18:49:16.984 INFO  [RMI TCP Connection(1)-192.168.198.86] org.springframework.web.servlet.DispatcherServlet:525 - Initializing Servlet 'dispatcherServlet'
+2026-05-03 18:49:16.986 INFO  [RMI TCP Connection(1)-192.168.198.86] org.springframework.web.servlet.DispatcherServlet:547 - Completed initialization in 2 ms
+2026-05-03 18:49:16.993 INFO  [RMI TCP Connection(4)-192.168.198.86] com.zaxxer.hikari.HikariDataSource:110 - HikariPool-1 - Starting...
+2026-05-03 18:49:18.131 ERROR [RMI TCP Connection(4)-192.168.198.86] com.zaxxer.hikari.pool.HikariPool:594 - HikariPool-1 - Exception during pool initialization.
+java.sql.SQLException: Access denied for user 'root'@'localhost' (using password: YES)
+	at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:130)
+	at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:122)
+	at com.mysql.cj.jdbc.ConnectionImpl.createNewIO(ConnectionImpl.java:825)
+	at com.mysql.cj.jdbc.ConnectionImpl.<init>(ConnectionImpl.java:446)
+	at com.mysql.cj.jdbc.ConnectionImpl.getInstance(ConnectionImpl.java:239)
+	at com.mysql.cj.jdbc.NonRegisteringDriver.connect(NonRegisteringDriver.java:188)
+	at com.zaxxer.hikari.util.DriverDataSource.getConnection(DriverDataSource.java:138)
+	at com.zaxxer.hikari.pool.PoolBase.newConnection(PoolBase.java:364)
+	at com.zaxxer.hikari.pool.PoolBase.newPoolEntry(PoolBase.java:206)
+	at com.zaxxer.hikari.pool.HikariPool.createPoolEntry(HikariPool.java:476)
+	at com.zaxxer.hikari.pool.HikariPool.checkFailFast(HikariPool.java:561)
+	at com.zaxxer.hikari.pool.HikariPool.<init>(HikariPool.java:115)
+	at com.zaxxer.hikari.HikariDataSource.getConnection(HikariDataSource.java:112)
+	at org.springframework.jdbc.datasource.DataSourceUtils.fetchConnection(DataSourceUtils.java:160)
+	at org.springframework.jdbc.datasource.DataSourceUtils.doGetConnection(DataSourceUtils.java:118)
+	at org.springframework.jdbc.datasource.DataSourceUtils.getConnection(DataSourceUtils.java:81)
+	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:332)
+	at org.springframework.boot.actuate.jdbc.DataSourceHealthIndicator.getProduct(DataSourceHealthIndicator.java:122)
+	at org.springframework.boot.actuate.jdbc.DataSourceHealthIndicator.doDataSourceHealthCheck(DataSourceHealthIndicator.java:105)
+	at org.springframework.boot.actuate.jdbc.DataSourceHealthIndicator.doHealthCheck(DataSourceHealthIndicator.java:100)
+	at org.springframework.boot.actuate.health.AbstractHealthIndicator.health(AbstractHealthIndicator.java:82)
+	at org.springframework.boot.actuate.health.HealthIndicator.getHealth(HealthIndicator.java:37)
+	at org.springframework.boot.actuate.health.HealthEndpoint.getHealth(HealthEndpoint.java:94)
+	at org.springframework.boot.actuate.health.HealthEndpoint.getHealth(HealthEndpoint.java:41)
+	at org.springframework.boot.actuate.health.HealthEndpointSupport.getLoggedHealth(HealthEndpointSupport.java:172)
+	at org.springframework.boot.actuate.health.HealthEndpointSupport.getContribution(HealthEndpointSupport.java:145)
+	at org.springframework.boot.actuate.health.HealthEndpointSupport.getAggregateContribution(HealthEndpointSupport.java:156)
+	at org.springframework.boot.actuate.health.HealthEndpointSupport.getContribution(HealthEndpointSupport.java:141)
+	at org.springframework.boot.actuate.health.HealthEndpointSupport.getHealth(HealthEndpointSupport.java:110)
+	at org.springframework.boot.actuate.health.HealthEndpointSupport.getHealth(HealthEndpointSupport.java:81)
+	at org.springframework.boot.actuate.health.HealthEndpoint.health(HealthEndpoint.java:88)
+	at org.springframework.boot.actuate.health.HealthEndpoint.health(HealthEndpoint.java:78)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at org.springframework.util.ReflectionUtils.invokeMethod(ReflectionUtils.java:282)
+	at org.springframework.boot.actuate.endpoint.invoke.reflect.ReflectiveOperationInvoker.invoke(ReflectiveOperationInvoker.java:74)
+	at org.springframework.boot.actuate.endpoint.annotation.AbstractDiscoveredOperation.invoke(AbstractDiscoveredOperation.java:60)
+	at org.springframework.boot.actuate.endpoint.jmx.EndpointMBean.invoke(EndpointMBean.java:124)
+	at org.springframework.boot.actuate.endpoint.jmx.EndpointMBean.invoke(EndpointMBean.java:97)
+	at java.management/com.sun.jmx.interceptor.DefaultMBeanServerInterceptor.invoke(DefaultMBeanServerInterceptor.java:814)
+	at java.management/com.sun.jmx.mbeanserver.JmxMBeanServer.invoke(JmxMBeanServer.java:802)
+	at java.management.rmi/javax.management.remote.rmi.RMIConnectionImpl.doOperation(RMIConnectionImpl.java:1472)
+	at java.management.rmi/javax.management.remote.rmi.RMIConnectionImpl$PrivilegedOperation.run(RMIConnectionImpl.java:1310)
+	at java.management.rmi/javax.management.remote.rmi.RMIConnectionImpl.doPrivilegedOperation(RMIConnectionImpl.java:1405)
+	at java.management.rmi/javax.management.remote.rmi.RMIConnectionImpl.invoke(RMIConnectionImpl.java:829)
+	at java.base/jdk.internal.reflect.GeneratedMethodAccessor32.invoke(Unknown Source)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at java.rmi/sun.rmi.server.UnicastServerRef.dispatch(UnicastServerRef.java:360)
+	at java.rmi/sun.rmi.transport.Transport$1.run(Transport.java:200)
+	at java.rmi/sun.rmi.transport.Transport$1.run(Transport.java:197)
+	at java.base/java.security.AccessController.doPrivileged(AccessController.java:712)
+	at java.rmi/sun.rmi.transport.Transport.serviceCall(Transport.java:196)
+	at java.rmi/sun.rmi.transport.tcp.TCPTransport.handleMessages(TCPTransport.java:587)
+	at java.rmi/sun.rmi.transport.tcp.TCPTransport$ConnectionHandler.run0(TCPTransport.java:828)
+	at java.rmi/sun.rmi.transport.tcp.TCPTransport$ConnectionHandler.lambda$run$0(TCPTransport.java:705)
+	at java.base/java.security.AccessController.doPrivileged(AccessController.java:399)
+	at java.rmi/sun.rmi.transport.tcp.TCPTransport$ConnectionHandler.run(TCPTransport.java:704)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+2026-05-03 18:49:18.131 WARN  [RMI TCP Connection(4)-192.168.198.86] o.s.boot.actuate.jdbc.DataSourceHealthIndicator:94 - DataSource health check failed
+org.springframework.jdbc.CannotGetJdbcConnectionException: Failed to obtain JDBC Connection; nested exception is java.sql.SQLException: Access denied for user 'root'@'localhost' (using password: YES)
+	at org.springframework.jdbc.datasource.DataSourceUtils.getConnection(DataSourceUtils.java:84)
+	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:332)
+	at org.springframework.boot.actuate.jdbc.DataSourceHealthIndicator.getProduct(DataSourceHealthIndicator.java:122)
+	at org.springframework.boot.actuate.jdbc.DataSourceHealthIndicator.doDataSourceHealthCheck(DataSourceHealthIndicator.java:105)
+	at org.springframework.boot.actuate.jdbc.DataSourceHealthIndicator.doHealthCheck(DataSourceHealthIndicator.java:100)
+	at org.springframework.boot.actuate.health.AbstractHealthIndicator.health(AbstractHealthIndicator.java:82)
+	at org.springframework.boot.actuate.health.HealthIndicator.getHealth(HealthIndicator.java:37)
+	at org.springframework.boot.actuate.health.HealthEndpoint.getHealth(HealthEndpoint.java:94)
+	at org.springframework.boot.actuate.health.HealthEndpoint.getHealth(HealthEndpoint.java:41)
+	at org.springframework.boot.actuate.health.HealthEndpointSupport.getLoggedHealth(HealthEndpointSupport.java:172)
+	at org.springframework.boot.actuate.health.HealthEndpointSupport.getContribution(HealthEndpointSupport.java:145)
+	at org.springframework.boot.actuate.health.HealthEndpointSupport.getAggregateContribution(HealthEndpointSupport.java:156)
+	at org.springframework.boot.actuate.health.HealthEndpointSupport.getContribution(HealthEndpointSupport.java:141)
+	at org.springframework.boot.actuate.health.HealthEndpointSupport.getHealth(HealthEndpointSupport.java:110)
+	at org.springframework.boot.actuate.health.HealthEndpointSupport.getHealth(HealthEndpointSupport.java:81)
+	at org.springframework.boot.actuate.health.HealthEndpoint.health(HealthEndpoint.java:88)
+	at org.springframework.boot.actuate.health.HealthEndpoint.health(HealthEndpoint.java:78)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at org.springframework.util.ReflectionUtils.invokeMethod(ReflectionUtils.java:282)
+	at org.springframework.boot.actuate.endpoint.invoke.reflect.ReflectiveOperationInvoker.invoke(ReflectiveOperationInvoker.java:74)
+	at org.springframework.boot.actuate.endpoint.annotation.AbstractDiscoveredOperation.invoke(AbstractDiscoveredOperation.java:60)
+	at org.springframework.boot.actuate.endpoint.jmx.EndpointMBean.invoke(EndpointMBean.java:124)
+	at org.springframework.boot.actuate.endpoint.jmx.EndpointMBean.invoke(EndpointMBean.java:97)
+	at java.management/com.sun.jmx.interceptor.DefaultMBeanServerInterceptor.invoke(DefaultMBeanServerInterceptor.java:814)
+	at java.management/com.sun.jmx.mbeanserver.JmxMBeanServer.invoke(JmxMBeanServer.java:802)
+	at java.management.rmi/javax.management.remote.rmi.RMIConnectionImpl.doOperation(RMIConnectionImpl.java:1472)
+	at java.management.rmi/javax.management.remote.rmi.RMIConnectionImpl$PrivilegedOperation.run(RMIConnectionImpl.java:1310)
+	at java.management.rmi/javax.management.remote.rmi.RMIConnectionImpl.doPrivilegedOperation(RMIConnectionImpl.java:1405)
+	at java.management.rmi/javax.management.remote.rmi.RMIConnectionImpl.invoke(RMIConnectionImpl.java:829)
+	at java.base/jdk.internal.reflect.GeneratedMethodAccessor32.invoke(Unknown Source)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at java.rmi/sun.rmi.server.UnicastServerRef.dispatch(UnicastServerRef.java:360)
+	at java.rmi/sun.rmi.transport.Transport$1.run(Transport.java:200)
+	at java.rmi/sun.rmi.transport.Transport$1.run(Transport.java:197)
+	at java.base/java.security.AccessController.doPrivileged(AccessController.java:712)
+	at java.rmi/sun.rmi.transport.Transport.serviceCall(Transport.java:196)
+	at java.rmi/sun.rmi.transport.tcp.TCPTransport.handleMessages(TCPTransport.java:587)
+	at java.rmi/sun.rmi.transport.tcp.TCPTransport$ConnectionHandler.run0(TCPTransport.java:828)
+	at java.rmi/sun.rmi.transport.tcp.TCPTransport$ConnectionHandler.lambda$run$0(TCPTransport.java:705)
+	at java.base/java.security.AccessController.doPrivileged(AccessController.java:399)
+	at java.rmi/sun.rmi.transport.tcp.TCPTransport$ConnectionHandler.run(TCPTransport.java:704)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+Caused by: java.sql.SQLException: Access denied for user 'root'@'localhost' (using password: YES)
+	at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:130)
+	at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:122)
+	at com.mysql.cj.jdbc.ConnectionImpl.createNewIO(ConnectionImpl.java:825)
+	at com.mysql.cj.jdbc.ConnectionImpl.<init>(ConnectionImpl.java:446)
+	at com.mysql.cj.jdbc.ConnectionImpl.getInstance(ConnectionImpl.java:239)
+	at com.mysql.cj.jdbc.NonRegisteringDriver.connect(NonRegisteringDriver.java:188)
+	at com.zaxxer.hikari.util.DriverDataSource.getConnection(DriverDataSource.java:138)
+	at com.zaxxer.hikari.pool.PoolBase.newConnection(PoolBase.java:364)
+	at com.zaxxer.hikari.pool.PoolBase.newPoolEntry(PoolBase.java:206)
+	at com.zaxxer.hikari.pool.HikariPool.createPoolEntry(HikariPool.java:476)
+	at com.zaxxer.hikari.pool.HikariPool.checkFailFast(HikariPool.java:561)
+	at com.zaxxer.hikari.pool.HikariPool.<init>(HikariPool.java:115)
+	at com.zaxxer.hikari.HikariDataSource.getConnection(HikariDataSource.java:112)
+	at org.springframework.jdbc.datasource.DataSourceUtils.fetchConnection(DataSourceUtils.java:160)
+	at org.springframework.jdbc.datasource.DataSourceUtils.doGetConnection(DataSourceUtils.java:118)
+	at org.springframework.jdbc.datasource.DataSourceUtils.getConnection(DataSourceUtils.java:81)
+	... 47 common frames omitted
+2026-05-03 18:50:00.026 INFO  [scheduling-1] com.example.demo.task.OrderTimeoutTask:50 - [订单超时任务] 获取分布式锁成功，开始执行，时间：2026-05-03T18:50:00.026755700
+2026-05-03 18:50:00.028 INFO  [scheduling-1] com.zaxxer.hikari.HikariDataSource:110 - HikariPool-1 - Starting...
+2026-05-03 18:50:01.042 ERROR [scheduling-1] com.zaxxer.hikari.pool.HikariPool:594 - HikariPool-1 - Exception during pool initialization.
+java.sql.SQLException: Access denied for user 'root'@'localhost' (using password: YES)
+	at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:130)
+	at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:122)
+	at com.mysql.cj.jdbc.ConnectionImpl.createNewIO(ConnectionImpl.java:825)
+	at com.mysql.cj.jdbc.ConnectionImpl.<init>(ConnectionImpl.java:446)
+	at com.mysql.cj.jdbc.ConnectionImpl.getInstance(ConnectionImpl.java:239)
+	at com.mysql.cj.jdbc.NonRegisteringDriver.connect(NonRegisteringDriver.java:188)
+	at com.zaxxer.hikari.util.DriverDataSource.getConnection(DriverDataSource.java:138)
+	at com.zaxxer.hikari.pool.PoolBase.newConnection(PoolBase.java:364)
+	at com.zaxxer.hikari.pool.PoolBase.newPoolEntry(PoolBase.java:206)
+	at com.zaxxer.hikari.pool.HikariPool.createPoolEntry(HikariPool.java:476)
+	at com.zaxxer.hikari.pool.HikariPool.checkFailFast(HikariPool.java:561)
+	at com.zaxxer.hikari.pool.HikariPool.<init>(HikariPool.java:115)
+	at com.zaxxer.hikari.HikariDataSource.getConnection(HikariDataSource.java:112)
+	at org.springframework.jdbc.datasource.DataSourceTransactionManager.doBegin(DataSourceTransactionManager.java:269)
+	at org.springframework.transaction.support.AbstractPlatformTransactionManager.startTransaction(AbstractPlatformTransactionManager.java:400)
+	at org.springframework.transaction.support.AbstractPlatformTransactionManager.getTransaction(AbstractPlatformTransactionManager.java:373)
+	at org.springframework.transaction.interceptor.TransactionAspectSupport.createTransactionIfNecessary(TransactionAspectSupport.java:595)
+	at org.springframework.transaction.interceptor.TransactionAspectSupport.invokeWithinTransaction(TransactionAspectSupport.java:382)
+	at org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:119)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:762)
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:707)
+	at com.example.demo.service.impl.OrderServiceImpl$$EnhancerBySpringCGLIB$$1785a0d9.cancelTimeoutOrder(<generated>)
+	at com.example.demo.task.OrderTimeoutTask.cancelTimeoutOrder(OrderTimeoutTask.java:53)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at org.springframework.scheduling.support.ScheduledMethodRunnable.run(ScheduledMethodRunnable.java:84)
+	at org.springframework.scheduling.support.DelegatingErrorHandlingRunnable.run(DelegatingErrorHandlingRunnable.java:54)
+	at org.springframework.scheduling.concurrent.ReschedulingRunnable.run(ReschedulingRunnable.java:95)
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:539)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)
+	at java.base/java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:304)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+2026-05-03 18:50:01.042 ERROR [scheduling-1] com.example.demo.task.OrderTimeoutTask:60 - [订单超时任务] 执行异常
+org.springframework.transaction.CannotCreateTransactionException: Could not open JDBC Connection for transaction; nested exception is java.sql.SQLException: Access denied for user 'root'@'localhost' (using password: YES)
+	at org.springframework.jdbc.datasource.DataSourceTransactionManager.doBegin(DataSourceTransactionManager.java:313)
+	at org.springframework.transaction.support.AbstractPlatformTransactionManager.startTransaction(AbstractPlatformTransactionManager.java:400)
+	at org.springframework.transaction.support.AbstractPlatformTransactionManager.getTransaction(AbstractPlatformTransactionManager.java:373)
+	at org.springframework.transaction.interceptor.TransactionAspectSupport.createTransactionIfNecessary(TransactionAspectSupport.java:595)
+	at org.springframework.transaction.interceptor.TransactionAspectSupport.invokeWithinTransaction(TransactionAspectSupport.java:382)
+	at org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:119)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:762)
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:707)
+	at com.example.demo.service.impl.OrderServiceImpl$$EnhancerBySpringCGLIB$$1785a0d9.cancelTimeoutOrder(<generated>)
+	at com.example.demo.task.OrderTimeoutTask.cancelTimeoutOrder(OrderTimeoutTask.java:53)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at org.springframework.scheduling.support.ScheduledMethodRunnable.run(ScheduledMethodRunnable.java:84)
+	at org.springframework.scheduling.support.DelegatingErrorHandlingRunnable.run(DelegatingErrorHandlingRunnable.java:54)
+	at org.springframework.scheduling.concurrent.ReschedulingRunnable.run(ReschedulingRunnable.java:95)
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:539)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)
+	at java.base/java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:304)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+Caused by: java.sql.SQLException: Access denied for user 'root'@'localhost' (using password: YES)
+	at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:130)
+	at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:122)
+	at com.mysql.cj.jdbc.ConnectionImpl.createNewIO(ConnectionImpl.java:825)
+	at com.mysql.cj.jdbc.ConnectionImpl.<init>(ConnectionImpl.java:446)
+	at com.mysql.cj.jdbc.ConnectionImpl.getInstance(ConnectionImpl.java:239)
+	at com.mysql.cj.jdbc.NonRegisteringDriver.connect(NonRegisteringDriver.java:188)
+	at com.zaxxer.hikari.util.DriverDataSource.getConnection(DriverDataSource.java:138)
+	at com.zaxxer.hikari.pool.PoolBase.newConnection(PoolBase.java:364)
+	at com.zaxxer.hikari.pool.PoolBase.newPoolEntry(PoolBase.java:206)
+	at com.zaxxer.hikari.pool.HikariPool.createPoolEntry(HikariPool.java:476)
+	at com.zaxxer.hikari.pool.HikariPool.checkFailFast(HikariPool.java:561)
+	at com.zaxxer.hikari.pool.HikariPool.<init>(HikariPool.java:115)
+	at com.zaxxer.hikari.HikariDataSource.getConnection(HikariDataSource.java:112)
+	at org.springframework.jdbc.datasource.DataSourceTransactionManager.doBegin(DataSourceTransactionManager.java:269)
+	... 23 common frames omitted
+2026-05-03 18:50:01.046 INFO  [scheduling-1] com.example.demo.task.OrderTimeoutTask:65 - [订单超时任务] 分布式锁已释放
+2026-05-03 18:50:21.029 INFO  [background-preinit] org.hibernate.validator.internal.util.Version:21 - HV000001: Hibernate Validator 6.2.5.Final
+2026-05-03 18:50:21.033 INFO  [main] com.example.demo.DemoApplication:55 - Starting DemoApplication using Java 17.0.19 on wo with PID 29504 (C:\Users\11459\IdeaProjects\keepfit\target\classes started by 11459 in C:\Users\11459\IdeaProjects\keepfit)
+2026-05-03 18:50:21.033 DEBUG [main] com.example.demo.DemoApplication:56 - Running with Spring Boot v2.7.18, Spring v5.3.31
+2026-05-03 18:50:21.033 INFO  [main] com.example.demo.DemoApplication:638 - The following 1 profile is active: "dev"
+2026-05-03 18:50:21.538 INFO  [main] o.s.d.r.config.RepositoryConfigurationDelegate:262 - Multiple Spring Data modules found, entering strict repository configuration mode
+2026-05-03 18:50:21.540 INFO  [main] o.s.d.r.config.RepositoryConfigurationDelegate:132 - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2026-05-03 18:50:21.555 INFO  [main] o.s.d.r.config.RepositoryConfigurationDelegate:201 - Finished Spring Data repository scanning in 8 ms. Found 0 Redis repository interfaces.
+2026-05-03 18:50:22.037 INFO  [main] o.s.boot.web.embedded.tomcat.TomcatWebServer:108 - Tomcat initialized with port(s): 8080 (http)
+2026-05-03 18:50:22.038 INFO  [main] org.apache.catalina.core.AprLifecycleListener:173 - Loaded Apache Tomcat Native library [1.3.1] using APR version [1.7.4].
+2026-05-03 18:50:22.038 INFO  [main] org.apache.catalina.core.AprLifecycleListener:173 - APR capabilities: IPv6 [true], sendfile [true], accept filters [false], random [true], UDS [true].
+2026-05-03 18:50:22.038 INFO  [main] org.apache.catalina.core.AprLifecycleListener:173 - APR/OpenSSL configuration: useAprConnector [false], useOpenSSL [true]
+2026-05-03 18:50:22.040 INFO  [main] org.apache.catalina.core.AprLifecycleListener:173 - OpenSSL successfully initialized [OpenSSL 3.0.14 4 Jun 2024]
+2026-05-03 18:50:22.044 INFO  [main] org.apache.coyote.http11.Http11NioProtocol:173 - Initializing ProtocolHandler ["http-nio-8080"]
+2026-05-03 18:50:22.045 INFO  [main] org.apache.catalina.core.StandardService:173 - Starting service [Tomcat]
+2026-05-03 18:50:22.045 INFO  [main] org.apache.catalina.core.StandardEngine:173 - Starting Servlet engine: [Apache Tomcat/9.0.83]
+2026-05-03 18:50:22.104 INFO  [main] o.a.c.core.ContainerBase.[Tomcat].[localhost].[/]:173 - Initializing Spring embedded WebApplicationContext
+2026-05-03 18:50:22.104 INFO  [main] o.s.b.w.s.c.ServletWebServerApplicationContext:292 - Root WebApplicationContext: initialization completed in 1043 ms
+2026-05-03 18:50:22.221 INFO  [main] o.s.boot.web.servlet.RegistrationBean:110 - Filter sqlInjectionFilter was not registered (possibly already registered?)
+2026-05-03 18:50:22.314 INFO  [main] org.redisson.Version:41 - Redisson 3.23.3
+2026-05-03 18:50:22.482 INFO  [redisson-netty-2-5] o.r.connection.pool.MasterPubSubConnectionPool:140 - 1 connections initialized for localhost/127.0.0.1:6379
+2026-05-03 18:50:22.520 INFO  [redisson-netty-2-20] org.redisson.connection.pool.MasterConnectionPool:140 - 24 connections initialized for localhost/127.0.0.1:6379
+2026-05-03 18:50:23.709 INFO  [main] o.s.b.actuate.endpoint.web.EndpointLinksResolver:58 - Exposing 2 endpoint(s) beneath base path '/actuator'
+2026-05-03 18:50:23.736 INFO  [main] org.apache.coyote.http11.Http11NioProtocol:173 - Starting ProtocolHandler ["http-nio-8080"]
+2026-05-03 18:50:23.741 INFO  [main] o.s.boot.web.embedded.tomcat.TomcatWebServer:220 - Tomcat started on port(s): 8080 (http) with context path ''
+2026-05-03 18:50:23.753 INFO  [main] com.example.demo.DemoApplication:61 - Started DemoApplication in 3.002 seconds (JVM running for 3.314)
+2026-05-03 18:50:24.190 INFO  [RMI TCP Connection(1)-192.168.198.86] o.a.c.core.ContainerBase.[Tomcat].[localhost].[/]:173 - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-05-03 18:50:24.190 INFO  [RMI TCP Connection(1)-192.168.198.86] org.springframework.web.servlet.DispatcherServlet:525 - Initializing Servlet 'dispatcherServlet'
+2026-05-03 18:50:24.191 INFO  [RMI TCP Connection(2)-192.168.198.86] com.zaxxer.hikari.HikariDataSource:110 - HikariPool-1 - Starting...
+2026-05-03 18:50:24.192 INFO  [RMI TCP Connection(1)-192.168.198.86] org.springframework.web.servlet.DispatcherServlet:547 - Completed initialization in 1 ms
+2026-05-03 18:50:25.331 ERROR [RMI TCP Connection(2)-192.168.198.86] com.zaxxer.hikari.pool.HikariPool:594 - HikariPool-1 - Exception during pool initialization.
+java.sql.SQLSyntaxErrorException: Unknown database 'keepfit'
+	at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:121)
+	at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:122)
+	at com.mysql.cj.jdbc.ConnectionImpl.createNewIO(ConnectionImpl.java:825)
+	at com.mysql.cj.jdbc.ConnectionImpl.<init>(ConnectionImpl.java:446)
+	at com.mysql.cj.jdbc.ConnectionImpl.getInstance(ConnectionImpl.java:239)
+	at com.mysql.cj.jdbc.NonRegisteringDriver.connect(NonRegisteringDriver.java:188)
+	at com.zaxxer.hikari.util.DriverDataSource.getConnection(DriverDataSource.java:138)
+	at com.zaxxer.hikari.pool.PoolBase.newConnection(PoolBase.java:364)
+	at com.zaxxer.hikari.pool.PoolBase.newPoolEntry(PoolBase.java:206)
+	at com.zaxxer.hikari.pool.HikariPool.createPoolEntry(HikariPool.java:476)
+	at com.zaxxer.hikari.pool.HikariPool.checkFailFast(HikariPool.java:561)
+	at com.zaxxer.hikari.pool.HikariPool.<init>(HikariPool.java:115)
+	at com.zaxxer.hikari.HikariDataSource.getConnection(HikariDataSource.java:112)
+	at org.springframework.jdbc.datasource.DataSourceUtils.fetchConnection(DataSourceUtils.java:160)
+	at org.springframework.jdbc.datasource.DataSourceUtils.doGetConnection(DataSourceUtils.java:118)
+	at org.springframework.jdbc.datasource.DataSourceUtils.getConnection(DataSourceUtils.java:81)
+	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:332)
+	at org.springframework.boot.actuate.jdbc.DataSourceHealthIndicator.getProduct(DataSourceHealthIndicator.java:122)
+	at org.springframework.boot.actuate.jdbc.DataSourceHealthIndicator.doDataSourceHealthCheck(DataSourceHealthIndicator.java:105)
+	at org.springframework.boot.actuate.jdbc.DataSourceHealthIndicator.doHealthCheck(DataSourceHealthIndicator.java:100)
+	at org.springframework.boot.actuate.health.AbstractHealthIndicator.health(AbstractHealthIndicator.java:82)
+	at org.springframework.boot.actuate.health.HealthIndicator.getHealth(HealthIndicator.java:37)
+	at org.springframework.boot.actuate.health.HealthEndpoint.getHealth(HealthEndpoint.java:94)
+	at org.springframework.boot.actuate.health.HealthEndpoint.getHealth(HealthEndpoint.java:41)
+	at org.springframework.boot.actuate.health.HealthEndpointSupport.getLoggedHealth(HealthEndpointSupport.java:172)
+	at org.springframework.boot.actuate.health.HealthEndpointSupport.getContribution(HealthEndpointSupport.java:145)
+	at org.springframework.boot.actuate.health.HealthEndpointSupport.getAggregateContribution(HealthEndpointSupport.java:156)
+	at org.springframework.boot.actuate.health.HealthEndpointSupport.getContribution(HealthEndpointSupport.java:141)
+	at org.springframework.boot.actuate.health.HealthEndpointSupport.getHealth(HealthEndpointSupport.java:110)
+	at org.springframework.boot.actuate.health.HealthEndpointSupport.getHealth(HealthEndpointSupport.java:81)
+	at org.springframework.boot.actuate.health.HealthEndpoint.health(HealthEndpoint.java:88)
+	at org.springframework.boot.actuate.health.HealthEndpoint.health(HealthEndpoint.java:78)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at org.springframework.util.ReflectionUtils.invokeMethod(ReflectionUtils.java:282)
+	at org.springframework.boot.actuate.endpoint.invoke.reflect.ReflectiveOperationInvoker.invoke(ReflectiveOperationInvoker.java:74)
+	at org.springframework.boot.actuate.endpoint.annotation.AbstractDiscoveredOperation.invoke(AbstractDiscoveredOperation.java:60)
+	at org.springframework.boot.actuate.endpoint.jmx.EndpointMBean.invoke(EndpointMBean.java:124)
+	at org.springframework.boot.actuate.endpoint.jmx.EndpointMBean.invoke(EndpointMBean.java:97)
+	at java.management/com.sun.jmx.interceptor.DefaultMBeanServerInterceptor.invoke(DefaultMBeanServerInterceptor.java:814)
+	at java.management/com.sun.jmx.mbeanserver.JmxMBeanServer.invoke(JmxMBeanServer.java:802)
+	at java.management.rmi/javax.management.remote.rmi.RMIConnectionImpl.doOperation(RMIConnectionImpl.java:1472)
+	at java.management.rmi/javax.management.remote.rmi.RMIConnectionImpl$PrivilegedOperation.run(RMIConnectionImpl.java:1310)
+	at java.management.rmi/javax.management.remote.rmi.RMIConnectionImpl.doPrivilegedOperation(RMIConnectionImpl.java:1405)
+	at java.management.rmi/javax.management.remote.rmi.RMIConnectionImpl.invoke(RMIConnectionImpl.java:829)
+	at java.base/jdk.internal.reflect.GeneratedMethodAccessor32.invoke(Unknown Source)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at java.rmi/sun.rmi.server.UnicastServerRef.dispatch(UnicastServerRef.java:360)
+	at java.rmi/sun.rmi.transport.Transport$1.run(Transport.java:200)
+	at java.rmi/sun.rmi.transport.Transport$1.run(Transport.java:197)
+	at java.base/java.security.AccessController.doPrivileged(AccessController.java:712)
+	at java.rmi/sun.rmi.transport.Transport.serviceCall(Transport.java:196)
+	at java.rmi/sun.rmi.transport.tcp.TCPTransport.handleMessages(TCPTransport.java:587)
+	at java.rmi/sun.rmi.transport.tcp.TCPTransport$ConnectionHandler.run0(TCPTransport.java:828)
+	at java.rmi/sun.rmi.transport.tcp.TCPTransport$ConnectionHandler.lambda$run$0(TCPTransport.java:705)
+	at java.base/java.security.AccessController.doPrivileged(AccessController.java:399)
+	at java.rmi/sun.rmi.transport.tcp.TCPTransport$ConnectionHandler.run(TCPTransport.java:704)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+2026-05-03 18:50:25.331 WARN  [RMI TCP Connection(2)-192.168.198.86] o.s.boot.actuate.jdbc.DataSourceHealthIndicator:94 - DataSource health check failed
+org.springframework.jdbc.CannotGetJdbcConnectionException: Failed to obtain JDBC Connection; nested exception is java.sql.SQLSyntaxErrorException: Unknown database 'keepfit'
+	at org.springframework.jdbc.datasource.DataSourceUtils.getConnection(DataSourceUtils.java:84)
+	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:332)
+	at org.springframework.boot.actuate.jdbc.DataSourceHealthIndicator.getProduct(DataSourceHealthIndicator.java:122)
+	at org.springframework.boot.actuate.jdbc.DataSourceHealthIndicator.doDataSourceHealthCheck(DataSourceHealthIndicator.java:105)
+	at org.springframework.boot.actuate.jdbc.DataSourceHealthIndicator.doHealthCheck(DataSourceHealthIndicator.java:100)
+	at org.springframework.boot.actuate.health.AbstractHealthIndicator.health(AbstractHealthIndicator.java:82)
+	at org.springframework.boot.actuate.health.HealthIndicator.getHealth(HealthIndicator.java:37)
+	at org.springframework.boot.actuate.health.HealthEndpoint.getHealth(HealthEndpoint.java:94)
+	at org.springframework.boot.actuate.health.HealthEndpoint.getHealth(HealthEndpoint.java:41)
+	at org.springframework.boot.actuate.health.HealthEndpointSupport.getLoggedHealth(HealthEndpointSupport.java:172)
+	at org.springframework.boot.actuate.health.HealthEndpointSupport.getContribution(HealthEndpointSupport.java:145)
+	at org.springframework.boot.actuate.health.HealthEndpointSupport.getAggregateContribution(HealthEndpointSupport.java:156)
+	at org.springframework.boot.actuate.health.HealthEndpointSupport.getContribution(HealthEndpointSupport.java:141)
+	at org.springframework.boot.actuate.health.HealthEndpointSupport.getHealth(HealthEndpointSupport.java:110)
+	at org.springframework.boot.actuate.health.HealthEndpointSupport.getHealth(HealthEndpointSupport.java:81)
+	at org.springframework.boot.actuate.health.HealthEndpoint.health(HealthEndpoint.java:88)
+	at org.springframework.boot.actuate.health.HealthEndpoint.health(HealthEndpoint.java:78)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at org.springframework.util.ReflectionUtils.invokeMethod(ReflectionUtils.java:282)
+	at org.springframework.boot.actuate.endpoint.invoke.reflect.ReflectiveOperationInvoker.invoke(ReflectiveOperationInvoker.java:74)
+	at org.springframework.boot.actuate.endpoint.annotation.AbstractDiscoveredOperation.invoke(AbstractDiscoveredOperation.java:60)
+	at org.springframework.boot.actuate.endpoint.jmx.EndpointMBean.invoke(EndpointMBean.java:124)
+	at org.springframework.boot.actuate.endpoint.jmx.EndpointMBean.invoke(EndpointMBean.java:97)
+	at java.management/com.sun.jmx.interceptor.DefaultMBeanServerInterceptor.invoke(DefaultMBeanServerInterceptor.java:814)
+	at java.management/com.sun.jmx.mbeanserver.JmxMBeanServer.invoke(JmxMBeanServer.java:802)
+	at java.management.rmi/javax.management.remote.rmi.RMIConnectionImpl.doOperation(RMIConnectionImpl.java:1472)
+	at java.management.rmi/javax.management.remote.rmi.RMIConnectionImpl$PrivilegedOperation.run(RMIConnectionImpl.java:1310)
+	at java.management.rmi/javax.management.remote.rmi.RMIConnectionImpl.doPrivilegedOperation(RMIConnectionImpl.java:1405)
+	at java.management.rmi/javax.management.remote.rmi.RMIConnectionImpl.invoke(RMIConnectionImpl.java:829)
+	at java.base/jdk.internal.reflect.GeneratedMethodAccessor32.invoke(Unknown Source)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at java.rmi/sun.rmi.server.UnicastServerRef.dispatch(UnicastServerRef.java:360)
+	at java.rmi/sun.rmi.transport.Transport$1.run(Transport.java:200)
+	at java.rmi/sun.rmi.transport.Transport$1.run(Transport.java:197)
+	at java.base/java.security.AccessController.doPrivileged(AccessController.java:712)
+	at java.rmi/sun.rmi.transport.Transport.serviceCall(Transport.java:196)
+	at java.rmi/sun.rmi.transport.tcp.TCPTransport.handleMessages(TCPTransport.java:587)
+	at java.rmi/sun.rmi.transport.tcp.TCPTransport$ConnectionHandler.run0(TCPTransport.java:828)
+	at java.rmi/sun.rmi.transport.tcp.TCPTransport$ConnectionHandler.lambda$run$0(TCPTransport.java:705)
+	at java.base/java.security.AccessController.doPrivileged(AccessController.java:399)
+	at java.rmi/sun.rmi.transport.tcp.TCPTransport$ConnectionHandler.run(TCPTransport.java:704)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+Caused by: java.sql.SQLSyntaxErrorException: Unknown database 'keepfit'
+	at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:121)
+	at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:122)
+	at com.mysql.cj.jdbc.ConnectionImpl.createNewIO(ConnectionImpl.java:825)
+	at com.mysql.cj.jdbc.ConnectionImpl.<init>(ConnectionImpl.java:446)
+	at com.mysql.cj.jdbc.ConnectionImpl.getInstance(ConnectionImpl.java:239)
+	at com.mysql.cj.jdbc.NonRegisteringDriver.connect(NonRegisteringDriver.java:188)
+	at com.zaxxer.hikari.util.DriverDataSource.getConnection(DriverDataSource.java:138)
+	at com.zaxxer.hikari.pool.PoolBase.newConnection(PoolBase.java:364)
+	at com.zaxxer.hikari.pool.PoolBase.newPoolEntry(PoolBase.java:206)
+	at com.zaxxer.hikari.pool.HikariPool.createPoolEntry(HikariPool.java:476)
+	at com.zaxxer.hikari.pool.HikariPool.checkFailFast(HikariPool.java:561)
+	at com.zaxxer.hikari.pool.HikariPool.<init>(HikariPool.java:115)
+	at com.zaxxer.hikari.HikariDataSource.getConnection(HikariDataSource.java:112)
+	at org.springframework.jdbc.datasource.DataSourceUtils.fetchConnection(DataSourceUtils.java:160)
+	at org.springframework.jdbc.datasource.DataSourceUtils.doGetConnection(DataSourceUtils.java:118)
+	at org.springframework.jdbc.datasource.DataSourceUtils.getConnection(DataSourceUtils.java:81)
+	... 47 common frames omitted
+2026-05-03 18:51:00.018 INFO  [scheduling-1] com.example.demo.task.OrderTimeoutTask:50 - [订单超时任务] 获取分布式锁成功，开始执行，时间：2026-05-03T18:51:00.018301500
+2026-05-03 18:51:00.021 INFO  [scheduling-1] com.zaxxer.hikari.HikariDataSource:110 - HikariPool-1 - Starting...
+2026-05-03 18:51:01.030 ERROR [scheduling-1] com.zaxxer.hikari.pool.HikariPool:594 - HikariPool-1 - Exception during pool initialization.
+java.sql.SQLSyntaxErrorException: Unknown database 'keepfit'
+	at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:121)
+	at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:122)
+	at com.mysql.cj.jdbc.ConnectionImpl.createNewIO(ConnectionImpl.java:825)
+	at com.mysql.cj.jdbc.ConnectionImpl.<init>(ConnectionImpl.java:446)
+	at com.mysql.cj.jdbc.ConnectionImpl.getInstance(ConnectionImpl.java:239)
+	at com.mysql.cj.jdbc.NonRegisteringDriver.connect(NonRegisteringDriver.java:188)
+	at com.zaxxer.hikari.util.DriverDataSource.getConnection(DriverDataSource.java:138)
+	at com.zaxxer.hikari.pool.PoolBase.newConnection(PoolBase.java:364)
+	at com.zaxxer.hikari.pool.PoolBase.newPoolEntry(PoolBase.java:206)
+	at com.zaxxer.hikari.pool.HikariPool.createPoolEntry(HikariPool.java:476)
+	at com.zaxxer.hikari.pool.HikariPool.checkFailFast(HikariPool.java:561)
+	at com.zaxxer.hikari.pool.HikariPool.<init>(HikariPool.java:115)
+	at com.zaxxer.hikari.HikariDataSource.getConnection(HikariDataSource.java:112)
+	at org.springframework.jdbc.datasource.DataSourceTransactionManager.doBegin(DataSourceTransactionManager.java:269)
+	at org.springframework.transaction.support.AbstractPlatformTransactionManager.startTransaction(AbstractPlatformTransactionManager.java:400)
+	at org.springframework.transaction.support.AbstractPlatformTransactionManager.getTransaction(AbstractPlatformTransactionManager.java:373)
+	at org.springframework.transaction.interceptor.TransactionAspectSupport.createTransactionIfNecessary(TransactionAspectSupport.java:595)
+	at org.springframework.transaction.interceptor.TransactionAspectSupport.invokeWithinTransaction(TransactionAspectSupport.java:382)
+	at org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:119)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:762)
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:707)
+	at com.example.demo.service.impl.OrderServiceImpl$$EnhancerBySpringCGLIB$$1785a0d9.cancelTimeoutOrder(<generated>)
+	at com.example.demo.task.OrderTimeoutTask.cancelTimeoutOrder(OrderTimeoutTask.java:53)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at org.springframework.scheduling.support.ScheduledMethodRunnable.run(ScheduledMethodRunnable.java:84)
+	at org.springframework.scheduling.support.DelegatingErrorHandlingRunnable.run(DelegatingErrorHandlingRunnable.java:54)
+	at org.springframework.scheduling.concurrent.ReschedulingRunnable.run(ReschedulingRunnable.java:95)
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:539)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)
+	at java.base/java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:304)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+2026-05-03 18:51:01.030 ERROR [scheduling-1] com.example.demo.task.OrderTimeoutTask:60 - [订单超时任务] 执行异常
+org.springframework.transaction.CannotCreateTransactionException: Could not open JDBC Connection for transaction; nested exception is java.sql.SQLSyntaxErrorException: Unknown database 'keepfit'
+	at org.springframework.jdbc.datasource.DataSourceTransactionManager.doBegin(DataSourceTransactionManager.java:313)
+	at org.springframework.transaction.support.AbstractPlatformTransactionManager.startTransaction(AbstractPlatformTransactionManager.java:400)
+	at org.springframework.transaction.support.AbstractPlatformTransactionManager.getTransaction(AbstractPlatformTransactionManager.java:373)
+	at org.springframework.transaction.interceptor.TransactionAspectSupport.createTransactionIfNecessary(TransactionAspectSupport.java:595)
+	at org.springframework.transaction.interceptor.TransactionAspectSupport.invokeWithinTransaction(TransactionAspectSupport.java:382)
+	at org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:119)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:762)
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:707)
+	at com.example.demo.service.impl.OrderServiceImpl$$EnhancerBySpringCGLIB$$1785a0d9.cancelTimeoutOrder(<generated>)
+	at com.example.demo.task.OrderTimeoutTask.cancelTimeoutOrder(OrderTimeoutTask.java:53)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at org.springframework.scheduling.support.ScheduledMethodRunnable.run(ScheduledMethodRunnable.java:84)
+	at org.springframework.scheduling.support.DelegatingErrorHandlingRunnable.run(DelegatingErrorHandlingRunnable.java:54)
+	at org.springframework.scheduling.concurrent.ReschedulingRunnable.run(ReschedulingRunnable.java:95)
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:539)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)
+	at java.base/java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:304)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+Caused by: java.sql.SQLSyntaxErrorException: Unknown database 'keepfit'
+	at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:121)
+	at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:122)
+	at com.mysql.cj.jdbc.ConnectionImpl.createNewIO(ConnectionImpl.java:825)
+	at com.mysql.cj.jdbc.ConnectionImpl.<init>(ConnectionImpl.java:446)
+	at com.mysql.cj.jdbc.ConnectionImpl.getInstance(ConnectionImpl.java:239)
+	at com.mysql.cj.jdbc.NonRegisteringDriver.connect(NonRegisteringDriver.java:188)
+	at com.zaxxer.hikari.util.DriverDataSource.getConnection(DriverDataSource.java:138)
+	at com.zaxxer.hikari.pool.PoolBase.newConnection(PoolBase.java:364)
+	at com.zaxxer.hikari.pool.PoolBase.newPoolEntry(PoolBase.java:206)
+	at com.zaxxer.hikari.pool.HikariPool.createPoolEntry(HikariPool.java:476)
+	at com.zaxxer.hikari.pool.HikariPool.checkFailFast(HikariPool.java:561)
+	at com.zaxxer.hikari.pool.HikariPool.<init>(HikariPool.java:115)
+	at com.zaxxer.hikari.HikariDataSource.getConnection(HikariDataSource.java:112)
+	at org.springframework.jdbc.datasource.DataSourceTransactionManager.doBegin(DataSourceTransactionManager.java:269)
+	... 23 common frames omitted
+2026-05-03 18:51:01.035 INFO  [scheduling-1] com.example.demo.task.OrderTimeoutTask:65 - [订单超时任务] 分布式锁已释放
+2026-05-06 10:08:39.762 INFO  [background-preinit] org.hibernate.validator.internal.util.Version:21 - HV000001: Hibernate Validator 6.2.5.Final
+2026-05-06 10:08:39.770 INFO  [main] com.example.demo.DemoApplication:55 - Starting DemoApplication using Java 17.0.18 on DESKTOP-IV06KC5 with PID 10916 (D:\keepfit\keepfit\target\classes started by hi in D:\keepfit\keepfit)
+2026-05-06 10:08:39.771 DEBUG [main] com.example.demo.DemoApplication:56 - Running with Spring Boot v2.7.18, Spring v5.3.31
+2026-05-06 10:08:39.772 INFO  [main] com.example.demo.DemoApplication:638 - The following 1 profile is active: "dev"
+2026-05-06 10:08:41.490 INFO  [main] o.s.d.r.config.RepositoryConfigurationDelegate:262 - Multiple Spring Data modules found, entering strict repository configuration mode
+2026-05-06 10:08:41.495 INFO  [main] o.s.d.r.config.RepositoryConfigurationDelegate:132 - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2026-05-06 10:08:41.531 INFO  [main] o.s.d.r.config.RepositoryConfigurationDelegate:201 - Finished Spring Data repository scanning in 16 ms. Found 0 Redis repository interfaces.
+2026-05-06 10:08:42.862 INFO  [main] o.s.boot.web.embedded.tomcat.TomcatWebServer:108 - Tomcat initialized with port(s): 8080 (http)
+2026-05-06 10:08:42.872 INFO  [main] org.apache.coyote.http11.Http11NioProtocol:173 - Initializing ProtocolHandler ["http-nio-8080"]
+2026-05-06 10:08:42.875 INFO  [main] org.apache.catalina.core.StandardService:173 - Starting service [Tomcat]
+2026-05-06 10:08:42.876 INFO  [main] org.apache.catalina.core.StandardEngine:173 - Starting Servlet engine: [Apache Tomcat/9.0.83]
+2026-05-06 10:08:43.039 INFO  [main] o.a.c.core.ContainerBase.[Tomcat].[localhost].[/]:173 - Initializing Spring embedded WebApplicationContext
+2026-05-06 10:08:43.039 INFO  [main] o.s.b.w.s.c.ServletWebServerApplicationContext:292 - Root WebApplicationContext: initialization completed in 3158 ms
+2026-05-06 10:08:43.317 INFO  [main] o.s.boot.web.servlet.RegistrationBean:110 - Filter sqlInjectionFilter was not registered (possibly already registered?)
+2026-05-06 10:08:43.547 INFO  [main] org.redisson.Version:41 - Redisson 3.23.3
+2026-05-06 10:08:44.049 INFO  [redisson-netty-2-5] o.r.connection.pool.MasterPubSubConnectionPool:140 - 1 connections initialized for localhost/127.0.0.1:6379
+2026-05-06 10:08:44.140 INFO  [redisson-netty-2-20] org.redisson.connection.pool.MasterConnectionPool:140 - 24 connections initialized for localhost/127.0.0.1:6379
+2026-05-06 10:08:47.518 INFO  [main] o.s.b.actuate.endpoint.web.EndpointLinksResolver:58 - Exposing 2 endpoint(s) beneath base path '/actuator'
+2026-05-06 10:08:47.571 INFO  [main] org.apache.coyote.http11.Http11NioProtocol:173 - Starting ProtocolHandler ["http-nio-8080"]
+2026-05-06 10:08:47.585 INFO  [main] o.s.boot.web.embedded.tomcat.TomcatWebServer:220 - Tomcat started on port(s): 8080 (http) with context path ''
+2026-05-06 10:08:47.611 INFO  [main] com.example.demo.DemoApplication:61 - Started DemoApplication in 8.696 seconds (JVM running for 9.798)
+2026-05-06 10:08:47.898 INFO  [RMI TCP Connection(2)-192.168.201.232] o.a.c.core.ContainerBase.[Tomcat].[localhost].[/]:173 - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-05-06 10:08:47.899 INFO  [RMI TCP Connection(2)-192.168.201.232] org.springframework.web.servlet.DispatcherServlet:525 - Initializing Servlet 'dispatcherServlet'
+2026-05-06 10:08:47.903 INFO  [RMI TCP Connection(2)-192.168.201.232] org.springframework.web.servlet.DispatcherServlet:547 - Completed initialization in 3 ms
+2026-05-06 10:08:47.918 INFO  [RMI TCP Connection(3)-192.168.201.232] com.zaxxer.hikari.HikariDataSource:110 - HikariPool-1 - Starting...
+2026-05-06 10:08:48.361 INFO  [RMI TCP Connection(3)-192.168.201.232] com.zaxxer.hikari.HikariDataSource:123 - HikariPool-1 - Start completed.
+2026-05-06 10:09:00.040 INFO  [scheduling-1] com.example.demo.task.OrderTimeoutTask:50 - [订单超时任务] 获取分布式锁成功，开始执行，时间：2026-05-06T10:09:00.040723900
+2026-05-06 10:09:00.138 DEBUG [scheduling-1] com.example.demo.mapper.OrderMapper:60 - Cache Hit Ratio [com.example.demo.mapper.OrderMapper]: 0.0
+2026-05-06 10:09:00.152 DEBUG [scheduling-1] com.example.demo.mapper.OrderMapper.selectList:137 - ==>  Preparing: SELECT id,is_deleted,order_no,user_id,merchant_id,receiver,phone,address,total_price,total_calorie,total_protein,total_carbohydrate,total_fat,status,create_time,update_time,pay_time,complete_time,user_coupon_id FROM order_info WHERE (status = ? AND create_time < ? AND is_deleted = ?)
+2026-05-06 10:09:00.204 DEBUG [scheduling-1] com.example.demo.mapper.OrderMapper.selectList:137 - ==> Parameters: 0(Integer), 2026-05-06T09:39:00.062559300(LocalDateTime), 0(Integer)
+2026-05-06 10:09:00.324 DEBUG [scheduling-1] com.example.demo.mapper.OrderMapper.selectList:137 - <==      Total: 0
+2026-05-06 10:09:00.327 INFO  [scheduling-1] com.example.demo.service.impl.OrderServiceImpl:278 - [定时任务] 成功取消超时订单：0 单
+2026-05-06 10:09:00.343 INFO  [scheduling-1] com.example.demo.task.OrderTimeoutTask:54 - [订单超时任务] 执行完成，取消超时订单数量：0
+2026-05-06 10:09:00.346 INFO  [scheduling-1] com.example.demo.task.OrderTimeoutTask:65 - [订单超时任务] 分布式锁已释放
+2026-05-06 10:10:00.004 INFO  [scheduling-1] com.example.demo.task.OrderTimeoutTask:50 - [订单超时任务] 获取分布式锁成功，开始执行，时间：2026-05-06T10:10:00.004731800
+2026-05-06 10:10:00.011 DEBUG [scheduling-1] com.example.demo.mapper.OrderMapper:60 - Cache Hit Ratio [com.example.demo.mapper.OrderMapper]: 0.0
+2026-05-06 10:10:00.012 DEBUG [scheduling-1] com.example.demo.mapper.OrderMapper.selectList:137 - ==>  Preparing: SELECT id,is_deleted,order_no,user_id,merchant_id,receiver,phone,address,total_price,total_calorie,total_protein,total_carbohydrate,total_fat,status,create_time,update_time,pay_time,complete_time,user_coupon_id FROM order_info WHERE (status = ? AND create_time < ? AND is_deleted = ?)
+2026-05-06 10:10:00.013 DEBUG [scheduling-1] com.example.demo.mapper.OrderMapper.selectList:137 - ==> Parameters: 0(Integer), 2026-05-06T09:40:00.008620200(LocalDateTime), 0(Integer)
+2026-05-06 10:10:00.015 DEBUG [scheduling-1] com.example.demo.mapper.OrderMapper.selectList:137 - <==      Total: 0
+2026-05-06 10:10:00.016 INFO  [scheduling-1] com.example.demo.service.impl.OrderServiceImpl:278 - [定时任务] 成功取消超时订单：0 单
+2026-05-06 10:10:00.020 INFO  [scheduling-1] com.example.demo.task.OrderTimeoutTask:54 - [订单超时任务] 执行完成，取消超时订单数量：0
+2026-05-06 10:10:00.024 INFO  [scheduling-1] com.example.demo.task.OrderTimeoutTask:65 - [订单超时任务] 分布式锁已释放
+2026-05-06 10:11:00.014 INFO  [scheduling-1] com.example.demo.task.OrderTimeoutTask:50 - [订单超时任务] 获取分布式锁成功，开始执行，时间：2026-05-06T10:11:00.014412500
+2026-05-06 10:11:00.028 DEBUG [scheduling-1] com.example.demo.mapper.OrderMapper:60 - Cache Hit Ratio [com.example.demo.mapper.OrderMapper]: 0.0
+2026-05-06 10:11:00.029 DEBUG [scheduling-1] com.example.demo.mapper.OrderMapper.selectList:137 - ==>  Preparing: SELECT id,is_deleted,order_no,user_id,merchant_id,receiver,phone,address,total_price,total_calorie,total_protein,total_carbohydrate,total_fat,status,create_time,update_time,pay_time,complete_time,user_coupon_id FROM order_info WHERE (status = ? AND create_time < ? AND is_deleted = ?)
+2026-05-06 10:11:00.033 DEBUG [scheduling-1] com.example.demo.mapper.OrderMapper.selectList:137 - ==> Parameters: 0(Integer), 2026-05-06T09:41:00.023301500(LocalDateTime), 0(Integer)
+2026-05-06 10:11:00.038 DEBUG [scheduling-1] com.example.demo.mapper.OrderMapper.selectList:137 - <==      Total: 0
+2026-05-06 10:11:00.039 INFO  [scheduling-1] com.example.demo.service.impl.OrderServiceImpl:278 - [定时任务] 成功取消超时订单：0 单
+2026-05-06 10:11:00.045 INFO  [scheduling-1] com.example.demo.task.OrderTimeoutTask:54 - [订单超时任务] 执行完成，取消超时订单数量：0
+2026-05-06 10:11:00.048 INFO  [scheduling-1] com.example.demo.task.OrderTimeoutTask:65 - [订单超时任务] 分布式锁已释放
+2026-05-06 10:12:00.019 INFO  [scheduling-1] com.example.demo.task.OrderTimeoutTask:50 - [订单超时任务] 获取分布式锁成功，开始执行，时间：2026-05-06T10:12:00.019348400
+2026-05-06 10:12:00.033 DEBUG [scheduling-1] com.example.demo.mapper.OrderMapper:60 - Cache Hit Ratio [com.example.demo.mapper.OrderMapper]: 0.0
+2026-05-06 10:12:00.035 DEBUG [scheduling-1] com.example.demo.mapper.OrderMapper.selectList:137 - ==>  Preparing: SELECT id,is_deleted,order_no,user_id,merchant_id,receiver,phone,address,total_price,total_calorie,total_protein,total_carbohydrate,total_fat,status,create_time,update_time,pay_time,complete_time,user_coupon_id FROM order_info WHERE (status = ? AND create_time < ? AND is_deleted = ?)
+2026-05-06 10:12:00.036 DEBUG [scheduling-1] com.example.demo.mapper.OrderMapper.selectList:137 - ==> Parameters: 0(Integer), 2026-05-06T09:42:00.026389200(LocalDateTime), 0(Integer)
+2026-05-06 10:12:00.040 DEBUG [scheduling-1] com.example.demo.mapper.OrderMapper.selectList:137 - <==      Total: 0
+2026-05-06 10:12:00.041 INFO  [scheduling-1] com.example.demo.service.impl.OrderServiceImpl:278 - [定时任务] 成功取消超时订单：0 单
+2026-05-06 10:12:00.047 INFO  [scheduling-1] com.example.demo.task.OrderTimeoutTask:54 - [订单超时任务] 执行完成，取消超时订单数量：0
+2026-05-06 10:12:00.051 INFO  [scheduling-1] com.example.demo.task.OrderTimeoutTask:65 - [订单超时任务] 分布式锁已释放
+2026-05-06 10:13:00.010 INFO  [scheduling-1] com.example.demo.task.OrderTimeoutTask:50 - [订单超时任务] 获取分布式锁成功，开始执行，时间：2026-05-06T10:13:00.010516100
+2026-05-06 10:13:00.025 DEBUG [scheduling-1] com.example.demo.mapper.OrderMapper:60 - Cache Hit Ratio [com.example.demo.mapper.OrderMapper]: 0.0
+2026-05-06 10:13:00.027 DEBUG [scheduling-1] com.example.demo.mapper.OrderMapper.selectList:137 - ==>  Preparing: SELECT id,is_deleted,order_no,user_id,merchant_id,receiver,phone,address,total_price,total_calorie,total_protein,total_carbohydrate,total_fat,status,create_time,update_time,pay_time,complete_time,user_coupon_id FROM order_info WHERE (status = ? AND create_time < ? AND is_deleted = ?)
+2026-05-06 10:13:00.030 DEBUG [scheduling-1] com.example.demo.mapper.OrderMapper.selectList:137 - ==> Parameters: 0(Integer), 2026-05-06T09:43:00.021130300(LocalDateTime), 0(Integer)
+2026-05-06 10:13:00.035 DEBUG [scheduling-1] com.example.demo.mapper.OrderMapper.selectList:137 - <==      Total: 0
+2026-05-06 10:13:00.036 INFO  [scheduling-1] com.example.demo.service.impl.OrderServiceImpl:278 - [定时任务] 成功取消超时订单：0 单
+2026-05-06 10:13:00.042 INFO  [scheduling-1] com.example.demo.task.OrderTimeoutTask:54 - [订单超时任务] 执行完成，取消超时订单数量：0
+2026-05-06 10:13:00.044 INFO  [scheduling-1] com.example.demo.task.OrderTimeoutTask:65 - [订单超时任务] 分布式锁已释放
+2026-05-06 10:14:00.008 INFO  [scheduling-1] com.example.demo.task.OrderTimeoutTask:50 - [订单超时任务] 获取分布式锁成功，开始执行，时间：2026-05-06T10:14:00.008998400
+2026-05-06 10:14:00.014 DEBUG [scheduling-1] com.example.demo.mapper.OrderMapper:60 - Cache Hit Ratio [com.example.demo.mapper.OrderMapper]: 0.0
+2026-05-06 10:14:00.014 DEBUG [scheduling-1] com.example.demo.mapper.OrderMapper.selectList:137 - ==>  Preparing: SELECT id,is_deleted,order_no,user_id,merchant_id,receiver,phone,address,total_price,total_calorie,total_protein,total_carbohydrate,total_fat,status,create_time,update_time,pay_time,complete_time,user_coupon_id FROM order_info WHERE (status = ? AND create_time < ? AND is_deleted = ?)
+2026-05-06 10:14:00.015 DEBUG [scheduling-1] com.example.demo.mapper.OrderMapper.selectList:137 - ==> Parameters: 0(Integer), 2026-05-06T09:44:00.012447400(LocalDateTime), 0(Integer)
+2026-05-06 10:14:00.017 DEBUG [scheduling-1] com.example.demo.mapper.OrderMapper.selectList:137 - <==      Total: 0
+2026-05-06 10:14:00.018 INFO  [scheduling-1] com.example.demo.service.impl.OrderServiceImpl:278 - [定时任务] 成功取消超时订单：0 单
+2026-05-06 10:14:00.022 INFO  [scheduling-1] com.example.demo.task.OrderTimeoutTask:54 - [订单超时任务] 执行完成，取消超时订单数量：0
+2026-05-06 10:14:00.023 INFO  [scheduling-1] com.example.demo.task.OrderTimeoutTask:65 - [订单超时任务] 分布式锁已释放
+2026-05-06 10:15:00.016 INFO  [scheduling-1] com.example.demo.task.OrderTimeoutTask:50 - [订单超时任务] 获取分布式锁成功，开始执行，时间：2026-05-06T10:15:00.015976400
+2026-05-06 10:15:00.029 DEBUG [scheduling-1] com.example.demo.mapper.OrderMapper:60 - Cache Hit Ratio [com.example.demo.mapper.OrderMapper]: 0.0
+2026-05-06 10:15:00.030 DEBUG [scheduling-1] com.example.demo.mapper.OrderMapper.selectList:137 - ==>  Preparing: SELECT id,is_deleted,order_no,user_id,merchant_id,receiver,phone,address,total_price,total_calorie,total_protein,total_carbohydrate,total_fat,status,create_time,update_time,pay_time,complete_time,user_coupon_id FROM order_info WHERE (status = ? AND create_time < ? AND is_deleted = ?)
+2026-05-06 10:15:00.032 DEBUG [scheduling-1] com.example.demo.mapper.OrderMapper.selectList:137 - ==> Parameters: 0(Integer), 2026-05-06T09:45:00.025289900(LocalDateTime), 0(Integer)
+2026-05-06 10:15:00.034 DEBUG [scheduling-1] com.example.demo.mapper.OrderMapper.selectList:137 - <==      Total: 0
+2026-05-06 10:15:00.035 INFO  [scheduling-1] com.example.demo.service.impl.OrderServiceImpl:278 - [定时任务] 成功取消超时订单：0 单
+2026-05-06 10:15:00.038 INFO  [scheduling-1] com.example.demo.task.OrderTimeoutTask:54 - [订单超时任务] 执行完成，取消超时订单数量：0
+2026-05-06 10:15:00.040 INFO  [scheduling-1] com.example.demo.task.OrderTimeoutTask:65 - [订单超时任务] 分布式锁已释放
+2026-05-06 10:15:00.599 INFO  [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource:350 - HikariPool-1 - Shutdown initiated...
+2026-05-06 10:15:00.613 INFO  [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource:352 - HikariPool-1 - Shutdown completed.
+2026-05-06 10:15:07.590 INFO  [background-preinit] org.hibernate.validator.internal.util.Version:21 - HV000001: Hibernate Validator 6.2.5.Final
+2026-05-06 10:15:07.602 INFO  [main] com.example.demo.DemoApplication:55 - Starting DemoApplication using Java 17.0.18 on DESKTOP-IV06KC5 with PID 12396 (D:\keepfit\keepfit\target\classes started by hi in D:\keepfit\keepfit)
+2026-05-06 10:15:07.602 DEBUG [main] com.example.demo.DemoApplication:56 - Running with Spring Boot v2.7.18, Spring v5.3.31
+2026-05-06 10:15:07.604 INFO  [main] com.example.demo.DemoApplication:638 - The following 1 profile is active: "dev"
+2026-05-06 10:15:09.013 INFO  [main] o.s.d.r.config.RepositoryConfigurationDelegate:262 - Multiple Spring Data modules found, entering strict repository configuration mode
+2026-05-06 10:15:09.023 INFO  [main] o.s.d.r.config.RepositoryConfigurationDelegate:132 - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2026-05-06 10:15:09.056 INFO  [main] o.s.d.r.config.RepositoryConfigurationDelegate:201 - Finished Spring Data repository scanning in 16 ms. Found 0 Redis repository interfaces.
+2026-05-06 10:15:10.669 INFO  [main] o.s.boot.web.embedded.tomcat.TomcatWebServer:108 - Tomcat initialized with port(s): 8080 (http)
+2026-05-06 10:15:10.680 INFO  [main] org.apache.coyote.http11.Http11NioProtocol:173 - Initializing ProtocolHandler ["http-nio-8080"]
+2026-05-06 10:15:10.681 INFO  [main] org.apache.catalina.core.StandardService:173 - Starting service [Tomcat]
+2026-05-06 10:15:10.682 INFO  [main] org.apache.catalina.core.StandardEngine:173 - Starting Servlet engine: [Apache Tomcat/9.0.83]
+2026-05-06 10:15:10.852 INFO  [main] o.a.c.core.ContainerBase.[Tomcat].[localhost].[/]:173 - Initializing Spring embedded WebApplicationContext
+2026-05-06 10:15:10.852 INFO  [main] o.s.b.w.s.c.ServletWebServerApplicationContext:292 - Root WebApplicationContext: initialization completed in 3156 ms
+2026-05-06 10:15:11.252 INFO  [main] o.s.boot.web.servlet.RegistrationBean:110 - Filter sqlInjectionFilter was not registered (possibly already registered?)
+2026-05-06 10:15:11.511 INFO  [main] org.redisson.Version:41 - Redisson 3.23.3
+2026-05-06 10:15:11.937 INFO  [redisson-netty-2-5] o.r.connection.pool.MasterPubSubConnectionPool:140 - 1 connections initialized for localhost/127.0.0.1:6379
+2026-05-06 10:15:12.053 INFO  [redisson-netty-2-20] org.redisson.connection.pool.MasterConnectionPool:140 - 24 connections initialized for localhost/127.0.0.1:6379
+2026-05-06 10:15:15.305 INFO  [main] o.s.b.actuate.endpoint.web.EndpointLinksResolver:58 - Exposing 2 endpoint(s) beneath base path '/actuator'
+2026-05-06 10:15:15.364 INFO  [main] org.apache.coyote.http11.Http11NioProtocol:173 - Starting ProtocolHandler ["http-nio-8080"]
+2026-05-06 10:15:15.379 INFO  [main] o.s.boot.web.embedded.tomcat.TomcatWebServer:220 - Tomcat started on port(s): 8080 (http) with context path ''
+2026-05-06 10:15:15.408 INFO  [main] com.example.demo.DemoApplication:61 - Started DemoApplication in 8.635 seconds (JVM running for 9.801)
+2026-05-06 10:15:15.688 INFO  [RMI TCP Connection(1)-192.168.201.232] com.zaxxer.hikari.HikariDataSource:110 - HikariPool-1 - Starting...
+2026-05-06 10:15:15.705 INFO  [RMI TCP Connection(3)-192.168.201.232] o.a.c.core.ContainerBase.[Tomcat].[localhost].[/]:173 - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-05-06 10:15:15.706 INFO  [RMI TCP Connection(3)-192.168.201.232] org.springframework.web.servlet.DispatcherServlet:525 - Initializing Servlet 'dispatcherServlet'
+2026-05-06 10:15:15.710 INFO  [RMI TCP Connection(3)-192.168.201.232] org.springframework.web.servlet.DispatcherServlet:547 - Completed initialization in 2 ms
+2026-05-06 10:15:15.933 INFO  [RMI TCP Connection(1)-192.168.201.232] com.zaxxer.hikari.HikariDataSource:123 - HikariPool-1 - Start completed.
+2026-05-06 10:16:00.060 INFO  [scheduling-1] com.example.demo.task.OrderTimeoutTask:50 - [订单超时任务] 获取分布式锁成功，开始执行，时间：2026-05-06T10:16:00.060311300
+2026-05-06 10:16:00.139 DEBUG [scheduling-1] com.example.demo.mapper.OrderMapper:60 - Cache Hit Ratio [com.example.demo.mapper.OrderMapper]: 0.0
+2026-05-06 10:16:00.139 DEBUG [scheduling-1] com.example.demo.mapper.OrderMapper.selectList:137 - ==>  Preparing: SELECT id,is_deleted,order_no,user_id,merchant_id,receiver,phone,address,total_price,total_calorie,total_protein,total_carbohydrate,total_fat,status,create_time,update_time,pay_time,complete_time,user_coupon_id FROM order_info WHERE (status = ? AND create_time < ? AND is_deleted = ?)
+2026-05-06 10:16:00.171 DEBUG [scheduling-1] com.example.demo.mapper.OrderMapper.selectList:137 - ==> Parameters: 0(Integer), 2026-05-06T09:46:00.076081700(LocalDateTime), 0(Integer)
+2026-05-06 10:16:00.203 DEBUG [scheduling-1] com.example.demo.mapper.OrderMapper.selectList:137 - <==      Total: 0
+2026-05-06 10:16:00.203 INFO  [scheduling-1] com.example.demo.service.impl.OrderServiceImpl:278 - [定时任务] 成功取消超时订单：0 单
+2026-05-06 10:16:00.219 INFO  [scheduling-1] com.example.demo.task.OrderTimeoutTask:54 - [订单超时任务] 执行完成，取消超时订单数量：0
+2026-05-06 10:16:00.219 INFO  [scheduling-1] com.example.demo.task.OrderTimeoutTask:65 - [订单超时任务] 分布式锁已释放
+2026-05-06 10:17:00.011 INFO  [scheduling-1] com.example.demo.task.OrderTimeoutTask:50 - [订单超时任务] 获取分布式锁成功，开始执行，时间：2026-05-06T10:17:00.011673
+2026-05-06 10:17:00.016 DEBUG [scheduling-1] com.example.demo.mapper.OrderMapper:60 - Cache Hit Ratio [com.example.demo.mapper.OrderMapper]: 0.0
+2026-05-06 10:17:00.018 DEBUG [scheduling-1] com.example.demo.mapper.OrderMapper.selectList:137 - ==>  Preparing: SELECT id,is_deleted,order_no,user_id,merchant_id,receiver,phone,address,total_price,total_calorie,total_protein,total_carbohydrate,total_fat,status,create_time,update_time,pay_time,complete_time,user_coupon_id FROM order_info WHERE (status = ? AND create_time < ? AND is_deleted = ?)
+2026-05-06 10:17:00.018 DEBUG [scheduling-1] com.example.demo.mapper.OrderMapper.selectList:137 - ==> Parameters: 0(Integer), 2026-05-06T09:47:00.015926400(LocalDateTime), 0(Integer)
+2026-05-06 10:17:00.026 DEBUG [scheduling-1] com.example.demo.mapper.OrderMapper.selectList:137 - <==      Total: 0
+2026-05-06 10:17:00.026 INFO  [scheduling-1] com.example.demo.service.impl.OrderServiceImpl:278 - [定时任务] 成功取消超时订单：0 单
+2026-05-06 10:17:00.026 INFO  [scheduling-1] com.example.demo.task.OrderTimeoutTask:54 - [订单超时任务] 执行完成，取消超时订单数量：0
+2026-05-06 10:17:00.032 INFO  [scheduling-1] com.example.demo.task.OrderTimeoutTask:65 - [订单超时任务] 分布式锁已释放
+2026-05-06 10:18:00.012 INFO  [scheduling-1] com.example.demo.task.OrderTimeoutTask:50 - [订单超时任务] 获取分布式锁成功，开始执行，时间：2026-05-06T10:18:00.012583500
+2026-05-06 10:18:00.020 DEBUG [scheduling-1] com.example.demo.mapper.OrderMapper:60 - Cache Hit Ratio [com.example.demo.mapper.OrderMapper]: 0.0
+2026-05-06 10:18:00.021 DEBUG [scheduling-1] com.example.demo.mapper.OrderMapper.selectList:137 - ==>  Preparing: SELECT id,is_deleted,order_no,user_id,merchant_id,receiver,phone,address,total_price,total_calorie,total_protein,total_carbohydrate,total_fat,status,create_time,update_time,pay_time,complete_time,user_coupon_id FROM order_info WHERE (status = ? AND create_time < ? AND is_deleted = ?)
+2026-05-06 10:18:00.022 DEBUG [scheduling-1] com.example.demo.mapper.OrderMapper.selectList:137 - ==> Parameters: 0(Integer), 2026-05-06T09:48:00.012583500(LocalDateTime), 0(Integer)
+2026-05-06 10:18:00.024 DEBUG [scheduling-1] com.example.demo.mapper.OrderMapper.selectList:137 - <==      Total: 0
+2026-05-06 10:18:00.025 INFO  [scheduling-1] com.example.demo.service.impl.OrderServiceImpl:278 - [定时任务] 成功取消超时订单：0 单
+2026-05-06 10:18:00.028 INFO  [scheduling-1] com.example.demo.task.OrderTimeoutTask:54 - [订单超时任务] 执行完成，取消超时订单数量：0
+2026-05-06 10:18:00.029 INFO  [scheduling-1] com.example.demo.task.OrderTimeoutTask:65 - [订单超时任务] 分布式锁已释放
+2026-05-06 10:18:18.796 INFO  [http-nio-8080-exec-2] org.springdoc.api.AbstractOpenApiResource:365 - Init duration for springdoc-openapi is: 584 ms
+2026-05-06 10:19:00.017 INFO  [scheduling-1] com.example.demo.task.OrderTimeoutTask:50 - [订单超时任务] 获取分布式锁成功，开始执行，时间：2026-05-06T10:19:00.016942500
+2026-05-06 10:19:00.021 DEBUG [scheduling-1] com.example.demo.mapper.OrderMapper:60 - Cache Hit Ratio [com.example.demo.mapper.OrderMapper]: 0.0
+2026-05-06 10:19:00.022 DEBUG [scheduling-1] com.example.demo.mapper.OrderMapper.selectList:137 - ==>  Preparing: SELECT id,is_deleted,order_no,user_id,merchant_id,receiver,phone,address,total_price,total_calorie,total_protein,total_carbohydrate,total_fat,status,create_time,update_time,pay_time,complete_time,user_coupon_id FROM order_info WHERE (status = ? AND create_time < ? AND is_deleted = ?)
+2026-05-06 10:19:00.023 DEBUG [scheduling-1] com.example.demo.mapper.OrderMapper.selectList:137 - ==> Parameters: 0(Integer), 2026-05-06T09:49:00.019607(LocalDateTime), 0(Integer)
+2026-05-06 10:19:00.024 DEBUG [scheduling-1] com.example.demo.mapper.OrderMapper.selectList:137 - <==      Total: 0
+2026-05-06 10:19:00.026 INFO  [scheduling-1] com.example.demo.service.impl.OrderServiceImpl:278 - [定时任务] 成功取消超时订单：0 单
+2026-05-06 10:19:00.028 INFO  [scheduling-1] com.example.demo.task.OrderTimeoutTask:54 - [订单超时任务] 执行完成，取消超时订单数量：0
+2026-05-06 10:19:00.030 INFO  [scheduling-1] com.example.demo.task.OrderTimeoutTask:65 - [订单超时任务] 分布式锁已释放
+2026-05-06 10:20:00.011 INFO  [scheduling-1] com.example.demo.task.OrderTimeoutTask:50 - [订单超时任务] 获取分布式锁成功，开始执行，时间：2026-05-06T10:20:00.011336200
+2026-05-06 10:20:00.027 DEBUG [scheduling-1] com.example.demo.mapper.OrderMapper:60 - Cache Hit Ratio [com.example.demo.mapper.OrderMapper]: 0.0
+2026-05-06 10:20:00.029 DEBUG [scheduling-1] com.example.demo.mapper.OrderMapper.selectList:137 - ==>  Preparing: SELECT id,is_deleted,order_no,user_id,merchant_id,receiver,phone,address,total_price,total_calorie,total_protein,total_carbohydrate,total_fat,status,create_time,update_time,pay_time,complete_time,user_coupon_id FROM order_info WHERE (status = ? AND create_time < ? AND is_deleted = ?)
+2026-05-06 10:20:00.032 DEBUG [scheduling-1] com.example.demo.mapper.OrderMapper.selectList:137 - ==> Parameters: 0(Integer), 2026-05-06T09:50:00.021220300(LocalDateTime), 0(Integer)
+2026-05-06 10:20:00.037 DEBUG [scheduling-1] com.example.demo.mapper.OrderMapper.selectList:137 - <==      Total: 0
+2026-05-06 10:20:00.038 INFO  [scheduling-1] com.example.demo.service.impl.OrderServiceImpl:278 - [定时任务] 成功取消超时订单：0 单
+2026-05-06 10:20:00.043 INFO  [scheduling-1] com.example.demo.task.OrderTimeoutTask:54 - [订单超时任务] 执行完成，取消超时订单数量：0
+2026-05-06 10:20:00.046 INFO  [scheduling-1] com.example.demo.task.OrderTimeoutTask:65 - [订单超时任务] 分布式锁已释放
+2026-05-06 10:20:25.181 INFO  [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource:350 - HikariPool-1 - Shutdown initiated...
+2026-05-06 10:20:25.191 INFO  [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource:352 - HikariPool-1 - Shutdown completed.

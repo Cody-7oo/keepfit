@@ -2,6 +2,7 @@ package com.example.demo.controller.user;
 
 import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.dev33.satoken.stp.StpUtil;
+import com.example.demo.annotation.*;
 import com.example.demo.common.result.R;
 import com.example.demo.common.vo.ProductVO;
 import com.example.demo.service.ProductService;
@@ -28,6 +29,10 @@ public class UserProductController {
     }
 
     @GetMapping("/list")
+    @RateLimit(limit = 3, second = 10)
+    @DataScope(scopeType = "user")
+    @ApiSignature
+    @AntiReplay
     public R<List<ProductVO>> list() {
         Long userId = getLoginUserId();
         log.info("[用户-查询上架商品列表] 用户ID：{}", userId);
@@ -43,6 +48,10 @@ public class UserProductController {
     }
 
     @GetMapping("/search")
+    @RateLimit(limit = 3, second = 10)
+    @DataScope(scopeType = "user")
+    @ApiSignature
+    @AntiReplay
     public R<List<ProductVO>> search(
             @RequestParam(required = false) Integer category,
             @RequestParam(required = false) String keyword
