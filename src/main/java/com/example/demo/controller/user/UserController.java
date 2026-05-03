@@ -2,7 +2,6 @@ package com.example.demo.controller.user;
 
 import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.dev33.satoken.stp.StpUtil;
-import com.example.demo.annotation.*;
 import com.example.demo.exception.BusinessException;
 import com.example.demo.common.dto.UserInfoUpdateDTO;
 import com.example.demo.common.dto.UserLoginDTO;
@@ -11,8 +10,6 @@ import com.example.demo.common.enums.ResultCodeEnum;
 import com.example.demo.common.result.R;
 import com.example.demo.common.vo.UserVO;
 import com.example.demo.service.UserService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,7 +19,6 @@ import javax.validation.Valid;
 @Slf4j
 @RestController
 @RequestMapping("/user")
-@Api(tags = "用户 - 账户管理")
 public class UserController {
 
     @Resource
@@ -32,13 +28,7 @@ public class UserController {
         return StpUtil.getLoginIdAsLong();
     }
 
-    @RepeatSubmit
     @PostMapping("/register")
-    @ApiOperation("用户注册")
-    @RateLimit(limit = 3, second = 10)
-    @DataScope(scopeType = "user")
-    @ApiSignature
-    @AntiReplay
     public R<Void> register(@RequestBody @Valid UserRegisterDTO dto) {
         log.info("[用户注册] 入参：{}", dto);
         long start = System.currentTimeMillis();
@@ -55,13 +45,7 @@ public class UserController {
         }
     }
 
-    @RepeatSubmit
     @PostMapping("/login")
-    @ApiOperation("用户登录")
-    @RateLimit(limit = 3, second = 10)
-    @DataScope(scopeType = "user")
-    @ApiSignature
-    @AntiReplay
     public R<UserVO> login(@RequestBody @Valid UserLoginDTO dto) {
         log.info("[用户登录] 手机号：{}", dto.getPhone());
         long start = System.currentTimeMillis();
@@ -75,14 +59,8 @@ public class UserController {
         return R.ok(vo);
     }
 
-    @RepeatSubmit
     @SaCheckLogin(type = "user")
     @PostMapping("/update")
-    @ApiOperation("修改用户信息")
-    @RateLimit(limit = 3, second = 10)
-    @DataScope(scopeType = "user")
-    @ApiSignature
-    @AntiReplay
     public R<Void> update(@RequestBody @Valid UserInfoUpdateDTO dto) {
         Long userId = getLoginUserId();
         dto.setId(userId);
@@ -104,11 +82,6 @@ public class UserController {
 
     @SaCheckLogin(type = "user")
     @GetMapping("/getInfo")
-    @ApiOperation("获取当前登录用户信息")
-    @RateLimit(limit = 3, second = 10)
-    @DataScope(scopeType = "user")
-    @ApiSignature
-    @AntiReplay
     public R<UserVO> getInfo() {
         Long userId = getLoginUserId();
         log.info("[获取用户信息] 用户ID：{}", userId);
@@ -125,11 +98,6 @@ public class UserController {
 
     @SaCheckLogin(type = "user")
     @GetMapping("/logout")
-    @ApiOperation("用户退出登录")
-    @RateLimit(limit = 3, second = 10)
-    @DataScope(scopeType = "user")
-    @ApiSignature
-    @AntiReplay
     public R<Void> logout() {
         long userId = getLoginUserId();
         StpUtil.logout();

@@ -19,7 +19,12 @@ spring:
 # 🔥 开启 knife4j
 knife4j:
   enable: true
-  production: false
+  openapi:
+    title: KeepFit 接口文档
+    description: SpringBoot + Sa-Token + Redis
+    email: 1145984629@qq.com
+    concat: 开发者
+    version: 1.0
 
 mybatis-plus:
   configuration:

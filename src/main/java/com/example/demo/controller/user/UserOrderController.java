@@ -3,7 +3,6 @@ package com.example.demo.controller.user;
 import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.dev33.satoken.annotation.SaCheckPermission;
 import cn.dev33.satoken.stp.StpUtil;
-import com.example.demo.annotation.*;
 import com.example.demo.exception.BusinessException;
 import com.example.demo.common.dto.OrderCreateDTO;
 import com.example.demo.common.enums.ResultCodeEnum;
@@ -11,9 +10,6 @@ import com.example.demo.common.result.R;
 import com.example.demo.common.vo.OrderVO;
 import com.example.demo.entity.Order;
 import com.example.demo.service.OrderService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,7 +21,6 @@ import javax.validation.Valid;
 @RequestMapping("/user/order")
 @SaCheckLogin(type = "user")
 @SaCheckPermission("user:order:create")
-@Api(tags = "用户 - 订单管理")
 public class UserOrderController {
 
     @Resource
@@ -35,15 +30,7 @@ public class UserOrderController {
         return StpUtil.getLoginIdAsLong();
     }
 
-    @Idempotent
-    @RepeatSubmit
-    @SaCheckLogin()
     @PostMapping("/create")
-    @ApiOperation("用户创建订单（下单）")
-    @RateLimit(limit = 3, second = 10)
-    @DataScope(scopeType = "user")
-    @ApiSignature
-    @AntiReplay
     public R<OrderVO> createOrder(@RequestBody @Valid OrderCreateDTO dto) {
         Long userId = getLoginUserId();
         dto.setUserId(userId);
@@ -64,15 +51,8 @@ public class UserOrderController {
         }
     }
 
-    @Idempotent
-    @RepeatSubmit
     @PostMapping("/cancel")
-    @ApiOperation("用户取消订单")
-    @RateLimit(limit = 5, second = 10)
-    @DataScope(scopeType = "user")
-    @ApiSignature
-    @AntiReplay
-    public R<Void> cancelOrder(@ApiParam(value = "订单ID", required = true) @RequestParam Long orderId) {
+    public R<Void> cancelOrder(@RequestParam Long orderId) {
         Long userId = getLoginUserId();
         log.info("[用户-取消订单] 用户ID：{}，订单ID：{}", userId, orderId);
         long start = System.currentTimeMillis();
@@ -97,11 +77,6 @@ public class UserOrderController {
     }
 
     @GetMapping("/myList")
-    @ApiOperation("查询用户自己的订单列表")
-    @RateLimit(limit = 10, second = 10)
-    @DataScope(scopeType = "user")
-    @ApiSignature
-    @AntiReplay
     public R<?> getMyOrder() {
         Long userId = getLoginUserId();
         log.info("[用户-查询我的订单] 用户ID：{}", userId);

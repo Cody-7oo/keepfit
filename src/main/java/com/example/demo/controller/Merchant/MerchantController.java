@@ -8,8 +8,8 @@ import com.example.demo.common.dto.MerchantRegisterDTO;
 import com.example.demo.common.result.R;
 import com.example.demo.common.vo.MerchantVO;
 import com.example.demo.service.MerchantService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+//import io.swagger.annotations.Api;
+//import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,7 +19,7 @@ import javax.validation.Valid;
 @Slf4j
 @RestController
 @RequestMapping("/merchant")
-@Api(tags = "商家模块")
+//@Api(tags = "商家模块")
 public class MerchantController {
 
     @Resource
@@ -30,7 +30,7 @@ public class MerchantController {
      */
     @RepeatSubmit
     @PostMapping("/register")
-    @ApiOperation("商家注册")
+//    @ApiOperation("商家注册")
     @RateLimit(limit = 3, second = 10)
     @DataScope(scopeType = "merchant")
     @ApiSignature
@@ -56,7 +56,7 @@ public class MerchantController {
      */
     @RepeatSubmit
     @PostMapping("/login")
-    @ApiOperation("商家登录")
+//    @ApiOperation("商家登录")
     @RateLimit(limit = 3, second = 10)
     @DataScope(scopeType = "merchant")
     @ApiSignature
@@ -84,7 +84,7 @@ public class MerchantController {
      */
     @SaCheckLogin(type = "merchant")
     @GetMapping("/getInfo")
-    @ApiOperation("获取当前登录商家信息")
+//    @ApiOperation("获取当前登录商家信息")
     @RateLimit(limit = 3, second = 10)
     @DataScope(scopeType = "merchant")
     @ApiSignature
@@ -109,7 +109,7 @@ public class MerchantController {
      */
     @SaCheckLogin(type = "merchant")
     @GetMapping("/logout")
-    @ApiOperation("商家退出登录")
+//    @ApiOperation("商家退出登录")
     @RateLimit(limit = 3, second = 10)
     @DataScope(scopeType = "merchant")
     @ApiSignature

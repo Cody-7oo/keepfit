@@ -2,16 +2,9 @@ package com.example.demo.controller.user;
 
 import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.dev33.satoken.stp.StpUtil;
-import com.example.demo.annotation.AntiReplay;
-import com.example.demo.annotation.ApiSignature;
-import com.example.demo.annotation.DataScope;
-import com.example.demo.annotation.RateLimit;
 import com.example.demo.common.result.R;
 import com.example.demo.common.vo.ProductVO;
 import com.example.demo.service.ProductService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,7 +18,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/user/product")
 @SaCheckLogin(type = "user")
-@Api(tags = "用户 - 商品查询")
 public class UserProductController {
 
     @Resource
@@ -36,11 +28,6 @@ public class UserProductController {
     }
 
     @GetMapping("/list")
-    @ApiOperation("查询所有已上架商品列表")
-    @RateLimit(limit = 3, second = 10)
-    @DataScope(scopeType = "user")
-    @ApiSignature
-    @AntiReplay
     public R<List<ProductVO>> list() {
         Long userId = getLoginUserId();
         log.info("[用户-查询上架商品列表] 用户ID：{}", userId);
@@ -56,14 +43,9 @@ public class UserProductController {
     }
 
     @GetMapping("/search")
-    @ApiOperation("商品分类筛选 + 关键词搜索")
-    @RateLimit(limit = 3, second = 10)
-    @DataScope(scopeType = "user")
-    @ApiSignature
-    @AntiReplay
     public R<List<ProductVO>> search(
-            @ApiParam(value = "商品分类ID", required = false) @RequestParam(required = false) Integer category,
-            @ApiParam(value = "搜索关键词", required = false) @RequestParam(required = false) String keyword
+            @RequestParam(required = false) Integer category,
+            @RequestParam(required = false) String keyword
     ) {
         Long userId = getLoginUserId();
         log.info("[用户-商品搜索] 用户ID：{} | 分类：{} | 关键词：{}", userId, category, keyword);

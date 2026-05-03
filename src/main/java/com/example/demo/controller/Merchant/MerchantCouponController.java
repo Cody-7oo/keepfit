@@ -9,8 +9,8 @@ import com.example.demo.common.enums.ResultCodeEnum;
 import com.example.demo.common.result.R;
 import com.example.demo.entity.CouponTemplate;
 import com.example.demo.service.CouponTemplateService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+//import io.swagger.annotations.Api;
+//import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,7 +21,7 @@ import javax.validation.Valid;
 @RestController
 @RequestMapping("/merchant/coupon")
 @SaCheckLogin(type = "merchant")
-@Api(tags = "商家 - 优惠券管理")
+//@Api(tags = "商家 - 优惠券管理")
 public class MerchantCouponController {
 
     @Resource
@@ -35,7 +35,7 @@ public class MerchantCouponController {
     @SaCheckLogin(type = "merchant")
     @SaCheckPermission("merchant:coupon:add")
     @PostMapping("/add")
-    @ApiOperation("新增优惠券模板")
+//    @ApiOperation("新增优惠券模板")
     @RateLimit(limit = 3, second = 10)
     @DataScope(scopeType = "merchant")
     @ApiSignature
@@ -67,7 +67,7 @@ public class MerchantCouponController {
     @SaCheckLogin(type = "merchant")
     @SaCheckPermission("merchant:coupon:update")
     @PostMapping("/update")
-    @ApiOperation("修改优惠券模板")
+//    @ApiOperation("修改优惠券模板")
     @RateLimit(limit = 3, second = 10)
     @DataScope(scopeType = "merchant")
     @ApiSignature
@@ -102,7 +102,7 @@ public class MerchantCouponController {
      * 查询优惠券列表
      */
     @GetMapping("/list")
-    @ApiOperation("查询商家优惠券列表")
+//    @ApiOperation("查询商家优惠券列表")
     @RateLimit(limit = 3, second = 10)
     @DataScope(scopeType = "merchant")
     @ApiSignature

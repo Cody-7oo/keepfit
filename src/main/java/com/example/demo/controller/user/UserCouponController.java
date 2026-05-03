@@ -2,7 +2,6 @@ package com.example.demo.controller.user;
 
 import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.dev33.satoken.stp.StpUtil;
-import com.example.demo.annotation.*;
 import com.example.demo.exception.BusinessException;
 import com.example.demo.common.dto.CouponQueryDTO;
 import com.example.demo.common.dto.CouponUseDTO;
@@ -11,8 +10,6 @@ import com.example.demo.common.result.R;
 import com.example.demo.common.vo.CouponVO;
 import com.example.demo.entity.UserCoupon;
 import com.example.demo.service.UserCouponService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,7 +21,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/user/coupon")
 @SaCheckLogin(type = "user")
-@Api(tags = "用户 - 优惠券管理")
 public class UserCouponController {
 
     @Resource
@@ -35,11 +31,6 @@ public class UserCouponController {
     }
 
     @GetMapping("/my")
-    @ApiOperation("查询用户自己的优惠券列表")
-    @RateLimit(limit = 3, second = 10)
-    @DataScope(scopeType = "user")
-    @ApiSignature
-    @AntiReplay
     public R<List<CouponVO>> myCoupons(@Valid CouponQueryDTO dto) {
         Long userId = getLoginUserId();
         dto.setUserId(userId);
@@ -56,14 +47,7 @@ public class UserCouponController {
         }
     }
 
-    @Idempotent
-    @RepeatSubmit
     @PostMapping("/use")
-    @ApiOperation("用户核销/使用优惠券")
-    @RateLimit(limit = 3, second = 10)
-    @DataScope(scopeType = "user")
-    @ApiSignature
-    @AntiReplay
     public R<Void> useCoupon(@RequestBody @Valid CouponUseDTO dto) {
         Long userId = getLoginUserId();
         dto.setUserId(userId);
@@ -75,7 +59,6 @@ public class UserCouponController {
             if (userCoupon == null) {
                 throw new BusinessException(ResultCodeEnum.COUPON_NOT_EXIST);
             }
-
 
             userCouponService.useCoupon(dto);
             log.info("[业务埋点-优惠券核销成功] userId:{}, userCouponId:{}, orderNo:{}",
@@ -92,11 +75,6 @@ public class UserCouponController {
     }
 
     @GetMapping("/hasCoffee")
-    @ApiOperation("查询用户是否有可用的咖啡券")
-    @RateLimit(limit = 3, second = 10)
-    @DataScope(scopeType = "user")
-    @ApiSignature
-    @AntiReplay
     public R<Boolean> hasCoffee(@Valid CouponQueryDTO dto) {
         Long userId = getLoginUserId();
         dto.setUserId(userId);

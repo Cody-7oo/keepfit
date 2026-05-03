@@ -3,7 +3,6 @@ package com.example.demo.controller.user;
 import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.dev33.satoken.annotation.SaCheckPermission;
 import cn.dev33.satoken.stp.StpUtil;
-import com.example.demo.annotation.*;
 import com.example.demo.exception.BusinessException;
 import com.example.demo.common.dto.CartAddDTO;
 import com.example.demo.common.dto.CartUpdateDTO;
@@ -11,9 +10,6 @@ import com.example.demo.common.enums.ResultCodeEnum;
 import com.example.demo.common.result.R;
 import com.example.demo.entity.Cart;
 import com.example.demo.service.CartService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,8 +22,6 @@ import java.util.Map;
 @RequestMapping("/user/cart")
 @SaCheckLogin(type = "user")
 @SaCheckPermission("merchant:product:manage")
-@Api(tags = "用户 - 购物车管理")
-
 public class CartController {
 
     @Resource
@@ -37,13 +31,7 @@ public class CartController {
         return StpUtil.getLoginIdAsLong();
     }
 
-    @RepeatSubmit
     @PostMapping("/add")
-    @ApiOperation("用户加入购物车")
-    @RateLimit(limit = 3, second = 10)
-    @DataScope(scopeType = "user")
-    @ApiSignature
-    @AntiReplay
     public R<Void> add(@RequestBody @Valid CartAddDTO dto) {
         Long userId = getLoginUserId();
         dto.setUserId(userId);
@@ -63,13 +51,7 @@ public class CartController {
         }
     }
 
-    @RepeatSubmit
     @PostMapping("/update")
-    @ApiOperation("用户修改购物车商品数量")
-    @RateLimit(limit = 3, second = 10)
-    @DataScope(scopeType = "user")
-    @ApiSignature
-    @AntiReplay
     public R<Void> update(@RequestBody @Valid CartUpdateDTO dto) {
         Long userId = getLoginUserId();
         log.info("[用户-修改购物车] 用户ID：{}", userId);
@@ -80,7 +62,6 @@ public class CartController {
             if (cart == null) {
                 throw new BusinessException(ResultCodeEnum.CART_NOT_EXIST);
             }
-
 
             cartService.updateNum(dto);
             log.info("[业务埋点-购物车变更] userId:{}, productId:{}, 操作类型:修改数量, 新数量:{}",
@@ -95,14 +76,8 @@ public class CartController {
         }
     }
 
-    @RepeatSubmit
     @PostMapping("/delete")
-    @ApiOperation("用户删除购物车商品")
-    @RateLimit(limit = 3, second = 10)
-    @DataScope(scopeType = "user")
-    @ApiSignature
-    @AntiReplay
-    public R<Void> delete(@ApiParam(value = "购物车ID", required = true) @RequestParam Long id) {
+    public R<Void> delete(@RequestParam Long id) {
         Long userId = getLoginUserId();
         log.info("[用户-删除购物车] 用户ID：{}，购物车ID：{}", userId, id);
         long start = System.currentTimeMillis();
@@ -112,7 +87,6 @@ public class CartController {
             if (cart == null) {
                 throw new BusinessException(ResultCodeEnum.CART_NOT_EXIST);
             }
-
 
             cartService.delete(id);
             log.info("[业务埋点-购物车变更] userId:{}, productId:{}, 操作类型:删除", userId, cart.getProductId());
@@ -127,11 +101,6 @@ public class CartController {
     }
 
     @GetMapping("/myCart")
-    @ApiOperation("查询用户自己的购物车")
-    @RateLimit(limit = 3, second = 10)
-    @DataScope(scopeType = "user")
-    @ApiSignature
-    @AntiReplay
     public R<Map<String, Object>> myCart() {
         Long userId = getLoginUserId();
         log.info("[用户-我的购物车] 用户ID：{}", userId);

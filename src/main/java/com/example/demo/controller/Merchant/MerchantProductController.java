@@ -3,7 +3,6 @@ package com.example.demo.controller.Merchant;
 import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.dev33.satoken.annotation.SaCheckPermission;
 import cn.dev33.satoken.stp.StpUtil;
-import com.example.demo.annotation.*;
 import com.example.demo.common.util.LogUtil;
 import com.example.demo.exception.BusinessException;
 import com.example.demo.common.dto.ProductAddDTO;
@@ -13,9 +12,6 @@ import com.example.demo.common.result.R;
 import com.example.demo.common.vo.ProductVO;
 import com.example.demo.entity.Product;
 import com.example.demo.service.ProductService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.*;
@@ -30,7 +26,6 @@ import java.util.stream.Collectors;
 @RequestMapping("/merchant/product")
 @SaCheckLogin(type = "merchant")
 @SaCheckPermission("merchant:product:manage")
-@Api(tags = "商家 - 商品管理")
 public class MerchantProductController {
 
     @Resource
@@ -43,14 +38,7 @@ public class MerchantProductController {
         return StpUtil.getLoginIdAsLong();
     }
 
-    @Idempotent
-    @RepeatSubmit
     @PostMapping("/add")
-    @ApiOperation("商家新增商品")
-    @RateLimit(limit = 3, second = 10)
-    @DataScope(scopeType = "merchant")
-    @ApiSignature
-    @AntiReplay
     public R<Void> add(@RequestBody @Valid ProductAddDTO dto) {
         Long merchantId = getLoginMerchantId();
         log.info("[商家-新增商品] 商家ID:{}", merchantId);
@@ -60,7 +48,6 @@ public class MerchantProductController {
             productService.addProduct(dto);
             log.info("[业务埋点-商品新增成功] merchantId:{}, productName:{}", merchantId, dto.getProductName());
 
-            // ======================== 🔥 在这里加一行（异步日志，不阻塞） ========================
             logUtil.record("商品管理", "商家新增商品");
 
             return R.ok();
@@ -73,14 +60,7 @@ public class MerchantProductController {
         }
     }
 
-    @Idempotent
-    @RepeatSubmit
     @PostMapping("/update")
-    @ApiOperation("商家修改商品")
-    @RateLimit(limit = 3, second = 10)
-    @DataScope(scopeType = "merchant")
-    @ApiSignature
-    @AntiReplay
     public R<Void> update(@RequestBody @Valid ProductUpdateDTO dto) {
         Long merchantId = getLoginMerchantId();
         log.info("[商家-修改商品] 商家ID:{}", merchantId);
@@ -90,7 +70,6 @@ public class MerchantProductController {
             if (exist == null) {
                 throw new BusinessException(ResultCodeEnum.PRODUCT_NOT_EXIST);
             }
-
 
             dto.setMerchantId(merchantId);
             productService.updateProduct(dto);
@@ -106,11 +85,6 @@ public class MerchantProductController {
     }
 
     @GetMapping("/list")
-    @ApiOperation("商家查询自己的商品列表")
-    @RateLimit(limit = 3, second = 10)
-    @DataScope(scopeType = "merchant")
-    @ApiSignature
-    @AntiReplay
     public R<List<ProductVO>> allList() {
         Long merchantId = getLoginMerchantId();
         log.info("[商家-查询商品] 商家ID:{}", merchantId);
@@ -135,17 +109,10 @@ public class MerchantProductController {
         }
     }
 
-    @Idempotent
-    @RepeatSubmit
     @PostMapping("/changeStatus")
-    @ApiOperation("商家修改商品上下架状态")
-    @RateLimit(limit = 3, second = 10)
-    @DataScope(scopeType = "merchant")
-    @ApiSignature
-    @AntiReplay
     public R<Void> changeStatus(
-            @ApiParam(value = "商品ID", required = true) @RequestParam Long id,
-            @ApiParam(value = "状态 0下架 1上架", required = true) @RequestParam Integer status
+            @RequestParam Long id,
+            @RequestParam Integer status
     ) {
         Long merchantId = getLoginMerchantId();
         log.info("[商家-修改状态] 商家ID:{}", merchantId);
@@ -169,15 +136,8 @@ public class MerchantProductController {
         }
     }
 
-    @Idempotent
-    @RepeatSubmit
     @PostMapping("/delete")
-    @ApiOperation("商家删除商品")
-    @RateLimit(limit = 3, second = 10)
-    @DataScope(scopeType = "merchant")
-    @ApiSignature
-    @AntiReplay
-    public R<Void> delete(@ApiParam(value = "商品ID", required = true) @RequestParam Long id) {
+    public R<Void> delete(@RequestParam Long id) {
         Long merchantId = getLoginMerchantId();
         log.info("[商家-删除商品] 商家ID:{}，商品ID：{}", merchantId, id);
         long start = System.currentTimeMillis();

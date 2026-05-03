@@ -1,10 +1,7 @@
 package com.example.demo.controller;
 
-import com.example.demo.annotation.RateLimit;
 import com.example.demo.common.result.R;
 import com.example.demo.common.util.RedisMonitorUtil;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,7 +19,6 @@ import java.util.Map;
 @Slf4j
 @RestController
 @RequestMapping("/monitor")
-@Api(tags = "系统监控 - 健康检查")
 public class MonitorController {
 
     @Resource
@@ -32,8 +28,6 @@ public class MonitorController {
      * Redis 健康监控接口
      */
     @GetMapping("/redis/health")
-    @ApiOperation("Redis 健康状态监控（运维/监控使用）")
-    @RateLimit(limit = 3, second = 10)
     public R<Map<String, Object>> redisHealth() {
         Map<String, Object> result = new HashMap<>(4);
         boolean connectOk = redisMonitorUtil.isConnectOk();
