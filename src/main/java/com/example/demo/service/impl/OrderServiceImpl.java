@@ -15,8 +15,6 @@ import com.example.demo.exception.BusinessException;
 import com.example.demo.mapper.OrderMapper;
 import com.example.demo.service.*;
 import lombok.extern.slf4j.Slf4j;
-import org.redisson.api.RLock;
-import org.redisson.api.RedissonClient;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
@@ -45,8 +43,6 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
     @Resource
     private OrderOperationLogService orderOperationLogService;
     @Resource
-    private RedissonClient redissonClient;
-    @Resource
     private RedisTemplate<String, Object> redisTemplate;
     @Resource
     private SnowflakeIdUtil snowflakeIdUtil;
@@ -60,21 +56,6 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
     @Override
     @Transactional(rollbackFor = Exception.class)
     public OrderVO createOrder(OrderCreateDTO dto) {
-        String lockKey = "order:create:lock:" + dto.getUserId();
-        RLock lock = redissonClient.getLock(lockKey);
-
-        boolean tryLock;
-        try {
-            tryLock = lock.tryLock(0, 10, TimeUnit.SECONDS);
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-            throw new BusinessException(ResultCodeEnum.SYSTEM_ERROR);
-        }
-
-        if (!tryLock) {
-            throw new BusinessException(ResultCodeEnum.REPEAT_SUBMIT);
-        }
-
         try {
             log.info("[订单-创建] 用户ID：{}，入参：{}", dto.getUserId(), dto);
             Long userId = dto.getUserId();
@@ -182,10 +163,6 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         } catch (Exception e) {
             log.error("[订单-创建] 系统异常：", e);
             throw new BusinessException(ResultCodeEnum.SYSTEM_ERROR);
-        } finally {
-            if (lock.isHeldByCurrentThread()) {
-                lock.unlock();
-            }
         }
     }
 
@@ -195,21 +172,6 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
     @Override
     @Transactional(rollbackFor = Exception.class)
     public int cancelTimeoutOrder(int timeoutMinutes) {
-        RLock lock = redissonClient.getLock("order:timeout:cancel:lock");
-        boolean locked;
-        try {
-            locked = lock.tryLock(0, 30, TimeUnit.SECONDS);
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-            log.error("[定时任务] 获取锁被中断", e);
-            return 0;
-        }
-
-        if (!locked) {
-            log.info("[定时任务] 其他实例正在执行，本次跳过");
-            return 0;
-        }
-
         try {
             LocalDateTime expireTime = LocalDateTime.now().minusMinutes(timeoutMinutes);
             QueryWrapper<Order> wrapper = new QueryWrapper<>();
@@ -277,10 +239,9 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
 
             log.info("[定时任务] 成功取消超时订单：{} 单", count);
             return count;
-        } finally {
-            if (lock.isHeldByCurrentThread()) {
-                lock.unlock();
-            }
+        } catch (Exception e) {
+            log.error("[定时任务] 取消超时订单异常", e);
+            return 0;
         }
     }
 
@@ -290,14 +251,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void cancelOrder(Long orderId, Long userId) {
-        String lockKey = "order:cancel:" + orderId;
-        RLock lock = redissonClient.getLock(lockKey);
-
         try {
-            if (!lock.tryLock(0, 10, TimeUnit.SECONDS)) {
-                throw new BusinessException(ResultCodeEnum.REPEAT_SUBMIT);
-            }
-
             log.info("[订单-取消] 订单ID：{}，用户ID：{}", orderId, userId);
             Order order = getById(orderId);
 
@@ -371,10 +325,6 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         } catch (Exception e) {
             log.error("[订单-取消] 系统异常：", e);
             throw new BusinessException(ResultCodeEnum.SYSTEM_ERROR);
-        } finally {
-            if (lock.isHeldByCurrentThread()) {
-                lock.unlock();
-            }
         }
     }
 
@@ -422,14 +372,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void merchantChangeStatus(Long orderId, Integer newStatus, Long merchantId) {
-        String lockKey = "order:merchant:change:" + orderId;
-        RLock lock = redissonClient.getLock(lockKey);
-
         try {
-            if (!lock.tryLock(0, 10, TimeUnit.SECONDS)) {
-                throw new BusinessException(ResultCodeEnum.REPEAT_SUBMIT);
-            }
-
             log.info("[订单-商家改状态] 商家ID:{}，订单ID：{}，目标状态：{}", merchantId, orderId, newStatus);
             Order order = getById(orderId);
 
@@ -491,10 +434,6 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         } catch (Exception e) {
             log.error("[订单-商家改状态] 系统异常：", e);
             throw new BusinessException(ResultCodeEnum.SYSTEM_ERROR);
-        } finally {
-            if (lock.isHeldByCurrentThread()) {
-                lock.unlock();
-            }
         }
     }
 

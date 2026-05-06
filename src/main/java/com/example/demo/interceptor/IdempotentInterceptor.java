@@ -24,7 +24,6 @@ public class IdempotentInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
 
-        // ====================== 🔥 放行接口文档（最关键！） ======================
         String uri = request.getRequestURI();
         if (WhiteList.isDocUrl(uri)) {
             return true;
@@ -34,6 +33,12 @@ public class IdempotentInterceptor implements HandlerInterceptor {
         if (!(handler instanceof HandlerMethod)) {
             return true;
         }
+
+        // 🔥 未登录直接放行，不做幂等校验
+        if (!StpUtil.isLogin()) {
+            return true;
+        }
+
         HandlerMethod method = (HandlerMethod) handler;
         Idempotent idempotent = method.getMethodAnnotation(Idempotent.class);
         if (idempotent == null) {

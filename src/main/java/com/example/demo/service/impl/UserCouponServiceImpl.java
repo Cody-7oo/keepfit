@@ -15,8 +15,6 @@ import com.example.demo.mapper.UserCouponMapper;
 import com.example.demo.service.CouponTemplateService;
 import com.example.demo.service.UserCouponService;
 import lombok.extern.slf4j.Slf4j;
-import org.redisson.api.RLock;
-import org.redisson.api.RedissonClient;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
@@ -38,28 +36,18 @@ public class UserCouponServiceImpl extends ServiceImpl<UserCouponMapper, UserCou
     @Resource
     private RedisTemplate<String, Object> redisTemplate;
 
-    @Resource
-    private RedissonClient redissonClient;
-
     private static final String USER_COUPON_KEY = "user:coupon:";
 
     /**
-     * 发放咖啡券（加分布式锁：防重复发放）
+     * 发放咖啡券
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void grantCoffeeCoupon(Long userId) {
-        String lockKey = "coupon:grant:" + userId;
-        RLock lock = redissonClient.getLock(lockKey);
+        log.info("[优惠券-发放咖啡券] 用户ID：{}", userId);
+        long start = System.currentTimeMillis();
 
         try {
-            if (!lock.tryLock(0, 10, TimeUnit.SECONDS)) {
-                throw new BusinessException(ResultCodeEnum.REPEAT_SUBMIT);
-            }
-
-            log.info("[优惠券-发放咖啡券] 用户ID：{}", userId);
-            long start = System.currentTimeMillis();
-
             LambdaQueryWrapper<CouponTemplate> wrapper = new LambdaQueryWrapper<>();
             wrapper.eq(CouponTemplate::getCouponType, CouponTypeEnum.COFFEE_COUPON.getCode());
             CouponTemplate template = couponTemplateService.getOne(wrapper);
@@ -86,10 +74,6 @@ public class UserCouponServiceImpl extends ServiceImpl<UserCouponMapper, UserCou
         } catch (Exception e) {
             log.error("[优惠券-发放咖啡券] 系统异常：", e);
             throw new BusinessException(ResultCodeEnum.SYSTEM_ERROR);
-        } finally {
-            if (lock.isHeldByCurrentThread()) {
-                lock.unlock();
-            }
         }
     }
 
@@ -132,22 +116,15 @@ public class UserCouponServiceImpl extends ServiceImpl<UserCouponMapper, UserCou
     }
 
     /**
-     * 使用优惠券（加分布式锁：防重复使用）
+     * 使用优惠券
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void useCoupon(CouponUseDTO dto) {
-        String lockKey = "coupon:use:" + dto.getUserCouponId();
-        RLock lock = redissonClient.getLock(lockKey);
+        log.info("[优惠券-使用] 用户ID：{}，券ID：{}", dto.getUserId(), dto.getUserCouponId());
+        long start = System.currentTimeMillis();
 
         try {
-            if (!lock.tryLock(0, 10, TimeUnit.SECONDS)) {
-                throw new BusinessException(ResultCodeEnum.REPEAT_SUBMIT);
-            }
-
-            log.info("[优惠券-使用] 用户ID：{}，券ID：{}", dto.getUserId(), dto.getUserCouponId());
-            long start = System.currentTimeMillis();
-
             UserCoupon uc = getById(dto.getUserCouponId());
             if (uc == null) {
                 throw new BusinessException(ResultCodeEnum.COUPON_NOT_EXIST);
@@ -175,10 +152,6 @@ public class UserCouponServiceImpl extends ServiceImpl<UserCouponMapper, UserCou
         } catch (Exception e) {
             log.error("[优惠券-使用] 系统异常：", e);
             throw new BusinessException(ResultCodeEnum.SYSTEM_ERROR);
-        } finally {
-            if (lock.isHeldByCurrentThread()) {
-                lock.unlock();
-            }
         }
     }
 

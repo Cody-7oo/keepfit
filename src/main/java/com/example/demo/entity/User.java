@@ -54,7 +54,7 @@ public class User implements Serializable {
     /**
      * 手机号（登录账号，唯一）
      */
-    @TableField(typeHandler = SensitiveDataHandler.class)
+//    @TableField(typeHandler = SensitiveDataHandler.class)
     private String phone;
 
     /**

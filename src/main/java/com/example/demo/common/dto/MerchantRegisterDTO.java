@@ -9,7 +9,7 @@ public class MerchantRegisterDTO {
     private String phone;
 
     @NotBlank(message = "店铺名称不能为空")
-    private String shopName;
+    private String merchantName;
 
     @NotBlank(message = "密码不能为空")
     private String password;

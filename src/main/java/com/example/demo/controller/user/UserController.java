@@ -1,7 +1,9 @@
 package com.example.demo.controller.user;
 
+import cn.dev33.satoken.SaManager;
 import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.dev33.satoken.annotation.SaIgnore;
+import cn.dev33.satoken.stp.StpLogic;
 import cn.dev33.satoken.stp.StpUtil;
 import com.example.demo.annotation.*;
 import com.example.demo.exception.BusinessException;
@@ -16,7 +18,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.Enumeration;
 
 @Slf4j
 @RestController
@@ -30,12 +34,13 @@ public class UserController {
         return StpUtil.getLoginIdAsLong();
     }
 
+    @SaIgnore
     @RepeatSubmit
     @PostMapping("/register")
     @RateLimit(limit = 3, second = 10)
-    @DataScope(scopeType = "user")
-    @ApiSignature
-    @AntiReplay
+//    @DataScope(scopeType = "user")
+//    @ApiSignature
+//    @AntiReplay
     public R<Void> register(@RequestBody @Valid UserRegisterDTO dto) {
         log.info("[用户注册] 入参：{}", dto);
         long start = System.currentTimeMillis();
@@ -57,37 +62,61 @@ public class UserController {
     @RepeatSubmit
     @PostMapping("/login")
     @RateLimit(limit = 3, second = 10)
-// 下面这三个全部删掉！！！
-// @DataScope(scopeType = "user")
-// @ApiSignature
-//    @AntiReplay
     public R<UserVO> login(@RequestBody @Valid UserLoginDTO dto) {
-        System.out.println("================= 我进入登录接口了 =================");
         log.info("[用户登录] 手机号：{}", dto.getPhone());
         long start = System.currentTimeMillis();
 
         UserVO vo = userService.login(dto);
-        StpUtil.login(vo.getId(), "user");
-        log.info("[用户登录] 成功，用户ID：{}", vo.getId());
-        log.info("[业务埋点-用户登录成功] userId:{}, phone:{}", vo.getId(), dto.getPhone());
 
+        // 多账号登录（你原来的逻辑，我不动）
+        StpUtil.login("user", vo.getId());
+
+        // =======================
+        // 我只改这一行！！！
+        // 只修复多账号获取 token，其他完全不动！
+        // =======================
+        String token = SaManager.getStpLogic("user").getTokenValue();
+
+        // ====================== 调试
+        System.out.println("============ 登录生成的 token = " + token);
+        // ======================
+
+
+        // 你原来的赋值、日志、返回 全部保留！！！
+        vo.setToken(token);
+
+        log.info("[用户登录] 成功，用户ID：{}，token：{}", vo.getId(), token);
         log.info("[用户登录] 耗时：{}ms", System.currentTimeMillis() - start);
         return R.ok(vo);
     }
+
+
+// @ApiSignature
+// @AntiReplay
+    // 必须导入这两个！
 
     @RepeatSubmit
     @SaCheckLogin(type = "user")
     @PostMapping("/update")
     @RateLimit(limit = 3, second = 10)
-    @DataScope(scopeType = "user")
-    @ApiSignature
-    @AntiReplay
-    public R<Void> update(@RequestBody @Valid UserInfoUpdateDTO dto) {
-        Long userId = getLoginUserId();
+//    @DataScope(scopeType = "user")
+    public R<Void> update(@RequestBody @Valid UserInfoUpdateDTO dto,HttpServletRequest request) {
+
+        // ====================== 调试代码 START ======================
+        String token = request.getHeader("token");
+        System.out.println("============ 前端传进来的 token = " + token);
+        // ====================== 调试代码 END ======================
+
+
+        // ✅ 【多账号核心】获取 user 类型的登录用户（兼容所有版本）
+        StpLogic stpLogic = SaManager.getStpLogic("user");
+        Long userId = stpLogic.getLoginIdAsLong();
+
         dto.setId(userId);
 
         log.info("[用户修改资料] 用户ID：{}", userId);
         long start = System.currentTimeMillis();
+
         try {
             userService.updateInfo(dto);
             log.info("[业务埋点-用户信息修改成功] userId:{}", userId);

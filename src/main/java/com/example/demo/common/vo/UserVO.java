@@ -14,4 +14,6 @@ public class UserVO {
     private Integer height;
     private Integer weight;
     private Integer exerciseLevel;
+
+    private String token;
 }

@@ -1,5 +1,6 @@
 package com.example.demo.service.impl;
 
+import cn.dev33.satoken.stp.StpUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.demo.exception.BusinessException;
@@ -24,9 +25,6 @@ import java.util.concurrent.TimeUnit;
 @Service
 public class MerchantServiceImpl extends ServiceImpl<MerchantMapper, Merchant> implements MerchantService {
 
-    /**
-     * BCrypt 密码加密器（企业标准，全局单例）
-     */
     private static final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
     @Resource
@@ -44,7 +42,7 @@ public class MerchantServiceImpl extends ServiceImpl<MerchantMapper, Merchant> i
         log.info("[商家注册] 手机号：{}", dto.getPhone());
         long start = System.currentTimeMillis();
         try {
-            // 1. 校验手机号是否已注册
+            // 校验手机号是否已注册
             LambdaQueryWrapper<Merchant> queryWrapper = new LambdaQueryWrapper<>();
             queryWrapper.eq(Merchant::getPhone, dto.getPhone());
             Merchant existMerchant = getOne(queryWrapper);
@@ -52,14 +50,16 @@ public class MerchantServiceImpl extends ServiceImpl<MerchantMapper, Merchant> i
                 throw new BusinessException(ResultCodeEnum.MERCHANT_PHONE_EXIST);
             }
 
-            // 2. 密码加密（企业规范）
+            // 自动拷贝：phone, merchantName
             Merchant merchant = new Merchant();
             BeanUtils.copyProperties(dto, merchant);
+
+            // 只加密密码
             merchant.setPassword(encoder.encode(dto.getPassword()));
 
-            // 3. 保存
             save(merchant);
             log.info("[商家注册] 成功");
+
         } catch (BusinessException e) {
             log.warn("[商家注册] 业务异常：{}", e.getMessage());
             throw e;
@@ -79,26 +79,32 @@ public class MerchantServiceImpl extends ServiceImpl<MerchantMapper, Merchant> i
         log.info("[商家登录] 手机号：{}", dto.getPhone());
         long start = System.currentTimeMillis();
         try {
-            // 1. 查手机号
+            // 根据明文手机号查询（正确）
             LambdaQueryWrapper<Merchant> queryWrapper = new LambdaQueryWrapper<>();
             queryWrapper.eq(Merchant::getPhone, dto.getPhone());
             Merchant merchant = getOne(queryWrapper);
 
-            // 2. 判断是否存在
             if (merchant == null) {
                 throw new BusinessException(ResultCodeEnum.MERCHANT_NOT_EXIST);
             }
 
-            // 3. BCrypt 密码校验（企业标准）
+            // 密码匹配
             if (!encoder.matches(dto.getPassword(), merchant.getPassword())) {
                 throw new BusinessException(ResultCodeEnum.MERCHANT_PASSWORD_ERROR);
             }
 
-            // 4. 转VO
+            // 登录生成 token
+            StpUtil.login(merchant.getId());
+            String token = StpUtil.getTokenValue();
+
+            // 封装返回
             MerchantVO merchantVO = new MerchantVO();
             BeanUtils.copyProperties(merchant, merchantVO);
-            log.info("[商家登录] 成功，商家ID：{}", merchant.getId());
+            merchantVO.setToken(token);
+
+            log.info("[商家登录] 成功，商家ID：{}，token：{}", merchant.getId(), token);
             return merchantVO;
+
         } catch (BusinessException e) {
             log.warn("[商家登录] 业务异常：{}", e.getMessage());
             throw e;
@@ -120,27 +126,24 @@ public class MerchantServiceImpl extends ServiceImpl<MerchantMapper, Merchant> i
         String cacheKey = MERCHANT_INFO_KEY + merchantId;
 
         try {
-            // 1. 查缓存
             MerchantVO cacheVo = (MerchantVO) redisTemplate.opsForValue().get(cacheKey);
             if (cacheVo != null) {
                 log.info("[商家-查询信息] 命中Redis缓存");
                 return cacheVo;
             }
 
-            // 2. 查库
             Merchant merchant = getById(merchantId);
             if (merchant == null) {
                 throw new BusinessException(ResultCodeEnum.MERCHANT_NOT_EXIST);
             }
 
-            // 3. 转VO
             MerchantVO vo = new MerchantVO();
             BeanUtils.copyProperties(merchant, vo);
 
-            // 4. 存缓存
             redisTemplate.opsForValue().set(cacheKey, vo, CACHE_EXPIRE_HOURS, TimeUnit.HOURS);
             log.info("[商家-查询信息] 存入Redis缓存");
             return vo;
+
         } catch (BusinessException e) {
             log.warn("[商家-查询信息] 业务异常：{}", e.getMessage());
             throw e;

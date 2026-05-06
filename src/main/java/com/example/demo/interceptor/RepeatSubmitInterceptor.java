@@ -22,7 +22,6 @@ public class RepeatSubmitInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        // ====================== 🔥 放行文档！必须加！======================
         String uri = request.getRequestURI();
         if (WhiteList.isDocUrl(uri)) {
             return true;
@@ -30,6 +29,11 @@ public class RepeatSubmitInterceptor implements HandlerInterceptor {
 
         // 只拦截Controller方法
         if (!(handler instanceof HandlerMethod)) {
+            return true;
+        }
+
+        // 🔥 未登录直接放行，不做重复提交校验
+        if (!StpUtil.isLogin()) {
             return true;
         }
 
@@ -42,7 +46,8 @@ public class RepeatSubmitInterceptor implements HandlerInterceptor {
         }
 
         // 拼接Redis的key：用户ID + 请求地址
-        String key = "repeat:submit:" + StpUtil.getLoginIdAsString() + ":" + request.getRequestURI();
+        String loginId = StpUtil.getLoginIdAsString();
+        String key = "repeat:submit:" + loginId + ":" + request.getRequestURI();
 
         // 如果redis里有这个key → 重复提交
         if (Boolean.TRUE.equals(redisTemplate.hasKey(key))) {

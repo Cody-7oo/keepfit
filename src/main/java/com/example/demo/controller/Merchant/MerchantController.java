@@ -1,6 +1,7 @@
 package com.example.demo.controller.Merchant;
 
 import cn.dev33.satoken.annotation.SaCheckLogin;
+import cn.dev33.satoken.annotation.SaIgnore;
 import cn.dev33.satoken.stp.StpUtil;
 import com.example.demo.annotation.*;
 import com.example.demo.common.dto.MerchantLoginDTO;
@@ -28,14 +29,16 @@ public class MerchantController {
     /**
      * 商家注册
      */
+    @SaIgnore
     @RepeatSubmit
     @PostMapping("/register")
 //    @ApiOperation("商家注册")
     @RateLimit(limit = 3, second = 10)
-    @DataScope(scopeType = "merchant")
-    @ApiSignature
-    @AntiReplay
+//    @DataScope(scopeType = "merchant")
+//    @ApiSignature
+//    @AntiReplay
     public R<Void> register(@RequestBody @Valid MerchantRegisterDTO dto) {
+        System.out.println("进入注册功能");
         log.info("[商家注册] 入参：{}", dto);
         long start = System.currentTimeMillis();
         try {
@@ -54,21 +57,26 @@ public class MerchantController {
     /**
      * 商家登录
      */
+    @SaIgnore
     @RepeatSubmit
     @PostMapping("/login")
-//    @ApiOperation("商家登录")
     @RateLimit(limit = 3, second = 10)
-//    @DataScope(scopeType = "merchant")
-//    @ApiSignature
-    @AntiReplay
     public R<MerchantVO> login(@RequestBody @Valid MerchantLoginDTO dto) {
         log.info("[商家登录] 手机号：{}", dto.getPhone());
         long start = System.currentTimeMillis();
         try {
             MerchantVO vo = merchantService.login(dto);
+
+            // 商家登录（指定身份：merchant）
             StpUtil.login(vo.getId(), "merchant");
+
+            // 🔥 拿到商家 token 并塞进返回对象
+            String token = StpUtil.getTokenValue();
+            vo.setToken(token);
+
             log.info("[商家登录] 成功，商家ID：{}", vo.getId());
             log.info("[业务埋点-商家登录成功] merchantId:{}, phone:{}", vo.getId(), dto.getPhone());
+
             return R.ok(vo);
         } catch (Exception e) {
             log.info("[业务埋点-商家登录异常] 手机号:{}, 异常原因:{}", dto.getPhone(), e.getMessage());

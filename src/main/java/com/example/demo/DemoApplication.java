@@ -20,7 +20,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @EnableAsync
 @ServletComponentScan
 @SpringBootApplication(exclude = {
-        SecurityAutoConfiguration.class,
         org.springframework.boot.actuate.autoconfigure.security.servlet.ManagementWebSecurityAutoConfiguration.class
 })
 @MapperScan("com.example.demo.mapper")
@@ -36,10 +35,7 @@ public class DemoApplication implements WebMvcConfigurer {
         System.out.println("📖 文档地址：http://localhost:8080/swagger-ui/index.html");
     }
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+
 
     // ====================== 🔥 终极修复：只放行必要拦截器，关闭所有会报错的拦截器 ======================
     @Override

@@ -4,7 +4,6 @@ spring:
   mvc:
     pathmatch:
       matching-strategy: ANT_PATH_MATCHER
-    # 🔥 关键：放行 Knife4j 静态资源
     static-path-pattern: /**
   web:
     resources:
@@ -16,7 +15,6 @@ spring:
   lifecycle:
     timeout-per-shutdown-phase: 30s
 
-# 🔥 开启 knife4j
 knife4j:
   enable: true
   openapi:
@@ -39,29 +37,31 @@ mybatis-plus:
       logic-not-delete-value: 0
 
 sa-token:
-  token-name: satoken
+
+  token-name: token
+  is-read-header: true
+  is-read-cookie: false
+  token-style: uuid
+  same-token: false
   timeout: 2592000
   active-timeout: 86400
   is-concurrent: true
-  is-read-cookie: false
-  is-read-header: true
   storage-type: redis
-  token-style: uuid
   account-types: user, merchant
-  # 👇 👇 👇 这里全部左对齐，一个空格都不多！！！
   exclude-path:
     - /user/login
     - /user/register
+    - /merchant/login
+    - /merchant/register
     - /doc.html
     - /webjars/**
     - /v3/api-docs/**
     - /swagger-resources/**
     - /swagger-ui/**
   error:
-    not-login: { "code": 401, "msg": "请先登录" }
-    no-permission: { "code": 403, "msg": "无权限访问" }
-    token-expired: { "code": 401, "msg": "登录已过期，请重新登录" }
-
+    not-login: '{ "code": 401, "msg": "请先登录" }'
+    no-permission: '{ "code": 403, "msg": "无权限访问" }'
+    token-expired: '{ "code": 401, "msg": "登录已过期，请重新登录" }'
 
 management:
   endpoints:

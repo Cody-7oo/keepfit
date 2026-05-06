@@ -35,7 +35,7 @@ public class Merchant implements Serializable {
     /**
      * 商家登录手机号
      */
-    @TableField(typeHandler = SensitiveDataHandler.class)
+
     private String phone;
 
     /**

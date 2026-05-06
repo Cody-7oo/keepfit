@@ -9,8 +9,6 @@ import com.example.demo.exception.BusinessException;
 import com.example.demo.mapper.CouponTemplateMapper;
 import com.example.demo.service.CouponTemplateService;
 import lombok.extern.slf4j.Slf4j;
-import org.redisson.api.RLock;
-import org.redisson.api.RedissonClient;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,9 +25,6 @@ public class CouponTemplateServiceImpl extends ServiceImpl<CouponTemplateMapper,
     @Resource
     private RedisTemplate<String, Object> redisTemplate;
 
-    @Resource
-    private RedissonClient redissonClient;
-
     private static final String COUPON_TEMPLATE_LIST = "coupon:template:list";
 
     /**
@@ -38,14 +33,7 @@ public class CouponTemplateServiceImpl extends ServiceImpl<CouponTemplateMapper,
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void addTemplate(CouponTemplate template, Long merchantId) {
-        String lockKey = "coupon:template:add:" + merchantId;
-        RLock lock = redissonClient.getLock(lockKey);
-
         try {
-            if (!lock.tryLock(0, 10, TimeUnit.SECONDS)) {
-                throw new BusinessException(ResultCodeEnum.REPEAT_SUBMIT);
-            }
-
             log.info("[优惠券模板-新增] 商家ID：{}，入参：{}", merchantId, template);
             long start = System.currentTimeMillis();
 
@@ -69,10 +57,6 @@ public class CouponTemplateServiceImpl extends ServiceImpl<CouponTemplateMapper,
         } catch (Exception e) {
             log.error("[优惠券模板-新增] 系统异常：", e);
             throw new BusinessException(ResultCodeEnum.SYSTEM_ERROR);
-        } finally {
-            if (lock.isHeldByCurrentThread()) {
-                lock.unlock();
-            }
         }
     }
 
@@ -82,14 +66,7 @@ public class CouponTemplateServiceImpl extends ServiceImpl<CouponTemplateMapper,
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void updateTemplate(CouponTemplate template, Long merchantId) {
-        String lockKey = "coupon:template:update:" + template.getId();
-        RLock lock = redissonClient.getLock(lockKey);
-
         try {
-            if (!lock.tryLock(0, 10, TimeUnit.SECONDS)) {
-                throw new BusinessException(ResultCodeEnum.REPEAT_SUBMIT);
-            }
-
             log.info("[优惠券模板-修改] 商家ID：{}，入参：{}", merchantId, template);
             long start = System.currentTimeMillis();
 
@@ -117,10 +94,6 @@ public class CouponTemplateServiceImpl extends ServiceImpl<CouponTemplateMapper,
         } catch (Exception e) {
             log.error("[优惠券模板-修改] 系统异常：", e);
             throw new BusinessException(ResultCodeEnum.SYSTEM_ERROR);
-        } finally {
-            if (lock.isHeldByCurrentThread()) {
-                lock.unlock();
-            }
         }
     }
 

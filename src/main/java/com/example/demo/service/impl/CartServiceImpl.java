@@ -12,8 +12,6 @@ import com.example.demo.mapper.CartMapper;
 import com.example.demo.service.CartService;
 import com.example.demo.service.ProductService;
 import lombok.extern.slf4j.Slf4j;
-import org.redisson.api.RLock;
-import org.redisson.api.RedissonClient;
 import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -34,9 +32,6 @@ public class CartServiceImpl extends ServiceImpl<CartMapper, Cart> implements Ca
 
     @Resource
     private RedisTemplate<String, Object> redisTemplate;
-
-    @Resource
-    private RedissonClient redissonClient;
 
     private static final String CART_PREFIX = "user:cart:";
     private static final long CART_EXPIRE = 30;
@@ -209,32 +204,18 @@ public class CartServiceImpl extends ServiceImpl<CartMapper, Cart> implements Ca
         }
     }
 
-    /// ====================== 🔥 定时清理购物车Redis缓存（每天凌晨2点执行） ======================
+    // ====================== 🔥 定时清理购物车Redis缓存（去掉分布式锁） ======================
     @Scheduled(cron = "0 0 2 * * ?")
     public void clearExpiredCartCache() {
-        String lockKey = "lock:cart:clearTask";
-        RLock lock = redissonClient.getLock(lockKey);
-
+        log.info("[定时任务] 开始清理已过期的购物车Redis缓存");
         try {
-            // 尝试获取锁，只让一台机器执行
-            if (!lock.tryLock(0, 60, TimeUnit.SECONDS)) {
-                log.info("[定时任务] 其他服务器正在执行购物车清理，本次跳过");
-                return;
-            }
-
-            log.info("[定时任务] 开始清理已过期的购物车Redis缓存");
             Set<String> keys = redisTemplate.keys(CART_PREFIX + "*");
             if (keys != null && !keys.isEmpty()) {
                 redisTemplate.delete(keys);
                 log.info("[定时任务] 清理过期购物车缓存完成，共清理：{} 个用户", keys.size());
             }
-
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-        } finally {
-            if (lock.isHeldByCurrentThread()) {
-                lock.unlock();
-            }
+        } catch (Exception e) {
+            log.error("[定时任务] 清理购物车异常", e);
         }
     }
 }
