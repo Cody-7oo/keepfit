@@ -22,8 +22,10 @@ public class WebConfig implements WebMvcConfigurer {
     @Resource
     private SecurityInterceptor securityInterceptor;
 
-    // 接口文档需要放行的路径（所有拦截器都排除）
-    private static final String[] EXCLUDE_DOC = {
+    // 🔥 全部放行：接口文档 + 登录 + 注册
+    private static final String[] EXCLUDE_ALL = {
+            "/user/login",
+            "/user/register",
             "/doc.html",
             "/webjars/**",
             "/v3/api-docs/**",
@@ -35,20 +37,20 @@ public class WebConfig implements WebMvcConfigurer {
         // 1. 防重复提交
         registry.addInterceptor(repeatSubmitInterceptor)
                 .addPathPatterns("/**")
-                .excludePathPatterns(EXCLUDE_DOC); // 只加了这一行
+                .excludePathPatterns(EXCLUDE_ALL);
 
         // 2. 幂等拦截
         registry.addInterceptor(idempotentInterceptor)
                 .addPathPatterns("/**")
-                .excludePathPatterns(EXCLUDE_DOC); // 只加了这一行
+                .excludePathPatterns(EXCLUDE_ALL);
 
         // 3. 接口签名 + 防重放
         registry.addInterceptor(securityInterceptor)
                 .addPathPatterns("/**")
-                .excludePathPatterns(EXCLUDE_DOC); // 只加了这一行
+                .excludePathPatterns(EXCLUDE_ALL);
     }
 
-    // 放行静态资源（必须加）
+    // 放行静态资源
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/doc.html")

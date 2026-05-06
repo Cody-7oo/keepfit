@@ -20,14 +20,22 @@ public class SqlInjectionFilter implements Filter {
             throws IOException, ServletException {
         HttpServletRequest req = (HttpServletRequest) request;
         String uri = req.getRequestURI();
+        String contentType = request.getContentType();
 
-        // ====================== 【关键修复】放行接口文档 ======================
-        if (WhiteList.isDocUrl(uri)) {
+        // ====================== 放行名单 ======================
+        boolean isWhiteUrl = WhiteList.isDocUrl(uri)
+                || uri.startsWith("/user/login")
+                || uri.startsWith("/user/register");
+
+        // JSON 请求直接放行
+        boolean isJson = contentType != null && contentType.contains("application/json");
+
+        if (isWhiteUrl || isJson) {
             chain.doFilter(request, response);
             return;
         }
 
-        // 业务接口才走SQL过滤
+        // 非JSON才过滤
         chain.doFilter(new SqlInjectionWrapper(req), response);
     }
 

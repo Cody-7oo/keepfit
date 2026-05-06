@@ -58,8 +58,8 @@ public class MerchantController {
     @PostMapping("/login")
 //    @ApiOperation("商家登录")
     @RateLimit(limit = 3, second = 10)
-    @DataScope(scopeType = "merchant")
-    @ApiSignature
+//    @DataScope(scopeType = "merchant")
+//    @ApiSignature
     @AntiReplay
     public R<MerchantVO> login(@RequestBody @Valid MerchantLoginDTO dto) {
         log.info("[商家登录] 手机号：{}", dto.getPhone());

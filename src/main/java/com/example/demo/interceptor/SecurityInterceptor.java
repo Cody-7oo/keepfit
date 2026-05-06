@@ -27,12 +27,12 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 public class SecurityInterceptor implements HandlerInterceptor {
 
+    // 🔥 修复空指针：换成 Object
     @Resource
-    private RedisTemplate<String, String> redisTemplate;
+    private RedisTemplate<String, Object> redisTemplate;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
-        // ====================== 🔥 放行接口文档（不验签、不防重放） ======================
         String uri = request.getRequestURI();
         if (WhiteList.isDocUrl(uri)) {
             return true;
@@ -42,6 +42,12 @@ public class SecurityInterceptor implements HandlerInterceptor {
             return true;
         }
         HandlerMethod method = (HandlerMethod) handler;
+
+        // ========== 🔥 关键：防止Redis空指针 ==========
+        if (redisTemplate == null) {
+            log.warn("Redis 未连接，跳过防重放与签名");
+            return true;
+        }
 
         // ========== 1. 防重放 ==========
         AntiReplay antiReplay = method.getMethodAnnotation(AntiReplay.class);

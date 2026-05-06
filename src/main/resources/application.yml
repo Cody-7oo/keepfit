@@ -48,15 +48,20 @@ sa-token:
   storage-type: redis
   token-style: uuid
   account-types: user, merchant
+  # 👇 👇 👇 这里全部左对齐，一个空格都不多！！！
   exclude-path:
+    - /user/login
+    - /user/register
     - /doc.html
     - /webjars/**
     - /v3/api-docs/**
     - /swagger-resources/**
+    - /swagger-ui/**
   error:
     not-login: { "code": 401, "msg": "请先登录" }
     no-permission: { "code": 403, "msg": "无权限访问" }
     token-expired: { "code": 401, "msg": "登录已过期，请重新登录" }
+
 
 management:
   endpoints:

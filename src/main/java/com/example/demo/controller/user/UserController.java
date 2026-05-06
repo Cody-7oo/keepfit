@@ -1,6 +1,7 @@
 package com.example.demo.controller.user;
 
 import cn.dev33.satoken.annotation.SaCheckLogin;
+import cn.dev33.satoken.annotation.SaIgnore;
 import cn.dev33.satoken.stp.StpUtil;
 import com.example.demo.annotation.*;
 import com.example.demo.exception.BusinessException;
@@ -51,13 +52,17 @@ public class UserController {
         }
     }
 
+    // 只保留必要注解，登录接口 不能加 鉴权、签名、防重放、数据权限！
+    @SaIgnore
     @RepeatSubmit
     @PostMapping("/login")
     @RateLimit(limit = 3, second = 10)
-    @DataScope(scopeType = "user")
-    @ApiSignature
-    @AntiReplay
+// 下面这三个全部删掉！！！
+// @DataScope(scopeType = "user")
+// @ApiSignature
+//    @AntiReplay
     public R<UserVO> login(@RequestBody @Valid UserLoginDTO dto) {
+        System.out.println("================= 我进入登录接口了 =================");
         log.info("[用户登录] 手机号：{}", dto.getPhone());
         long start = System.currentTimeMillis();
 
