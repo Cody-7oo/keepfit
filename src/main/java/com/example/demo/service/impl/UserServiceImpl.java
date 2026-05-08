@@ -1,5 +1,6 @@
 package com.example.demo.service.impl;
 
+import cn.hutool.crypto.digest.BCrypt;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.demo.exception.BusinessException;
@@ -14,7 +15,6 @@ import com.example.demo.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,10 +25,7 @@ import java.util.concurrent.TimeUnit;
 @Service
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
 
-    /**
-     * BCrypt 密码加密器（企业标准，全局单例）
-     */
-    private static final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+    // ====================== 已删除 Spring Security 依赖 ======================
 
     @Resource
     private RedisTemplate<String, Object> redisTemplate;
@@ -56,8 +53,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
             User user = new User();
             BeanUtils.copyProperties(dto, user);
-            // BCrypt 强加密（企业规范）
-            user.setPassword(encoder.encode(dto.getPassword()));
+
+            // ====================== 🔥 修改这里：Hutool BCrypt 加密 ======================
+            user.setPassword(BCrypt.hashpw(dto.getPassword(), BCrypt.gensalt()));
+
             save(user);
 
             log.info("[用户-注册] 成功");
@@ -89,8 +88,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
                 throw new BusinessException(ResultCodeEnum.USER_NOT_EXIST);
             }
 
-            // BCrypt 密码校验（企业标准，必须用 matches）
-            if (!encoder.matches(dto.getPassword(), user.getPassword())) {
+            // ====================== 🔥 修改这里：密码校验 ======================
+            if (!BCrypt.checkpw(dto.getPassword(), user.getPassword())) {
                 throw new BusinessException(ResultCodeEnum.USER_PASSWORD_ERROR);
             }
 
@@ -123,7 +122,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
                 throw new BusinessException(ResultCodeEnum.USER_NOT_EXIST);
             }
 
-            BeanUtils.copyProperties(dto, user);
+            // ✅ 安全：只修改资料，绝对不修改 ID
+            user.setUsername(dto.getUsername());
+            user.setHeight(dto.getHeight());
+            user.setWeight(dto.getWeight());
+            user.setSportLevel(dto.getSportLevel());
+
             updateById(user);
 
             // 清除缓存

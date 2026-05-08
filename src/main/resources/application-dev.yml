@@ -1,15 +1,10 @@
-server:
-  port: 8080
-
 spring:
-  # 数据库
   datasource:
     url: jdbc:mysql://localhost:3306/keepfit?useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
     username: root
     password: 2005
     driver-class-name: com.mysql.cj.jdbc.Driver
 
-  # Redis ✅ 已开启连接池
   redis:
     host: localhost
     port: 6379
@@ -21,15 +16,3 @@ spring:
         max-idle: 16
         min-idle: 4
         max-wait: 1000ms
-
-# 日志
-logging:
-  config: classpath:logback-spring.xml
-  charset:
-    console: UTF-8
-    file: UTF-8
-  level:
-    root: info
-    com.example.demo: debug
-  file:
-    name: logs/keepfit.log

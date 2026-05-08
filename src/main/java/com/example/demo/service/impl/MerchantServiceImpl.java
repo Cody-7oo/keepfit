@@ -1,6 +1,7 @@
 package com.example.demo.service.impl;
 
 import cn.dev33.satoken.stp.StpUtil;
+import cn.hutool.crypto.digest.BCrypt;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.demo.exception.BusinessException;
@@ -14,7 +15,6 @@ import com.example.demo.service.MerchantService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,8 +24,6 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 @Service
 public class MerchantServiceImpl extends ServiceImpl<MerchantMapper, Merchant> implements MerchantService {
-
-    private static final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
     @Resource
     private RedisTemplate<String, Object> redisTemplate;
@@ -54,8 +52,8 @@ public class MerchantServiceImpl extends ServiceImpl<MerchantMapper, Merchant> i
             Merchant merchant = new Merchant();
             BeanUtils.copyProperties(dto, merchant);
 
-            // 只加密密码
-            merchant.setPassword(encoder.encode(dto.getPassword()));
+            // 🔥 Hutool BCrypt 加密（和Spring Security完全兼容）
+            merchant.setPassword(BCrypt.hashpw(dto.getPassword(), BCrypt.gensalt()));
 
             save(merchant);
             log.info("[商家注册] 成功");
@@ -88,8 +86,8 @@ public class MerchantServiceImpl extends ServiceImpl<MerchantMapper, Merchant> i
                 throw new BusinessException(ResultCodeEnum.MERCHANT_NOT_EXIST);
             }
 
-            // 密码匹配
-            if (!encoder.matches(dto.getPassword(), merchant.getPassword())) {
+            // 🔥 Hutool BCrypt 密码匹配（和Spring Security完全兼容）
+            if (!BCrypt.checkpw(dto.getPassword(), merchant.getPassword())) {
                 throw new BusinessException(ResultCodeEnum.MERCHANT_PASSWORD_ERROR);
             }
 

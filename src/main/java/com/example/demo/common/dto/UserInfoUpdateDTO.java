@@ -9,15 +9,15 @@ public class UserInfoUpdateDTO {
     private Long id;
 
     @NotNull(message = "昵称不能为空")
-    private String nickname;
+    private String username;
     //private String avatar;
 
     @NotNull(message = "身高不能为空")
-    private Integer height;
+    private Double height;
 
     @NotNull(message = "体重不能为空")
-    private Integer weight;
+    private Double weight;
 
     @NotNull(message = "运动频率不能为空")
-    private Integer exerciseLevel;
+    private Integer sportLevel;
 }

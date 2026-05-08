@@ -32,7 +32,7 @@ public class User implements Serializable {
     /**
      * 用户名
      */
-    @TableField(typeHandler = SensitiveDataHandler.class)
+
     private String username;
 
     /**
@@ -43,7 +43,7 @@ public class User implements Serializable {
     /**
      * 创建时间（自动填充）
      */
-    @TableField(fill = FieldFill.INSERT)
+
     private LocalDateTime createTime;
 
     /**
@@ -60,7 +60,7 @@ public class User implements Serializable {
     /**
      * 默认收货地址
      */
-    @TableField(typeHandler = SensitiveDataHandler.class)
+
     private String address;
 
     /**
@@ -86,6 +86,6 @@ public class User implements Serializable {
     /**
      * 更新时间（自动填充）
      */
-    @TableField(fill = FieldFill.INSERT_UPDATE)
+
     private LocalDateTime updateTime;
 }

@@ -1,10 +1,9 @@
 package com.example.demo.config;
 
 import cn.dev33.satoken.interceptor.SaInterceptor;
-import cn.dev33.satoken.stp.StpUtil;
-import com.example.demo.interceptor.SecurityInterceptor;
 import com.example.demo.interceptor.IdempotentInterceptor;
 import com.example.demo.interceptor.RepeatSubmitInterceptor;
+import com.example.demo.interceptor.SecurityInterceptor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -24,7 +23,7 @@ public class WebConfig implements WebMvcConfigurer {
     @Resource
     private SecurityInterceptor securityInterceptor;
 
-    // 全部放行：接口文档 + 登录 + 注册
+    // 放行：登录、注册、接口文档
     private static final String[] EXCLUDE_ALL = {
             "/user/login",
             "/user/register",
@@ -38,20 +37,22 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        // 🔥 1. 先注册 Sa-Token 拦截器，直接用默认账号校验，先跑通
+        // 1. Sa-Token 登录拦截（已适配 v1.37.0）
         registry.addInterceptor(new SaInterceptor())
                 .addPathPatterns("/**")
                 .excludePathPatterns(EXCLUDE_ALL);
 
-        // 2. 然后才是你的自定义拦截器
+        // 2. 防重复提交拦截器
         registry.addInterceptor(repeatSubmitInterceptor)
                 .addPathPatterns("/**")
                 .excludePathPatterns(EXCLUDE_ALL);
 
+        // 3. 幂等性拦截器
         registry.addInterceptor(idempotentInterceptor)
                 .addPathPatterns("/**")
                 .excludePathPatterns(EXCLUDE_ALL);
 
+        // 4. 签名安全校验拦截器
         registry.addInterceptor(securityInterceptor)
                 .addPathPatterns("/**")
                 .excludePathPatterns(EXCLUDE_ALL);

@@ -15,15 +15,6 @@ spring:
   lifecycle:
     timeout-per-shutdown-phase: 30s
 
-knife4j:
-  enable: true
-  openapi:
-    title: KeepFit 接口文档
-    description: SpringBoot + Sa-Token + Redis
-    email: 1145984629@qq.com
-    concat: 开发者
-    version: 1.0
-
 mybatis-plus:
   configuration:
     map-underscore-to-camel-case: true
@@ -36,32 +27,17 @@ mybatis-plus:
       logic-delete-value: 1
       logic-not-delete-value: 0
 
+# ======================
+# 🔥 【极简兼容版】Sa-Token 配置
+# ======================
 sa-token:
-
   token-name: token
   is-read-header: true
   is-read-cookie: false
   token-style: uuid
-  same-token: false
   timeout: 2592000
   active-timeout: 86400
   is-concurrent: true
-  storage-type: redis
-  account-types: user, merchant
-  exclude-path:
-    - /user/login
-    - /user/register
-    - /merchant/login
-    - /merchant/register
-    - /doc.html
-    - /webjars/**
-    - /v3/api-docs/**
-    - /swagger-resources/**
-    - /swagger-ui/**
-  error:
-    not-login: '{ "code": 401, "msg": "请先登录" }'
-    no-permission: '{ "code": 403, "msg": "无权限访问" }'
-    token-expired: '{ "code": 401, "msg": "登录已过期，请重新登录" }'
 
 management:
   endpoints:
@@ -79,3 +55,17 @@ management:
 
 order:
   timeout: 30
+
+server:
+  port: 8080
+
+logging:
+  config: classpath:logback-spring.xml
+  charset:
+    console: UTF-8
+    file: UTF-8
+  level:
+    root: info
+    com.example.demo: debug
+  file:
+    name: logs/keepfit.log
