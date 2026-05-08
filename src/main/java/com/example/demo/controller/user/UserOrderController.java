@@ -1,7 +1,9 @@
 package com.example.demo.controller.user;
 
+import cn.dev33.satoken.SaManager;
 import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.dev33.satoken.annotation.SaCheckPermission;
+import cn.dev33.satoken.stp.StpLogic;
 import cn.dev33.satoken.stp.StpUtil;
 import com.example.demo.annotation.*;
 import com.example.demo.exception.BusinessException;
@@ -16,6 +18,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
+
+import static com.example.demo.common.enums.ResultCodeEnum.ORDER_NO_PERMISSION;
 
 @Slf4j
 @RestController
@@ -33,14 +37,24 @@ public class UserOrderController {
 
     @Idempotent
     @RepeatSubmit
-    @SaCheckLogin()
+    @SaCheckLogin(type = "user") // 登录校验正常
     @PostMapping("/create")
     @RateLimit(limit = 3, second = 10)
     @DataScope(scopeType = "user")
     @ApiSignature
     @AntiReplay
     public R<OrderVO> createOrder(@RequestBody @Valid OrderCreateDTO dto) {
-        Long userId = getLoginUserId();
+        StpLogic stpLogic = SaManager.getStpLogic("user");
+        Long userId = stpLogic.getLoginIdAsLong();
+
+        // ======================
+        // 🔥 手动权限校验（100%不报错）
+        // ======================
+        java.util.List<String> permissions = (java.util.List<String>) stpLogic.getSession().get("permissions");
+        if (permissions == null || !permissions.contains("user:order:create")) {
+            throw new com.example.demo.exception.BusinessException(ORDER_NO_PERMISSION);
+        }
+
         dto.setUserId(userId);
 
         log.info("[用户-创建订单] 用户ID：{}", userId);

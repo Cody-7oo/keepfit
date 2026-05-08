@@ -6,6 +6,7 @@ import cn.dev33.satoken.annotation.SaIgnore;
 import cn.dev33.satoken.stp.StpLogic;
 import cn.dev33.satoken.stp.StpUtil;
 import com.example.demo.annotation.*;
+import com.example.demo.config.SaTokenConfig;
 import com.example.demo.exception.BusinessException;
 import com.example.demo.common.dto.UserInfoUpdateDTO;
 import com.example.demo.common.dto.UserLoginDTO;
@@ -20,7 +21,13 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.Arrays;
 import java.util.Enumeration;
+import java.util.List;
+
+import cn.dev33.satoken.stp.StpLogic;
+import com.example.demo.config.SaTokenConfig;
+import javax.servlet.http.HttpServletRequest;
 
 @Slf4j
 @RestController
@@ -64,52 +71,64 @@ public class UserController {
     @RateLimit(limit = 3, second = 10)
     public R<UserVO> login(@RequestBody @Valid UserLoginDTO dto) {
         log.info("[用户登录] 手机号：{}", dto.getPhone());
-        long start = System.currentTimeMillis();
 
         UserVO vo = userService.login(dto);
 
-        // ====================== 🔥 正确多账号登录（固定写法） ======================
         StpLogic stpLogic = SaManager.getStpLogic("user");
-        stpLogic.login(vo.getId()); // 登录 user 类型
-        String token = stpLogic.getTokenValue(); // 取 user 类型的 token
-        // =======================================================================
 
-        System.out.println("============ 登录生成的 token = " + token);
+        // 清除旧登录，生成新 token
+        stpLogic.logout(vo.getId());
+        stpLogic.login(vo.getId());
 
+        // ====================== 🔥 权限存入【正确位置】 ======================
+        stpLogic.getTokenSession().set("permissions", java.util.Arrays.asList(
+                "user:order:create",
+                "user:order:cancel",
+                "user:order:myList"
+        ));
+
+        // ==================================================================
+
+        String token = stpLogic.getTokenValue();
         vo.setToken(token);
 
-        log.info("[用户登录] 成功，用户ID：{}，token：{}", vo.getId(), token);
-        log.info("[用户登录] 耗时：{}ms", System.currentTimeMillis() - start);
+        log.info("[用户登录] 成功，userId={}，token={}", vo.getId(), token);
         return R.ok(vo);
     }
 
 
-//    @DataScope(scopeType = "user")
+
+    @DataScope(scopeType = "user")
     @ApiSignature
     @AntiReplay
     @RepeatSubmit
     @PostMapping("/update")
     @RateLimit(limit = 3, second = 10)
     public R<Void> update(@RequestBody @Valid UserInfoUpdateDTO dto, HttpServletRequest request) {
-        String token = request.getHeader("token");
         try {
-            // 🔥 🔥 🔥 旧版唯一不报错的多账户写法
-            StpLogic stpLogic = SaManager.getStpLogic("user");
+            // 1. 从请求头获取 token
+            String token = request.getHeader("token");
 
-            // 只拿Object，绝对不调用getLoginIdAsLong！
-            Object loginId = stpLogic.getLoginIdByToken(token);
-            Long userId = Long.parseLong(loginId.toString());
+            // 2. 直接获取你在配置类中注册的 user 账号 StpLogic 实例
+            StpLogic stpLogic = new SaTokenConfig().stpUserLogic();
 
+            // 3. 解析 token，获取用户ID（兼容旧版）
+            Object loginIdObj = stpLogic.getLoginIdByToken(token);
+            Long userId = Long.valueOf(loginIdObj.toString());
+
+            // 4. 给上下文注入 token，让 @DataScope 能读到
+            stpLogic.setTokenValue(token);
+
+            // 5. 执行业务逻辑
             dto.setId(userId);
             userService.updateInfo(dto);
 
             return R.ok();
         } catch (Exception e) {
-            log.error("错误：", e);
-            return R.fail(500, "更新失败");
+            log.error("用户信息更新失败", e);
+            return R.fail(500, "更新失败：" + e.getMessage());
         }
     }
-
 
     @GetMapping("/getInfo")
     @RateLimit(limit = 3, second = 10)

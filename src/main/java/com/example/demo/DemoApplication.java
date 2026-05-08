@@ -27,7 +27,7 @@ public class DemoApplication implements WebMvcConfigurer {
         app.setRegisterShutdownHook(true);
         app.run(args);
 
-        System.out.println("✅ 项目启动成功 | 所有拦截器已关闭");
+        System.out.println("✅ 项目启动成功 ");
         System.out.println("📖 文档地址：http://localhost:8080/swagger-ui/index.html");
     }
 
