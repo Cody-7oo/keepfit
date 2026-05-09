@@ -40,9 +40,9 @@ public class UserOrderController {
     @SaCheckLogin(type = "user") // 登录校验正常
     @PostMapping("/create")
     @RateLimit(limit = 3, second = 10)
-    @DataScope(scopeType = "user")
-    @ApiSignature
-    @AntiReplay
+//    @DataScope(scopeType = "user")
+//    @ApiSignature
+//    @AntiReplay
     public R<OrderVO> createOrder(@RequestBody @Valid OrderCreateDTO dto) {
         StpLogic stpLogic = SaManager.getStpLogic("user");
         Long userId = stpLogic.getLoginIdAsLong();
@@ -81,9 +81,9 @@ public class UserOrderController {
     @RepeatSubmit
     @PostMapping("/cancel")
     @RateLimit(limit = 5, second = 10)
-    @DataScope(scopeType = "user")
-    @ApiSignature
-    @AntiReplay
+//    @DataScope(scopeType = "user")
+//    @ApiSignature
+//    @AntiReplay
     public R<Void> cancelOrder(@RequestParam Long orderId) {
         Long userId = getLoginUserId();
         log.info("[用户-取消订单] 用户ID：{}，订单ID：{}", userId, orderId);

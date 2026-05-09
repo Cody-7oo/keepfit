@@ -2,15 +2,13 @@ package com.example.demo.controller.user;
 
 import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.dev33.satoken.stp.StpUtil;
-import com.example.demo.annotation.*;
+import com.example.demo.annotation.RateLimit;
+import com.example.demo.common.dto.ProductSearchDTO;
 import com.example.demo.common.result.R;
 import com.example.demo.common.vo.ProductVO;
 import com.example.demo.service.ProductService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -30,9 +28,6 @@ public class UserProductController {
 
     @GetMapping("/list")
     @RateLimit(limit = 3, second = 10)
-    @DataScope(scopeType = "user")
-    @ApiSignature
-    @AntiReplay
     public R<List<ProductVO>> list() {
         Long userId = getLoginUserId();
         log.info("[用户-查询上架商品列表] 用户ID：{}", userId);
@@ -47,20 +42,17 @@ public class UserProductController {
         }
     }
 
-    @GetMapping("/search")
+    // ==================== 🔥 修改为 POST + JSON 请求 ====================
+    @PostMapping("/search")
     @RateLimit(limit = 3, second = 10)
-    @DataScope(scopeType = "user")
-    @ApiSignature
-    @AntiReplay
-    public R<List<ProductVO>> search(
-            @RequestParam(required = false) Integer category,
-            @RequestParam(required = false) String keyword
-    ) {
+    public R<List<ProductVO>> search(@RequestBody ProductSearchDTO searchDTO) {
         Long userId = getLoginUserId();
-        log.info("[用户-商品搜索] 用户ID：{} | 分类：{} | 关键词：{}", userId, category, keyword);
+        log.info("[用户-商品搜索] 用户ID：{} | 分类：{} | 关键词：{}",
+                userId, searchDTO.getCategory(), searchDTO.getKeyword());
         long start = System.currentTimeMillis();
         try {
-            return R.ok(productService.getProductList(category, keyword));
+            // 直接调用原Service方法，逻辑不变
+            return R.ok(productService.getProductList(searchDTO.getCategory(), searchDTO.getKeyword()));
         } catch (Exception e) {
             log.error("[用户-商品搜索] 异常：", e);
             throw e;

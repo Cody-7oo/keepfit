@@ -3,6 +3,7 @@ package com.example.demo.config;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
@@ -24,6 +25,10 @@ public class RedisConfig {
         ObjectMapper om = new ObjectMapper();
         om.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
         om.activateDefaultTyping(om.getPolymorphicTypeValidator(), ObjectMapper.DefaultTyping.NON_FINAL);
+
+        // ==================== 🔥 核心修复：添加Java8时间序列化支持 ====================
+        om.registerModule(new JavaTimeModule());
+
         jsonSerializer.setObjectMapper(om);
 
         template.setKeySerializer(stringSerializer);
