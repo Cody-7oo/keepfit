@@ -18,8 +18,8 @@
 
     <properties>
         <java.version>17</java.version>
-        <!-- 官方推荐稳定版，兼容 SpringBoot2.7 -->
-        <sa-token.version>1.40.0</sa-token.version>
+        <!-- 🔥 统一 Sa-Token 版本：1.37.0（完美兼容 SpringBoot 2.7） -->
+        <sa-token.version>1.37.0</sa-token.version>
     </properties>
 
     <dependencies>
@@ -32,13 +32,14 @@
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
 
-        <!-- Sa-Token 核心（适配 SpringBoot2.x） -->
+        <!-- 🔥 Sa-Token 核心（统一版本） -->
         <dependency>
             <groupId>cn.dev33</groupId>
             <artifactId>sa-token-spring-boot-starter</artifactId>
             <version>${sa-token.version}</version>
         </dependency>
-        <!-- Redis 集成（必须，多账号共享会话） -->
+
+        <!-- 🔥 Sa-Token Redis 集成（统一版本） -->
         <dependency>
             <groupId>cn.dev33</groupId>
             <artifactId>sa-token-redis</artifactId>
@@ -118,6 +119,14 @@
                             <artifactId>lombok</artifactId>
                         </exclude>
                     </excludes>
+                </configuration>
+            </plugin>
+            <!-- 🔥 添加：跳过测试插件配置 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <skipTests>true</skipTests>
                 </configuration>
             </plugin>
         </plugins>

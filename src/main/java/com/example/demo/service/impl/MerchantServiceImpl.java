@@ -1,5 +1,7 @@
 package com.example.demo.service.impl;
 
+import cn.dev33.satoken.SaManager;
+import cn.dev33.satoken.stp.StpLogic;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.crypto.digest.BCrypt;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -91,14 +93,17 @@ public class MerchantServiceImpl extends ServiceImpl<MerchantMapper, Merchant> i
                 throw new BusinessException(ResultCodeEnum.MERCHANT_PASSWORD_ERROR);
             }
 
-            // 登录生成 token
-            StpUtil.login(merchant.getId());
-            String token = StpUtil.getTokenValue();
+            // ======================================
+            // 🔥 核心修改：用 merchant 类型的 StpLogic 登录！
+            // ======================================
+            StpLogic merchantStp = SaManager.getStpLogic("merchant");
+            merchantStp.login(merchant.getId());
+            String token = merchantStp.getTokenValue();
 
             // 封装返回
             MerchantVO merchantVO = new MerchantVO();
             BeanUtils.copyProperties(merchant, merchantVO);
-            merchantVO.setToken(token);
+            merchantVO.setToken(token); // 🔥 直接用 Sa-Token 的 token，不要自己生成！
 
             log.info("[商家登录] 成功，商家ID：{}，token：{}", merchant.getId(), token);
             return merchantVO;

@@ -25,7 +25,7 @@ import static com.example.demo.common.enums.ResultCodeEnum.ORDER_NO_PERMISSION;
 @RestController
 @RequestMapping("/user/order")
 @SaCheckLogin(type = "user")
-@SaCheckPermission("user:order:create")
+
 public class UserOrderController {
 
     @Resource
@@ -48,9 +48,13 @@ public class UserOrderController {
         Long userId = stpLogic.getLoginIdAsLong();
 
         // ======================
-        // 🔥 手动权限校验（100%不报错）
+        // 🔥 权限获取：和登录保存的地方完全一致（getTokenSession）
         // ======================
-        java.util.List<String> permissions = (java.util.List<String>) stpLogic.getSession().get("permissions");
+        java.util.List<String> permissions = (java.util.List<String>) stpLogic.getTokenSession().get("permissions");
+
+        // 调试日志，你可以看到权限是否拿到
+        System.out.println("========= 拿到的权限列表：" + permissions);
+
         if (permissions == null || !permissions.contains("user:order:create")) {
             throw new com.example.demo.exception.BusinessException(ORDER_NO_PERMISSION);
         }

@@ -47,7 +47,6 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
     @Resource
     private SnowflakeIdUtil snowflakeIdUtil;
 
-    // 订单缓存 KEY
     private static final String USER_ORDER_KEY = "user:order:list:";
 
     /**
@@ -81,11 +80,16 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
 
             for (Cart cart : cartList) {
                 int num = cart.getNum();
-                totalPrice = totalPrice.add(cart.getPrice().multiply(new BigDecimal(num)));
-                totalCalorie += cart.getCalorie() * num;
-                totalProtein += cart.getProtein() * num;
-                totalCarbohydrate += cart.getCarbohydrate() * num;
-                totalFat += cart.getFat() * num;
+
+                // 价格非空判断
+                BigDecimal price = cart.getPrice() == null ? BigDecimal.ZERO : cart.getPrice();
+                totalPrice = totalPrice.add(price.multiply(new BigDecimal(num)));
+
+                // 🔥 全部加上非空判断（修复空指针）
+                totalCalorie += (cart.getCalorie() == null ? 0.0 : cart.getCalorie()) * num;
+                totalProtein += (cart.getProtein() == null ? 0.0 : cart.getProtein()) * num;
+                totalCarbohydrate += (cart.getCarbohydrate() == null ? 0.0 : cart.getCarbohydrate()) * num;
+                totalFat += (cart.getFat() == null ? 0.0 : cart.getFat()) * num;
             }
 
             if (userCouponId != null) {
@@ -121,12 +125,14 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
                 item.setOrderId(order.getId());
                 item.setProductId(cart.getProductId());
                 item.setProductName(cart.getProductName());
-                item.setPrice(cart.getPrice());
+                item.setPrice(cart.getPrice() == null ? BigDecimal.ZERO : cart.getPrice());
                 item.setNum(cart.getNum());
-                item.setCalorie(cart.getCalorie());
-                item.setProtein(cart.getProtein());
-                item.setCarbohydrate(cart.getCarbohydrate());
-                item.setFat(cart.getFat());
+
+                // 🔥 非空赋值
+                item.setCalorie(cart.getCalorie() == null ? 0.0 : cart.getCalorie());
+                item.setProtein(cart.getProtein() == null ? 0.0 : cart.getProtein());
+                item.setCarbohydrate(cart.getCarbohydrate() == null ? 0.0 : cart.getCarbohydrate());
+                item.setFat(cart.getFat() == null ? 0.0 : cart.getFat());
                 itemList.add(item);
             }
 
@@ -149,7 +155,6 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
                     null
             );
 
-            // =============== 创建订单后清理用户订单列表缓存 ===============
             redisTemplate.delete(USER_ORDER_KEY + userId);
 
             OrderVO vo = new OrderVO();
@@ -205,12 +210,14 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
                     cart.setUserId(userId);
                     cart.setProductId(item.getProductId());
                     cart.setProductName(item.getProductName());
-                    cart.setPrice(item.getPrice());
+                    cart.setPrice(item.getPrice() == null ? BigDecimal.ZERO : item.getPrice());
                     cart.setNum(item.getNum());
-                    cart.setCalorie(item.getCalorie());
-                    cart.setProtein(item.getProtein());
-                    cart.setCarbohydrate(item.getCarbohydrate());
-                    cart.setFat(item.getFat());
+
+                    // 🔥 非空赋值
+                    cart.setCalorie(item.getCalorie() == null ? 0.0 : item.getCalorie());
+                    cart.setProtein(item.getProtein() == null ? 0.0 : item.getProtein());
+                    cart.setCarbohydrate(item.getCarbohydrate() == null ? 0.0 : item.getCarbohydrate());
+                    cart.setFat(item.getFat() == null ? 0.0 : item.getFat());
                     cartService.save(cart);
                 }
 
@@ -232,7 +239,6 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
                         null
                 );
 
-                // 超时取消 → 清理订单缓存
                 redisTemplate.delete(USER_ORDER_KEY + userId);
                 count++;
             }
@@ -286,12 +292,14 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
                 cart.setUserId(userId);
                 cart.setProductId(item.getProductId());
                 cart.setProductName(item.getProductName());
-                cart.setPrice(item.getPrice());
+                cart.setPrice(item.getPrice() == null ? BigDecimal.ZERO : item.getPrice());
                 cart.setNum(item.getNum());
-                cart.setCalorie(item.getCalorie());
-                cart.setProtein(item.getProtein());
-                cart.setCarbohydrate(item.getCarbohydrate());
-                cart.setFat(item.getFat());
+
+                // 🔥 非空赋值
+                cart.setCalorie(item.getCalorie() == null ? 0.0 : item.getCalorie());
+                cart.setProtein(item.getProtein() == null ? 0.0 : item.getProtein());
+                cart.setCarbohydrate(item.getCarbohydrate() == null ? 0.0 : item.getCarbohydrate());
+                cart.setFat(item.getFat() == null ? 0.0 : item.getFat());
                 cartService.save(cart);
             }
             log.info("[订单-取消] 购物车已恢复");
@@ -314,9 +322,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
                     null
             );
 
-            // =============== 取消订单 → 清理用户订单缓存 ===============
             redisTemplate.delete(USER_ORDER_KEY + userId);
-
             log.info("[订单-取消] 取消成功");
 
         } catch (BusinessException e) {
@@ -336,8 +342,6 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         log.info("[订单-我的订单] 用户ID：{}", userId);
         try {
             String cacheKey = USER_ORDER_KEY + userId;
-
-            // 先读缓存
             List<OrderVO> cacheList = (List<OrderVO>) redisTemplate.opsForValue().get(cacheKey);
             if (cacheList != null) {
                 log.info("[订单-我的订单] 命中Redis缓存");
@@ -355,7 +359,6 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
                 return vo;
             }).collect(Collectors.toList());
 
-            // 写入缓存 5分钟
             redisTemplate.opsForValue().set(cacheKey, voList, 5, TimeUnit.MINUTES);
             log.info("[订单-我的订单] 查询DB，缓存已更新");
             return voList;
@@ -423,9 +426,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
                     null
             );
 
-            // =============== 商家改状态 → 清理用户订单缓存 ===============
             redisTemplate.delete(USER_ORDER_KEY + order.getUserId());
-
             log.info("[订单-商家改状态] 成功");
 
         } catch (BusinessException e) {

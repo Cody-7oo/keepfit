@@ -1,5 +1,6 @@
 package com.example.demo.config;
 
+import cn.dev33.satoken.SaManager;
 import cn.dev33.satoken.stp.StpLogic;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

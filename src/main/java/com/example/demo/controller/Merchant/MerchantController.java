@@ -1,5 +1,7 @@
 package com.example.demo.controller.Merchant;
 
+import cn.dev33.satoken.stp.StpLogic;
+import cn.dev33.satoken.SaManager;
 import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.dev33.satoken.annotation.SaIgnore;
 import cn.dev33.satoken.stp.StpUtil;
@@ -9,8 +11,6 @@ import com.example.demo.common.dto.MerchantRegisterDTO;
 import com.example.demo.common.result.R;
 import com.example.demo.common.vo.MerchantVO;
 import com.example.demo.service.MerchantService;
-//import io.swagger.annotations.Api;
-//import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,11 +20,15 @@ import javax.validation.Valid;
 @Slf4j
 @RestController
 @RequestMapping("/merchant")
-//@Api(tags = "商家模块")
 public class MerchantController {
 
     @Resource
     private MerchantService merchantService;
+
+    // 工具方法：获取商家 StpLogic
+    private StpLogic getMerchantStp() {
+        return SaManager.getStpLogic("merchant");
+    }
 
     /**
      * 商家注册
@@ -32,13 +36,8 @@ public class MerchantController {
     @SaIgnore
     @RepeatSubmit
     @PostMapping("/register")
-//    @ApiOperation("商家注册")
     @RateLimit(limit = 3, second = 10)
-//    @DataScope(scopeType = "merchant")
-//    @ApiSignature
-//    @AntiReplay
     public R<Void> register(@RequestBody @Valid MerchantRegisterDTO dto) {
-        System.out.println("进入注册功能");
         log.info("[商家注册] 入参：{}", dto);
         long start = System.currentTimeMillis();
         try {
@@ -57,6 +56,9 @@ public class MerchantController {
     /**
      * 商家登录
      */
+    /**
+     * 商家登录
+     */
     @SaIgnore
     @RepeatSubmit
     @PostMapping("/login")
@@ -65,18 +67,11 @@ public class MerchantController {
         log.info("[商家登录] 手机号：{}", dto.getPhone());
         long start = System.currentTimeMillis();
         try {
+            // 🔥 直接用 Service 层返回的 vo，不要在 Controller 里重复登录！
             MerchantVO vo = merchantService.login(dto);
-
-            // 商家登录（指定身份：merchant）
-            StpUtil.login(vo.getId(), "merchant");
-
-            // 🔥 拿到商家 token 并塞进返回对象
-            String token = StpUtil.getTokenValue();
-            vo.setToken(token);
 
             log.info("[商家登录] 成功，商家ID：{}", vo.getId());
             log.info("[业务埋点-商家登录成功] merchantId:{}, phone:{}", vo.getId(), dto.getPhone());
-
             return R.ok(vo);
         } catch (Exception e) {
             log.info("[业务埋点-商家登录异常] 手机号:{}, 异常原因:{}", dto.getPhone(), e.getMessage());
@@ -90,15 +85,13 @@ public class MerchantController {
     /**
      * 获取当前登录商家信息
      */
-    @SaCheckLogin(type = "merchant")
     @GetMapping("/getInfo")
-//    @ApiOperation("获取当前登录商家信息")
     @RateLimit(limit = 3, second = 10)
     @DataScope(scopeType = "merchant")
     @ApiSignature
     @AntiReplay
     public R<MerchantVO> getInfo() {
-        Long merchantId = StpUtil.getLoginIdAsLong();
+        Long merchantId = getMerchantStp().getLoginIdAsLong();
         log.info("[获取商家信息] 商家ID：{}", merchantId);
         long start = System.currentTimeMillis();
         try {
@@ -115,28 +108,17 @@ public class MerchantController {
     /**
      * 退出登录
      */
-    @SaCheckLogin(type = "merchant")
     @GetMapping("/logout")
-//    @ApiOperation("商家退出登录")
     @RateLimit(limit = 3, second = 10)
     @DataScope(scopeType = "merchant")
     @ApiSignature
     @AntiReplay
     public R<Void> logout() {
-        Long merchantId = StpUtil.getLoginIdAsLong();
-        long start = System.currentTimeMillis();
-        try {
-            StpUtil.logout();
-            log.info("[商家退出登录] 成功");
-            log.info("[业务埋点-商家退出登录] merchantId:{}", merchantId);
-            return R.ok();
-        } catch (Exception e) {
-            log.info("[业务埋点-商家退出登录异常] merchantId:{}, 异常原因:{}", merchantId, e.getMessage());
-            log.error("[商家退出登录] 异常：", e);
-            throw e;
-        } finally {
-            log.info("[商家退出登录] 耗时：{}ms", System.currentTimeMillis() - start);
-        }
-    }
+        Long merchantId = getMerchantStp().getLoginIdAsLong();
+        getMerchantStp().logout();
 
+        log.info("[商家退出登录] 成功，商家ID：{}", merchantId);
+        log.info("[业务埋点-商家退出登录] merchantId:{}", merchantId);
+        return R.ok();
+    }
 }

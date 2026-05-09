@@ -80,14 +80,14 @@ public class UserController {
         stpLogic.logout(vo.getId());
         stpLogic.login(vo.getId());
 
-        // ====================== 🔥 权限存入【正确位置】 ======================
+        // ======================
+        // 🔥 权限存入 TokenSession
+        // ======================
         stpLogic.getTokenSession().set("permissions", java.util.Arrays.asList(
                 "user:order:create",
                 "user:order:cancel",
                 "user:order:myList"
         ));
-
-        // ==================================================================
 
         String token = stpLogic.getTokenValue();
         vo.setToken(token);
