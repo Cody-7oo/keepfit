@@ -11,15 +11,13 @@ import java.util.List;
 
 public interface ProductService extends IService<Product> {
 
-    // ====================== 商家端 ======================
-    void addProduct(ProductAddDTO dto);
-    void updateProduct(ProductUpdateDTO dto);
-    void deleteProduct(Long id);
+    // ====================== 商家端（增加 merchantId 参数）======================
+    void addProduct(ProductAddDTO dto, Long merchantId); // 🔥 增加参数
+    void updateProduct(ProductUpdateDTO dto, Long merchantId); // 🔥 增加参数
+    void deleteProduct(Long id, Long merchantId); // 🔥 增加参数
 
-    // ====================== 用户端 ======================
+    // ====================== 用户端（保持不变）======================
     List<ProductVO> getUpProductList();
-
     List<ProductVO> getProductList(Integer category, String keyword);
-
     IPage<ProductVO> getProductPage(Integer pageNum, Integer pageSize, Integer category, String keyword);
 }

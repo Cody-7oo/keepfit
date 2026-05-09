@@ -1,43 +1,76 @@
 package com.example.demo.common.dto;
 
 import lombok.Data;
-import javax.validation.constraints.NotBlank;
+
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
 @Data
 public class ProductUpdateDTO {
 
-    @NotNull(message = "商品id不能为空")
+    /**
+     * 商品ID（必填）
+     */
+    @NotNull(message = "商品ID不能为空")
     private Long id;
 
-    @NotBlank(message = "商品名称不能为空")
-    private String productName;
+    /**
+     * 商品名称
+     */
+    private String name;
 
-    @NotBlank(message = "商品图片不能为空")
-    private String productImg;
+    /**
+     * 商品图片
+     */
+    private String image;
 
-    @NotNull(message = "商品价格不能为空")
+    /**
+     * 商品价格
+     */
     private BigDecimal price;
 
-    @NotNull(message = "分类id不能为空")
-    private Long categoryId;
+    /**
+     * 库存
+     */
+    private Integer stock;
 
-    @NotNull(message = "卡路里不能为空")
+    /**
+     * 分类ID
+     */
+    private Integer category;
+
+    /**
+     * 重量(g)
+     */
+    private BigDecimal weight;
+
+    /**
+     * 卡路里(kcal)
+     */
     private Double calorie;
 
-    @NotNull(message = "蛋白质不能为空")
+    /**
+     * 蛋白质含量(g)
+     */
     private Double protein;
 
-    @NotNull(message = "碳水不能为空")
+    /**
+     * 碳水化合物含量(g)
+     */
     private Double carbohydrate;
 
-    @NotNull(message = "脂肪不能为空")
+    /**
+     * 脂肪含量(g)
+     */
     private Double fat;
 
-    @NotNull(message = "商家id不能为空")
-    private Long merchantId;
-
-    @NotNull(message = "描述不能为空")
+    /**
+     * 商品描述
+     */
     private String description;
+
+    /**
+     * 所属商家ID（Controller里从token获取，不需要前端传）
+     */
+    private Long merchantId;
 }

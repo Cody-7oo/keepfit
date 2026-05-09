@@ -56,9 +56,6 @@ public class MerchantController {
     /**
      * 商家登录
      */
-    /**
-     * 商家登录
-     */
     @SaIgnore
     @RepeatSubmit
     @PostMapping("/login")

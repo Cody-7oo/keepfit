@@ -33,31 +33,37 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, Product> impl
     @Resource
     private RedisTemplate<String, Object> redisTemplate;
 
-    // 🔥 注入你现有的异步服务
     @Resource
     private ProductAsyncService productAsyncService;
 
-    // 缓存 KEY 统一管理
     private static final String PRODUCT_UP_LIST = "product:up:list";
     private static final String PRODUCT_CACHE_PREFIX = "product:category:";
     private static final String PRODUCT_PAGE_CACHE = "product:page:";
 
-    // ====================== 商家新增商品 ======================
+    // ====================== 商家新增商品（增加越权校验）======================
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void addProduct(ProductAddDTO dto) {
+    public void addProduct(ProductAddDTO dto, Long merchantId) { // 🔥 增加参数
         log.info("[商品-新增] 入参：{}", dto);
         long start = System.currentTimeMillis();
         try {
             Product product = new Product();
             BeanUtils.copyProperties(dto, product);
+            product.setMerchantId(merchantId); // 🔥 强制设置
             product.setStatus(ProductStatusEnum.ON_SHELF.getCode());
+
+            // ======================================
+            // 🔥 给非必填字段设置默认值
+            // ======================================
+            if (product.getStock() == null) {
+                product.setStock(0); // 库存默认0
+            }
+
             boolean save = save(product);
             if (!save) {
                 throw new BusinessException(ResultCodeEnum.SYSTEM_ERROR);
             }
 
-            // 🔥 异步清理所有商品缓存
             productAsyncService.clearProductListCache();
             log.info("[商品-新增] 成功，异步清除缓存");
 
@@ -72,10 +78,10 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, Product> impl
         }
     }
 
-    // ====================== 商家修改商品 ======================
+    // ====================== 商家修改商品（增加越权校验）======================
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void updateProduct(ProductUpdateDTO dto) {
+    public void updateProduct(ProductUpdateDTO dto, Long merchantId) { // 🔥 增加参数
         log.info("[商品-修改] ID：{}", dto.getId());
         long start = System.currentTimeMillis();
         try {
@@ -84,10 +90,18 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, Product> impl
                 throw new BusinessException(ResultCodeEnum.PRODUCT_NOT_EXIST);
             }
 
+            // ======================================
+            // 🔥 核心：越权校验！确保这个商品属于当前商家
+            // ======================================
+            if (!dbProduct.getMerchantId().equals(merchantId)) {
+                log.warn("[商品-修改] 越权操作！当前商家ID：{}，商品归属商家ID：{}", merchantId, dbProduct.getMerchantId());
+                throw new BusinessException(ResultCodeEnum.NO_PERMISSION);
+            }
+
             BeanUtils.copyProperties(dto, dbProduct);
+            dbProduct.setMerchantId(merchantId); // 🔥 强制设置
             updateById(dbProduct);
 
-            // 🔥 异步清理缓存
             productAsyncService.clearProductCache(dbProduct.getId());
             productAsyncService.clearProductListCache();
             log.info("[商品-修改] 成功，异步清除缓存");
@@ -103,7 +117,7 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, Product> impl
         }
     }
 
-    // ====================== 查询全部上架商品（带 Redis 缓存）======================
+    // ====================== 查询全部上架商品（保持不变）======================
     @Override
     public List<ProductVO> getUpProductList() {
         log.info("[商品-查询上架列表] 从Redis获取");
@@ -136,7 +150,7 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, Product> impl
         }
     }
 
-    // ====================== 分类 + 搜索（带 Redis 缓存）======================
+    // ====================== 分类 + 搜索（保持不变）======================
     @Override
     public List<ProductVO> getProductList(Integer category, String keyword) {
         log.info("[商品-搜索] 分类：{}，关键词：{}", category, keyword);
@@ -181,7 +195,7 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, Product> impl
         }
     }
 
-    // ====================== 分页查询（🔥 已加 Redis 缓存）======================
+    // ====================== 分页查询（保持不变）======================
     @Override
     public IPage<ProductVO> getProductPage(Integer pageNum, Integer pageSize, Integer category, String keyword) {
         log.info("[商品-分页查询] page：{}，size：{}", pageNum, pageSize);
@@ -227,33 +241,27 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, Product> impl
         }
     }
 
-    // ====================== 删除商品 ======================
+    // ====================== 删除商品（增加越权校验）======================
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void deleteProduct(Long id) {
+    public void deleteProduct(Long id, Long merchantId) { // 🔥 增加参数
         Product product = getById(id);
         if (product == null) {
             throw new BusinessException(ResultCodeEnum.PRODUCT_NOT_EXIST);
         }
+
+        // ======================================
+        // 🔥 核心：越权校验！确保这个商品属于当前商家
+        // ======================================
+        if (!product.getMerchantId().equals(merchantId)) {
+            log.warn("[商品-删除] 越权操作！当前商家ID：{}，商品归属商家ID：{}", merchantId, product.getMerchantId());
+            throw new BusinessException(ResultCodeEnum.NO_PERMISSION);
+        }
+
         removeById(id);
 
-        // 🔥 异步清理缓存
         productAsyncService.clearProductCache(id);
         productAsyncService.clearProductListCache();
         log.info("[商品-删除成功] 商品ID:{}", id);
-    }
-
-    /**
-     * 保留原有同步清理方法（内部使用）
-     */
-    private void clearAllProductCache() {
-        try {
-            redisTemplate.delete(PRODUCT_UP_LIST);
-            redisTemplate.delete(PRODUCT_PAGE_CACHE + "*");
-            redisTemplate.delete(PRODUCT_CACHE_PREFIX + "*");
-            log.info("[商品缓存] 全部清理完成");
-        } catch (Exception e) {
-            log.error("[商品缓存] 清理失败", e);
-        }
     }
 }

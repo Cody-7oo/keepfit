@@ -2,6 +2,7 @@ package com.example.demo.common.dto;
 
 import lombok.Data;
 
+import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
 
@@ -11,7 +12,7 @@ public class ProductQueryDTO {
     /**
      * 分类ID（允许为空，不强制）
      */
-    private Long categoryId;
+    private Integer category;
 
     /**
      * 搜索关键词（最多50字符，防止过长参数）
@@ -23,12 +24,12 @@ public class ProductQueryDTO {
      * 当前页码，最小为1
      */
     @Min(value = 1, message = "当前页码不能小于1")
-    private Long current;
+    private Integer pageNum;
 
     /**
      * 每页条数，限制1~50条
      */
     @Min(value = 1, message = "每页条数不能小于1")
-    @Size(max = 50, message = "每页条数最多50条")
-    private Long size;
+    @Max(value = 50, message = "每页条数最多50条")
+    private Integer pageSize;
 }

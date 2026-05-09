@@ -17,6 +17,7 @@ public class Product  implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    @TableLogic
     private Integer isDeleted;
     /**
      * 商品主键ID
@@ -80,6 +81,8 @@ public class Product  implements Serializable {
      * 卡路里（热量）
      */
     private Double calorie;
+
+    private String description;
 
     /**
      * 创建时间（自动填充）

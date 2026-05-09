@@ -94,18 +94,28 @@ public class MerchantServiceImpl extends ServiceImpl<MerchantMapper, Merchant> i
             }
 
             // ======================================
-            // 🔥 核心修改：用 merchant 类型的 StpLogic 登录！
+            // 🔥 核心修改：只加这一行！登录前先注销旧 token
             // ======================================
             StpLogic merchantStp = SaManager.getStpLogic("merchant");
+
+            // 🔥 先注销旧 token（如果有的话）
+            try {
+                merchantStp.logout(merchant.getId());
+                log.info("[商家登录] 已注销旧 token，商家ID：{}", merchant.getId());
+            } catch (Exception e) {
+                log.info("[商家登录] 之前未登录，无需注销");
+            }
+
+            // 🔥 再登录，生成新 token（你原来的逻辑保持不变）
             merchantStp.login(merchant.getId());
             String token = merchantStp.getTokenValue();
 
             // 封装返回
             MerchantVO merchantVO = new MerchantVO();
             BeanUtils.copyProperties(merchant, merchantVO);
-            merchantVO.setToken(token); // 🔥 直接用 Sa-Token 的 token，不要自己生成！
+            merchantVO.setToken(token);
 
-            log.info("[商家登录] 成功，商家ID：{}，token：{}", merchant.getId(), token);
+            log.info("[商家登录] 成功，商家ID：{}，新 token：{}", merchant.getId(), token);
             return merchantVO;
 
         } catch (BusinessException e) {
