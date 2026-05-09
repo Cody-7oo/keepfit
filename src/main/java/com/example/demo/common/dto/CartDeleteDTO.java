@@ -4,14 +4,8 @@ import lombok.Data;
 import javax.validation.constraints.NotNull;
 
 @Data
-public class CartUpdateDTO {
-
+public class CartDeleteDTO {
+    // 商品ID（必传）
     @NotNull(message = "商品id不能为空")
     private Long productId;
-
-    @NotNull(message = "操作数量不能为空")
-    private Integer num;
-
-    // 后端赋值
-    private Long userId;
 }
