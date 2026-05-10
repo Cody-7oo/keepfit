@@ -1,6 +1,7 @@
 package com.example.demo.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
+import com.example.demo.annotation.Sensitive;
 import com.example.demo.common.handler.SensitiveDataHandler;
 import lombok.Data;
 import java.io.Serializable;
@@ -39,21 +40,20 @@ public class Order implements Serializable {
      */
     private Long merchantId;
 
-    // ====================== 收货信息 ======================
     /**
-     * 收货人
+     * 收货人（敏感信息，自动加密）
      */
     @TableField(typeHandler = SensitiveDataHandler.class)
     private String receiver;
 
     /**
-     * 收货电话
+     * 收货电话（敏感信息，自动加密）
      */
     @TableField(typeHandler = SensitiveDataHandler.class)
     private String phone;
 
     /**
-     * 收货地址
+     * 收货地址（敏感信息，自动加密）
      */
     @TableField(typeHandler = SensitiveDataHandler.class)
     private String address;

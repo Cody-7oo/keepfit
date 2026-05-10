@@ -70,6 +70,10 @@ public class CartServiceImpl extends ServiceImpl<CartMapper, Cart> implements Ca
                 cart.setProductId(product.getId());
                 cart.setNum(dto.getNum());
                 cart.setPrice(product.getPrice());
+                cart.setCalorie(product.getCalorie());
+                cart.setProtein(product.getProtein());
+                cart.setCarbohydrate(product.getCarbohydrate());
+                cart.setFat(product.getFat());
                 this.save(cart);
                 log.info("[购物车-加入] 数据库新增商品：productId={}", dto.getProductId());
             }

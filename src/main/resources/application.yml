@@ -1,4 +1,10 @@
 spring:
+  datasource:
+    # 关键：rewriteBatchedStatements=true 开启真批量插入
+    url: jdbc:mysql://localhost:3306/keepfit?rewriteBatchedStatements=true&useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai
+    username: root
+    password: 1234
+    driver-class-name: com.mysql.cj.jdbc.Driver
   profiles:
     active: dev
   mvc:
@@ -16,6 +22,8 @@ spring:
     timeout-per-shutdown-phase: 30s
 
 mybatis-plus:
+  # 扫描自定义的TypeHandler（核心配置）
+  type-handlers-package: com.example.demo.common.handler
   configuration:
     map-underscore-to-camel-case: true
     log-impl: org.apache.ibatis.logging.slf4j.Slf4jImpl

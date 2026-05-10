@@ -42,7 +42,7 @@ public class ProductAddDTO {
     /**
      * 重量(g)
      */
-    private BigDecimal weight;
+    private Double weight;
 
     /**
      * 卡路里(kcal)

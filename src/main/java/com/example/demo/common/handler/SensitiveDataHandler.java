@@ -13,7 +13,7 @@ import java.sql.SQLException;
 
 /**
  * 敏感字段自动加解密处理器
- * 数据库存密文，代码里自动解密
+ * 用法：在实体类字段上 @TableField(typeHandler = SensitiveDataHandler.class)
  */
 @MappedTypes(String.class)
 @MappedJdbcTypes(JdbcType.VARCHAR)
@@ -21,13 +21,13 @@ public class SensitiveDataHandler extends BaseTypeHandler<String> {
 
     @Override
     public void setNonNullParameter(PreparedStatement ps, int i, String parameter, JdbcType jdbcType) throws SQLException {
-        // 入库加密
+        // 入库：直接加密
         ps.setString(i, AesEncryptUtil.encrypt(parameter));
     }
 
     @Override
     public String getNullableResult(ResultSet rs, String columnName) throws SQLException {
-        // 出库解密
+        // 出库：解密
         return AesEncryptUtil.decrypt(rs.getString(columnName));
     }
 
